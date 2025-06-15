@@ -1,0 +1,88 @@
+education:
+  - degree: "Ph.D. in Computer Science"
+    institution: "Stanford University"
+    period: "2015 - 2019"
+    description: "Specialized in Machine Learning and Artificial Intelligence"
+
+  - degree: "M.S. in Computer Science"
+    institution: "Massachusetts Institute of Technology"
+    period: "2013 - 2015"
+    description: "Focus on Natural Language Processing"
+
+  - degree: "B.S. in Computer Science"
+    institution: "University of California, Berkeley"
+    period: "2009 - 2013"
+    description: "Graduated with Honors"
+
+experience:
+  - position: "Associate Professor"
+    institution: "Stanford University"
+    period: "2021 - Present"
+    description: "Leading research in machine learning and artificial intelligence"
+    responsibilities:
+      - "Supervising 5 PhD students and 3 postdoctoral researchers"
+      - "Teaching advanced courses in machine learning and AI"
+      - "Securing and managing multiple research grants"
+      - "Publishing in top-tier conferences and journals"
+
+  - position: "Assistant Professor"
+    institution: "University of California, Berkeley"
+    period: "2019 - 2021"
+    description: "Established and led the AI Research Lab"
+    responsibilities:
+      - "Developed and taught undergraduate and graduate courses"
+      - "Mentored 3 PhD students"
+      - "Published 10+ papers in top conferences"
+
+  - position: "Research Scientist"
+    institution: "Google AI"
+    period: "2018 - 2019"
+    description: "Worked on natural language processing projects"
+    responsibilities:
+      - "Developed new algorithms for text understanding"
+      - "Collaborated with product teams on AI applications"
+      - "Published 5 papers and filed 3 patents"
+
+skills:
+  "Programming Languages":
+    - "Python"
+    - "C++"
+    - "Java"
+    - "JavaScript"
+  
+  "Machine Learning":
+    - "Deep Learning"
+    - "Natural Language Processing"
+    - "Computer Vision"
+    - "Reinforcement Learning"
+  
+  "Tools & Frameworks":
+    - "TensorFlow"
+    - "PyTorch"
+    - "scikit-learn"
+    - "Git"
+    - "Docker"
+
+awards:
+  - title: "Best Paper Award"
+    issuer: "International Conference on Machine Learning"
+    date: "2022"
+    description: "For outstanding contribution to the field of machine learning"
+
+  - title: "Early Career Research Award"
+    issuer: "National Science Foundation"
+    date: "2021-02-21"
+    description: "Recognizing exceptional promise in research"
+
+  - title: "Teaching Excellence Award"
+    issuer: "Stanford University"
+    date: "2020"
+    description: "For outstanding contributions to teaching"
+
+languages:
+  - name: "English"
+    level: "Native"
+  - name: "Spanish"
+    level: "Professional"
+  - name: "Mandarin"
+    level: "Intermediate" 

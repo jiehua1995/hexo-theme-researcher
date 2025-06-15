@@ -1,0 +1,149 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8 text-base-content">Research Projects</h1>
+
+  <!-- Filters -->
+  <div class="glass-card p-4 mb-8">
+    <div class="flex flex-wrap gap-4">
+      <!-- Status Filter -->
+      <div class="form-control">
+        <select class="select select-bordered" id="statusFilter">
+          <option value="">All Statuses</option>
+          <% 
+            const statuses = [...new Set(site.data.projects.map(p => p.status).filter(Boolean))];
+            statuses.forEach(status => {
+          %>
+            <option value="<%= status %>"><%= status %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="form-control">
+        <select class="select select-bordered" id="categoryFilter">
+          <option value="">All Categories</option>
+          <% 
+            const categories = [...new Set(site.data.projects.map(p => p.category).filter(Boolean))];
+            categories.forEach(category => {
+          %>
+            <option value="<%= category %>"><%= category %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="form-control flex-1">
+        <input type="text" placeholder="Search projects..." class="input input-bordered" id="searchInput" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects List -->
+  <div id="projectsList" class="space-y-6">
+    <% site.data.projects.forEach(project => { %>
+      <div 
+        class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 timeline-item"
+        data-status="<%= project.status || '' %>"
+        data-category="<%= project.category || '' %>"
+        data-title="<%= (project.title || '').toLowerCase() %>"
+        data-description="<%= (project.description || '').toLowerCase() %>"
+      >
+        <div class="card-body">
+          <h2 class="card-title text-xl font-bold flex items-center gap-3">
+            <%= project.title %>
+            <% if (project.status) { 
+              const statusClass = project.status === 'current' 
+                ? 'badge-primary' 
+                : (project.status === 'completed' 
+                  ? 'badge-secondary' 
+                  : 'badge-neutral');
+              %>
+           <div class="badge <%= statusClass %>"><%= project.status %></div>
+            <% } %>
+         
+          </h2>
+
+          <div class="mb-1">
+            <% if (project.period) { %>
+              <p class="text-sm flex items-center gap-1"><i class="far fa-calendar-alt"></i> <%= project.period %></p>
+            <% } %>
+            <% if (project.category) { %>
+              <p class="text-md flex items-center gap-1"><i class="fas fa-tag"></i> <%= project.category %></p>
+            <% } %>
+            <% if (project.tags && project.tags.length) { %>
+              <div class="flex flex-wrap gap-2 mt-1">
+                <% project.tags.forEach(tag => { %>
+                  <div class="badge badge-outline text-xs"><%= tag %></div>
+                <% }); %>
+              </div>
+            <% } %>
+          </div>
+
+          <% if (project.description) { %>
+            <p class="text-base-content opacity-90 mb-4"><%= project.description %></p>
+          <% } %>
+
+          
+          <% if (project.collaborators && project.collaborators.length) { %>
+            <div class="mb-4 text-sm">
+              <span class="font-semibold">Collaborators: </span>
+              <% project.collaborators.forEach((collab, idx) => { %>
+                <a 
+                  href="<%= collab.link || '#' %>" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="link link-info no-underline"
+                >
+                  <%= collab.name %><% if (collab.role) { %> (<%= collab.role %>)<% } %>
+                </a><%= idx < project.collaborators.length - 1 ? ', ' : '' %>
+              <% }); %>
+            </div>
+          <% } %>
+          
+
+          <% if (project.publications && project.publications.length) { %>
+            <div class="flex flex-wrap gap-2">
+              <% project.publications.forEach(pub => { %>
+                <a href="<%= pub.link %>" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-info btn-outline">
+                  <i class="fas fa-file-alt mr-1"></i> <%= pub.title %>
+                </a>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<script>
+  const statusFilter = document.getElementById('statusFilter');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const searchInput = document.getElementById('searchInput');
+  const projectsList = document.getElementById('projectsList');
+
+  function filterProjects() {
+    const status = statusFilter.value;
+    const category = categoryFilter.value;
+    const search = searchInput.value.toLowerCase();
+
+    const items = projectsList.getElementsByClassName('timeline-item');
+    Array.from(items).forEach(item => {
+      const itemStatus = item.dataset.status;
+      const itemCategory = item.dataset.category;
+      const itemTitle = item.dataset.title;
+      const itemDescription = item.dataset.description;
+
+      const statusMatch = !status || itemStatus === status;
+      const categoryMatch = !category || itemCategory === category;
+      const searchMatch = !search || 
+        itemTitle.includes(search) || 
+        itemDescription.includes(search);
+
+      item.style.display = statusMatch && categoryMatch && searchMatch ? 'block' : 'none';
+    });
+  }
+
+  statusFilter.addEventListener('change', filterProjects);
+  categoryFilter.addEventListener('change', filterProjects);
+  searchInput.addEventListener('input', filterProjects);
+</script>

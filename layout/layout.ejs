@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="<%= config.language %>" data-theme="light">
+<head>
+  <%- partial('partials/header') %>
+</head>
+<body class="min-h-screen bg-base-200">
+
+  <!-- Sidebar for Desktop -->
+  <aside class="hidden lg:flex fixed left-0 top-0 h-screen w-80 bg-base-200 z-40 flex-col">
+    <%- partial('partials/sidebar') %>
+  </aside>
+
+  <!-- Drawer for Mobile -->
+  <div class="drawer lg:hidden">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col">
+      <!-- Mobile navbar -->
+      <div class="w-full navbar bg-base-300 fixed top-0 left-0 right-0 z-40">
+        <label for="my-drawer" class="btn btn-square btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </label>
+        <div class="flex-1">
+          <a href="/" class="btn btn-ghost normal-case text-sm"><%= config.title %></a>
+        </div>
+        <div class="flex-none">
+          <%- partial('partials/themes') %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar drawer panel for mobile -->
+    <div class="drawer-side z-60">
+      <label for="my-drawer" class="drawer-overlay"></label>
+      <aside class="w-80 bg-base-200 min-h-full">
+        <%- partial('partials/sidebar') %>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Content area for Desktop -->
+  <div class="lg:ml-80 pt-20 px-4 py-8">
+    <%- body %>
+  </div>
+
+  <!-- Fixed top navbar for desktop -->
+  <div class="hidden lg:flex fixed top-0 left-80 right-0 z-50 bg-base-300 h-16 items-center px-4">
+    <div class="flex-1">
+      <a href="/" class="btn btn-ghost normal-case text-xl">
+        <%= config.title %>
+      </a>
+    </div>
+    <div class="flex-none">
+      <%- partial('partials/themes') %>
+    </div>
+  </div>
+
+  <!-- Footer, 页面只出现一次 -->
+  <footer class="mt-auto">
+    <%- partial('partials/footer') %>
+  </footer>
+
+  <!-- back to top -->
+  <%- partial('partials/back_to_top') %>
+
+</body>
+</html>

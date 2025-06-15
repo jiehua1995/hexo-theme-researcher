@@ -1,0 +1,38 @@
+- title: "Recent Advances in Machine Learning"
+  type: "conference"
+  venue: "International Conference on Machine Learning (ICML)"
+  date: "July 15, 2023"
+  location: "Honolulu, Hawaii"
+  year: 2023
+  description: "Keynote presentation on recent developments in machine learning algorithms and their applications."
+  slides: "/slides/icml_2023.pdf"
+  video: "https://www.youtube.com/watch?v=example1"
+
+- title: "Deep Learning for Medical Imaging"
+  type: "seminar"
+  venue: "Department of Computer Science, Stanford University"
+  date: "March 10, 2023"
+  location: "Stanford, California"
+  year: 2023
+  description: "Seminar on applying deep learning techniques to medical image analysis."
+  slides: "/slides/stanford_2023.pdf"
+
+- title: "Natural Language Processing Workshop"
+  type: "workshop"
+  venue: "Annual Meeting of the Association for Computational Linguistics"
+  date: "July 7, 2022"
+  location: "Dublin, Ireland"
+  year: 2022
+  description: "Workshop on advanced NLP techniques and their applications."
+  slides: "/slides/acl_2022.pdf"
+  video: "https://www.youtube.com/watch?v=example2"
+
+- title: "AI in Healthcare"
+  type: "invited"
+  venue: "Healthcare Technology Summit"
+  date: "November 15, 2022"
+  location: "Boston, Massachusetts"
+  year: 2022
+  description: "Invited talk on the role of artificial intelligence in modern healthcare."
+  slides: "/slides/healthcare_2022.pdf"
+  paper: "/papers/ai_healthcare_2022.pdf" 

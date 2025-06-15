@@ -1,0 +1,108 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold mb-8">Academic Talks & Presentations</h1>
+
+  <!-- Filters -->
+  <div class="glass-card p-4 mb-8">
+    <div class="flex flex-wrap gap-4 items-center">
+      <!-- Type Filter -->
+      <div class="form-control w-48">
+        <label class="label"><span class="label-text">Type</span></label>
+        <select class="select select-bordered" id="typeFilter" name="typeFilter">
+          <option value="">All Types</option>
+          <% 
+            // 提取所有类型并排序
+            const types = [...new Set(site.data.talks.map(t => t.type).filter(t => t))].sort();
+            types.forEach(type => {
+          %>
+            <option value="<%= type.toLowerCase() %>"><%= type.charAt(0).toUpperCase() + type.slice(1) %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Year Filter -->
+      <div class="form-control w-40">
+        <label class="label"><span class="label-text">Year</span></label>
+        <select class="select select-bordered" id="yearFilter" name="yearFilter">
+          <option value="">All Years</option>
+          <% 
+            const years = [...new Set(site.data.talks.map(t => t.year))].sort((a, b) => b - a);
+            years.forEach(year => {
+          %>
+            <option value="<%= year %>"><%= year %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="form-control flex-grow min-w-[200px]">
+        <label class="label"><span class="label-text">Search</span></label>
+        <input type="text" placeholder="Search talks..." class="input input-bordered" id="searchInput" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Talks List -->
+  <div class="grid gap-6" id="talksList">
+    <% site.data.talks.forEach(function(talk) { %>
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 talk-item"
+           data-type="<%= talk.type ? talk.type.toLowerCase() : '' %>"
+           data-year="<%= talk.year %>">
+        <h2 class="card-title text-lg font-semibold mb-1"><%= talk.title %></h2>
+        <p class="opacity-80 mb-2"><%= talk.venue %> — <%= talk.date %>, <%= talk.location %></p>
+
+        <% if (talk.description) { %>
+          <p class="mb-3"><%= talk.description %></p>
+        <% } %>
+
+        <div class="flex flex-wrap gap-2">
+          <% if (talk.slides) { %>
+            <a href="<%= talk.slides %>" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Slides</a>
+          <% } %>
+          <% if (talk.video) { %>
+            <a href="<%= talk.video %>" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Video</a>
+          <% } %>
+          <% if (talk.paper) { %>
+            <a href="<%= talk.paper %>" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Paper</a>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<script>
+  const typeFilter = document.getElementById('typeFilter');
+  const yearFilter = document.getElementById('yearFilter');
+  const searchInput = document.getElementById('searchInput');
+  const talks = document.querySelectorAll('.talk-item');
+
+  function filterTalks() {
+    const typeVal = typeFilter.value.toLowerCase();
+    const yearVal = yearFilter.value;
+    const searchVal = searchInput.value.toLowerCase();
+
+    talks.forEach(talk => {
+      const talkType = talk.getAttribute('data-type').toLowerCase();
+      const talkYear = talk.getAttribute('data-year');
+      const title = talk.querySelector('.card-title').textContent.toLowerCase();
+      const venue = talk.querySelector('p').textContent.toLowerCase();
+
+      const matchesType = !typeVal || talkType === typeVal;
+      const matchesYear = !yearVal || talkYear === yearVal;
+      const matchesSearch = !searchVal || title.includes(searchVal) || venue.includes(searchVal);
+
+      if (matchesType && matchesYear && matchesSearch) {
+        talk.classList.remove('hidden');
+      } else {
+        talk.classList.add('hidden');
+      }
+    });
+  }
+
+  typeFilter.addEventListener('change', filterTalks);
+  yearFilter.addEventListener('change', filterTalks);
+  searchInput.addEventListener('input', filterTalks);
+
+  // 初始化显示全部
+  filterTalks();
+</script>

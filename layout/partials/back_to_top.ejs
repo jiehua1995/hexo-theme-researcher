@@ -1,0 +1,40 @@
+<!-- 返回顶部按钮 -->
+<button id="back_to_top"
+  class="btn btn-accent fixed bottom-10 right-10 opacity-0 pointer-events-none transition-opacity duration-300 z-50 "
+  title="Back to top" aria-label="Back to top" tabindex="0">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<script>
+  (function(){
+    const backToTopBtn = document.getElementById('back_to_top');
+
+    // 更新按钮颜色由daisyUI的btn自动管理，无需额外代码
+
+    function toggleVisibility() {
+      if(window.scrollY > 100) {
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    backToTopBtn.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        backToTopBtn.click();
+      }
+    });
+
+    window.addEventListener('scroll', toggleVisibility);
+
+    // 页面加载时判断一下
+    toggleVisibility();
+  })();
+</script>

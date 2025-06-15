@@ -1,0 +1,52 @@
+<%
+  const allThemes = [
+    { name: "light", icon: "🌞" },
+    { name: "dark", icon: "🌙" },
+    { name: "cupcake", icon: "🧁" },
+    { name: "bumblebee", icon: "🐝" },
+    { name: "emerald", icon: "💚" },
+    { name: "corporate", icon: "🏢" },
+    { name: "synthwave", icon: "🕹️" },
+    { name: "retro", icon: "🎞️" },
+    { name: "cyberpunk", icon: "🤖" },
+    { name: "valentine", icon: "❤️" },
+    { name: "halloween", icon: "🎃" },
+    { name: "garden", icon: "🌻" },
+    { name: "forest", icon: "🌲" },
+    { name: "aqua", icon: "💧" },
+    { name: "lofi", icon: "🎧" },
+    { name: "pastel", icon: "🎨" },
+    { name: "fantasy", icon: "🧚" },
+    { name: "wireframe", icon: "🖼️" },
+    { name: "black", icon: "⚫" },
+    { name: "luxury", icon: "💎" },
+    { name: "dracula", icon: "🧛" },
+    { name: "cmyk", icon: "🎨" },
+    { name: "autumn", icon: "🍂" },
+    { name: "business", icon: "💼" },
+    { name: "acid", icon: "🧪" },
+    { name: "lemonade", icon: "🍋" },
+    { name: "night", icon: "🌃" },
+    { name: "coffee", icon: "☕" },
+    { name: "winter", icon: "❄️" },
+    { name: "dim", icon: "💡" },
+    { name: "nord", icon: "❄️" },
+    { name: "sunset", icon: "🌅" },
+    { name: "caramellatte", icon: "🥛" },
+    { name: "abyss", icon: "🌌" },
+    { name: "silk", icon: "🧵" },
+  ];
+
+  // 这里注意是 daisyui.enabled
+  const enabledThemes = (theme.daisyui && theme.daisyui.enabled) || [];
+
+  const themesToShow = allThemes.filter(t => enabledThemes.includes(t.name));
+%>
+
+<select class="select select-bordered w-full max-w-xs" data-choose-theme>
+  <% themesToShow.forEach(themeItem => { %>
+    <option value="<%= themeItem.name %>" <%= themeItem.name === (theme.daisyui.default || 'cupcake') ? "selected" : "" %>>
+      <%= themeItem.icon %> <%= themeItem.name.charAt(0).toUpperCase() + themeItem.name.slice(1) %>
+    </option>
+  <% }) %>
+</select>

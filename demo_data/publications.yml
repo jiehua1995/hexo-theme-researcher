@@ -1,0 +1,53 @@
+- title: "AI-Driven Literature Synthesis"
+  type: "Journal"
+  category: "Artificial Intelligence"
+  tags: ["Knowledge Graph", "NLP", "Meta-analysis"]
+  authors: "Smith A., Zhang E., Doe J."
+  abstract: "We propose an AI-driven framework for automating literature reviews using knowledge graphs and language models."
+  venue: "Nature Machine Intelligence"
+  year: 2024
+  doi: "10.1038/s42256-024-00001"
+  pdf: "https://example.com/papers/ai-synthesis.pdf"
+  code: "https://github.com/example/ai-synthesis"
+  website: "https://ai-synthesis.org"
+  featured: enable
+
+- title: "Deep Learning for Pathology Image Segmentation"
+  type: "Conference"
+  category: "Computer Vision"
+  tags: ["Medical Imaging", "Deep Learning", "Segmentation"]
+  authors: "Lee B., Park S., Vega C."
+  abstract: "We introduce a new U-Net variant that significantly improves segmentation performance on histopathology datasets."
+  venue: "CVPR"
+  year: 2023
+  doi: "10.1109/CVPR52688.2023.01234"
+  pdf: "https://example.com/papers/pathology-segmentation.pdf"
+  code: "https://github.com/example/med-seg-net"
+  website: "https://med-seg.org"
+  featured: enable
+
+- title: "An Open Toolkit for Natural Language Processing"
+  type: "Workshop"
+  category: "Natural Language Processing"
+  tags: ["Open Source", "NER", "Text Classification"]
+  authors: "Kim R., Wu D."
+  abstract: "We present NLPKit, an open-source toolkit with modular APIs for entity recognition, classification, and QA."
+  venue: "ACL NLP-OSS Workshop"
+  year: 2022
+  doi: "10.18653/v1/2022.nlposs-1.10"
+  pdf: "https://example.com/papers/nlpkit.pdf"
+  code: "https://github.com/example/nlpkit"
+  website: "https://nlpkit.org"
+
+- title: "Reinforcement Learning for Adaptive Robot Control"
+  type: "Journal"
+  category: "Robotics"
+  tags: ["Reinforcement Learning", "Robotics", "Adaptive Control"]
+  authors: "Chen L., Lin D."
+  abstract: "This paper explores reinforcement learning strategies for real-time adaptive control in robotic manipulation tasks."
+  venue: "IEEE Transactions on Robotics"
+  year: 2021
+  doi: "10.1109/TRO.2021.3056789"
+  pdf: "https://example.com/papers/rl-robotics.pdf"
+  code: "https://github.com/example/robot-rl"
+  website: "https://robot-rl.ai"

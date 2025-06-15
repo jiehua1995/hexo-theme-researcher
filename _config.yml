@@ -1,0 +1,64 @@
+# Theme Configuration
+avatar: /images/avatar.jpg
+favicon: /images/favicon.ico
+
+# Menu Configuration
+menu:
+  - name: Publications
+    url: /publications/
+    icon: ai ai-google-scholar
+  - name: Projects
+    url: /projects/
+    icon: fas fa-project-diagram
+  - name: CV
+    url: /cv/
+    icon: fas fa-id-card
+  - name: Talks
+    url: /talks/
+    icon: fas fa-microphone
+  - name: Contact
+    url: /contact/
+    icon: fas fa-envelope
+
+# CV Download
+cv:
+  download_link: 
+
+about:
+  I am a researcher passionate about artificial intelligence and computational biology.
+  My work focuses on leveraging machine learning to solve real-world problems.
+  <br><br>
+  Outside of research, I enjoy hiking, writing, and coffee brewing.
+
+# Academic Profiles
+academic_profiles:
+  google_scholar: https://scholar.google.com/citations?user=YOUR_ID
+  orcid: https://orcid.org/YOUR_ID
+  researchgate: https://www.researchgate.net/profile/YOUR_ID
+  github: https://github.com/YOUR_ID
+  linkedin: https://linkedin.com/in/YOUR_ID
+
+# Navigation
+navigation:
+  Home: /
+  Publications: /publications
+  Projects: /projects
+  CV: /cv
+  Talks: /talks
+  Contact: /contact
+
+contact:
+  email: your.email@example.com
+  phone: "+49 123 456789"
+  address: "Room 123, Department of Biology, LMU Munich"
+  office_hours: "Mon–Fri 10:00–16:00"
+
+# daisyui themes
+daisyui:
+  default: dark
+  enabled:
+    - light
+    - dark
+    - cupcake
+    - bumblebee
+    - wireframe

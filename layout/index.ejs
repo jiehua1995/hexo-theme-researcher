@@ -1,0 +1,120 @@
+<!-- About Section -->
+<div class="container mx-auto px-4 py-8">
+  <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content">
+    <div class="card-body">
+      <h2 class="card-title text-3xl font-bold mb-4">About Me</h2>
+      <div class="prose max-w-none">
+        <%- theme.about %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Featured Publications -->
+<div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 text-base-content">Featured Publications</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <%
+      const featuredPubs = site.data.publications.filter(p => p.featured === 'enable').slice(0, 4);
+      featuredPubs.forEach(function(pub) {
+    %>
+      <div class="card glass rounded-box shadow-md bg-base-100 text-base-content hover:shadow-lg transition-all duration-300">
+        <div class="card-body p-4">
+          <!-- Title + Type -->
+          <h3 class="card-title text-lg font-semibold flex items-center gap-2">
+            <span class="title"><%= pub.title %></span>
+            <% if (pub.type) { %>
+              <div class="badge badge-primary text-xs"><%= pub.type %></div>
+            <% } %>
+          </h3>
+
+          <!-- Authors / Venue / Year -->
+          <div class="opacity-80 text-sm mt-1">
+            <% if (pub.authors) { %>
+              <p class="authors font-medium"><%= pub.authors %></p>
+            <% } %>
+            <% if (pub.venue) { %>
+              <p class="italic text-sm mt-0.5"><%= pub.venue %></p>
+            <% } %>
+            <% if (pub.year) { %>
+              <p class="text-xs text-gray-500"><%= pub.year %></p>
+            <% } %>
+          </div>
+
+          <!-- Buttons -->
+          <div class="card-actions justify-end mt-3 gap-2">
+            <% if (pub.doi) { %>
+              <a href="https://doi.org/<%= pub.doi %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
+                <i class="ai ai-doi mr-1"></i>DOI
+              </a>
+            <% } %>
+            <% if (pub.pdf) { %>
+              <a href="<%= pub.pdf %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-file-pdf mr-1"></i>PDF
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+
+  <!-- View All -->
+  <div class="text-center mt-8">
+    <a href="/publications/" class="btn btn-primary glass">View All Publications</a>
+  </div>
+</div>
+
+
+
+<!-- Featured Projects -->
+<div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 text-base-content">Featured Projects</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <%
+      const featuredProjects = site.data.projects.filter(p => p.featured === 'enable').slice(0, 4);
+      featuredProjects.forEach(function(project) {
+    %>
+      <div class="card glass rounded-box shadow-md bg-base-100 text-base-content hover:shadow-lg transition-all duration-300">
+        <div class="card-body p-4">
+          <h3 class="card-title text-lg font-semibold flex items-center gap-2">
+            <span class="title"><%= project.title %></span>
+            <% if (project.status) { %>
+              <div class="badge badge-primary text-xs"><%= project.status %></div>
+            <% } %>
+          </h3>
+          <div class="opacity-80 text-sm mt-1">
+            <% if (project.period) { %>
+              <p class="flex items-center text-sm mb-1">
+                <i class="far fa-calendar-alt mr-2"></i><%= project.period %>
+              </p>
+            <% } %>
+            <% if (project.role) { %>
+              <p class="flex items-center text-sm">
+                <i class="fas fa-user-tie mr-2"></i><%= project.role %>
+              </p>
+            <% } %>
+          </div>
+          <% if (project.description) { %>
+            <p class="mt-3 text-base-content opacity-90 text-sm"><%= project.description %></p>
+          <% } %>
+          <div class="card-actions justify-end mt-4 gap-2 flex-wrap">
+            <% if (project.website) { %>
+              <a href="<%= project.website %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt mr-1"></i>Website
+              </a>
+            <% } %>
+            <% if (project.github) { %>
+              <a href="<%= project.github %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github mr-1"></i>Code
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+  <div class="text-center mt-8">
+    <a href="/projects/" class="btn btn-primary glass">View All Projects</a>
+  </div>
+</div>

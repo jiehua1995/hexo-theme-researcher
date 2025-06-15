@@ -1,0 +1,153 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8 text-base-content">Publications</h1>
+
+  <!-- Filters -->
+  <div class="glass-card p-4 mb-8">
+    <div class="flex flex-wrap gap-4 items-center">
+      <!-- Year Filter -->
+      <div class="form-control w-40">
+        <label class="label"><span class="label-text">Year</span></label>
+        <select class="select select-bordered" id="yearFilter" name="yearFilter">
+          <option value="">All Years</option>
+          <% 
+            const years = [...new Set(site.data.publications.map(p => p.year))].sort((a, b) => b - a);
+            years.forEach(year => {
+          %>
+            <option value="<%= year %>"><%= year %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="form-control w-48">
+        <label class="label"><span class="label-text">Category</span></label>
+        <select class="select select-bordered" id="categoryFilter" name="categoryFilter">
+          <option value="">All Categories</option>
+          <% 
+            const categories = [...new Set(site.data.publications.map(p => p.category))].filter(c => c).sort();
+            categories.forEach(category => {
+          %>
+            <option value="<%= category %>"><%= category %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="form-control flex-grow min-w-[200px]">
+        <label class="label"><span class="label-text">Search</span></label>
+        <input type="text" placeholder="Search publications..." class="input input-bordered" id="searchInput" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Publications List -->
+  <div id="publicationsList" class="list space-y-6">
+    <% site.data.publications.forEach(function(pub) { %>
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 publication-item"
+           data-year="<%= pub.year %>"
+           data-category="<%= (pub.category || '').toLowerCase() %>">
+        <div class="card-body">
+          <!-- Title + Type -->
+          <h2 class="card-title text-xl font-bold flex items-center gap-2">
+            <span class="title"><%= pub.title %></span>
+            <% if (pub.type) { %>
+              <div class="badge badge-primary"><%= pub.type %></div>
+            <% } %>
+          </h2>
+  
+          <!-- Authors / Venue / Year -->
+          <div class="text-base-content opacity-80 text-md mb-2">
+            <% if (pub.authors) { %>
+              <p class="authors text-base"><%= pub.authors %></p>
+            <% } %>
+            <% if (pub.category) { %>
+              <p class="text-md"><i class="fas fa-tag mr-1"></i><%= pub.category %></p>
+            <% } %>
+            <% if (pub.tags && pub.tags.length) { %>
+              <div class="flex flex-wrap gap-2 mt-1">
+                <% pub.tags.forEach(tag => { %>
+                  <span class="badge badge-outline text-xs"><%= tag %></span>
+                <% }); %>
+              </div>
+            <% } %>
+            <% if (pub.venue) { %>
+              <p class="venue italic mt-1"><%= pub.venue %></p>
+            <% } %>
+            <% if (pub.year) { %>
+              <p class="year text-xs text-gray-500 mt-1"><%= pub.year %></p>
+            <% } %>
+          </div>
+  
+          <!-- Abstract -->
+          <% if (pub.abstract) { %>
+            <div class="mt-4">
+              <p class="abstract text-base-content opacity-90 text-sm"><%= pub.abstract %></p>
+            </div>
+          <% } %>
+  
+          <!-- Action Buttons -->
+          <div class="card-actions justify-end mt-4 flex flex-wrap gap-2">
+            <% if (pub.doi) { %>
+              <a href="https://doi.org/<%= pub.doi %>" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="DOI">
+                <i class="ai ai-doi mr-1"></i>DOI
+              </a>
+            <% } %>
+            <% if (pub.pdf) { %>
+              <a href="<%= pub.pdf %>" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="PDF">
+                <i class="fas fa-file-pdf mr-1"></i>PDF
+              </a>
+            <% } %>
+            <% if (pub.code) { %>
+              <a href="<%= pub.code %>" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="Code">
+                <i class="fab fa-github mr-1"></i>Code
+              </a>
+            <% } %>
+            <% if (pub.website) { %>
+              <a href="<%= pub.website %>" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="Project Website">
+                <i class="fas fa-globe mr-1"></i>Website
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+  
+</div>
+
+<script>
+  const yearFilter = document.getElementById('yearFilter');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const searchInput = document.getElementById('searchInput');
+  const publications = document.querySelectorAll('.publication-item');
+
+  function filterPublications() {
+    const yearVal = yearFilter.value;
+    const categoryVal = categoryFilter.value.toLowerCase();
+    const searchVal = searchInput.value.toLowerCase();
+
+    publications.forEach(pub => {
+      const pubYear = pub.getAttribute('data-year');
+      const pubCategory = pub.getAttribute('data-category').toLowerCase();
+      const title = pub.querySelector('.title').textContent.toLowerCase();
+      const authors = pub.querySelector('.authors').textContent.toLowerCase();
+
+      const matchesYear = !yearVal || pubYear === yearVal;
+      const matchesCategory = !categoryVal || pubCategory === categoryVal;
+      const matchesSearch = !searchVal || title.includes(searchVal) || authors.includes(searchVal);
+
+      if (matchesYear && matchesCategory && matchesSearch) {
+        pub.classList.remove('hidden');
+      } else {
+        pub.classList.add('hidden');
+      }
+    });
+  }
+
+  yearFilter.addEventListener('change', filterPublications);
+  categoryFilter.addEventListener('change', filterPublications);
+  searchInput.addEventListener('input', filterPublications);
+
+  // 初始化显示全部
+  filterPublications();
+</script>

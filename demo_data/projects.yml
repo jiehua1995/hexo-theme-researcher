@@ -1,0 +1,73 @@
+- title: "AI-Powered Research Assistant"
+  status: "current"
+  period: "2023 - Present"
+  category: "Artificial Intelligence"
+  description: "An AI system designed to help researchers conduct efficient literature reviews and synthesize scientific knowledge."
+  tags: ["AI", "Knowledge Graph", "Literature Mining", "Research Tools"]
+  collaborators:
+    - name: "Dr. Alice Smith"
+      role: "PI"
+      link: "https://university.edu/alice-smith"
+    - name: "Dr. John Doe"
+      role: "Co-PI"
+      link: "https://university.edu/john-doe"
+    - name: "Emily Zhang"
+      role: "PhD Student"
+      link: "https://university.edu/emily-zhang"
+  publications:
+    - title: "Smith et al. (2024), AI-Driven Research Synthesis, Nature"
+      link: "https://www.nature.com/articles/ai-research-synthesis"
+  website: "https://research-assistant.ai"
+  github: "https://github.com/username/ai-research-assistant"
+  featured: enable
+
+- title: "Bioinformatics Data Platform"
+  status: "completed"
+  period: "2021 - 2023"
+  category: "Bioinformatics"
+  description: "A platform for integration and analysis of multi-omics data with user-friendly visualization."
+  tags: ["Bioinformatics", "Data Integration", "Visualization"]
+  collaborators:
+    - name: "Dr. Linda Wang"
+      role: "PI"
+      link: "https://university.edu/linda-wang"
+    - name: "Mark Lee"
+      role: "Researcher"
+      link: "https://university.edu/mark-lee"
+  publications:
+    - title: "Wang et al. (2023), Integrative Omics Analysis, Bioinformatics Journal"
+      link: "https://bioinformaticsjournal.org/articles/integrative-omics"
+  website: "https://bioinfo-platform.org"
+  featured: disable
+
+- title: "Next-Gen Sequencing Analysis Pipeline"
+  status: "current"
+  period: "2022 - Present"
+  category: "Genomics"
+  description: "An automated pipeline for NGS data processing and variant calling optimized for large datasets."
+  tags: ["Genomics", "NGS", "Pipeline"]
+  collaborators:
+    - name: "Dr. Sarah Chen"
+      role: "Lead Scientist"
+      link: "https://university.edu/sarah-chen"
+  publications:
+    - title: "Chen et al. (2024), Efficient NGS Data Analysis, Genome Research"
+      link: "https://genomeresearch.org/articles/efficient-ngs"
+  github: "https://github.com/username/ngs-pipeline"
+  featured: enable
+
+- title: "Protein Structure Prediction Tool"
+  status: "completed"
+  period: "2020 - 2022"
+  category: "Structural Biology"
+  description: "A computational tool for predicting protein 3D structures using deep learning methods."
+  tags: ["Protein", "Deep Learning", "Structural Biology"]
+  collaborators:
+    - name: "Dr. Kevin Brown"
+      role: "PI"
+      link: "https://university.edu/kevin-brown"
+  publications:
+    - title: "Brown et al. (2022), Deep Learning for Protein Folding, Journal of Molecular Biology"
+      link: "https://jmb.org/articles/deep-learning-protein"
+  website: "https://proteinpredictor.org"
+  featured: disable
