@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>John Doe wants to be a scientist.</title>
+<meta name="description" content="A professional academic portfolio website for John Doe">
+<meta name="keywords" content="academic, research, portfolio, John Doe">
+<meta name="author" content="John Doe">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+<!-- Open Graph tags -->
+<meta property="og:title" content="John Doe wants to be a scientist.">
+<meta property="og:description" content="A professional academic portfolio website for John Doe">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jiehua1995.github.io/hexo-theme-researcher">
+
+<!-- Twitter Card tags -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="John Doe wants to be a scientist.">
+<meta name="twitter:description" content="A professional academic portfolio website for John Doe">
+
+<!-- Academicons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Tailwind CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Theme Change Script -->
+<script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="min-h-screen bg-base-200">
+
+  <!-- Sidebar for Desktop -->
+  <aside class="hidden lg:flex fixed left-0 top-0 h-screen w-80 bg-base-200 z-40 flex-col">
+    <a href="/" class="block no-underline hover:bg-base-100 transition rounded-box">
+  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer">
+    <div class="avatar mb-4">
+      <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
+        <img
+  src="/images/avatar.jpg"
+  alt="Profile"
+  class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
+/>
+
+      </div>
+    </div>
+    <h2 class="text-xl font-bold text-base-content">John Doe</h2>
+    <p class="text-base-content opacity-80">Talk is cheap. Show me the code.</p>
+  </div>
+</a>
+
+
+<nav class="p-4 space-y-2 flex-grow">
+  
+    
+      <a href="/publications/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="ai ai-google-scholar mr-2"></i>
+        Publications
+      </a>
+    
+      <a href="/projects/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-project-diagram mr-2"></i>
+        Projects
+      </a>
+    
+      <a href="/cv/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-id-card mr-2"></i>
+        CV
+      </a>
+    
+      <a href="/talks/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-microphone mr-2"></i>
+        Talks
+      </a>
+    
+      <a href="/contact/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-envelope mr-2"></i>
+        Contact
+      </a>
+    
+  
+</nav>
+
+<div class="p-4 border-t border-base-300 flex justify-center space-x-4">
+  
+    <a href="https://scholar.google.com/citations?user=YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="ai ai-google-scholar text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://orcid.org/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="ai ai-orcid text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://www.researchgate.net/profile/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="ai ai-researchgate text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://github.com/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-github text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://linkedin.com/in/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-linkedin text-2xl"></i>
+    </a>
+  
+  
+</div>
+  </aside>
+
+  <!-- Drawer for Mobile -->
+  <div class="drawer lg:hidden">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col">
+      <!-- Mobile navbar -->
+      <div class="w-full navbar bg-base-300 fixed top-0 left-0 right-0 z-40">
+        <label for="my-drawer" class="btn btn-square btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </label>
+        <div class="flex-1">
+          <a href="/" class="btn btn-ghost normal-case text-sm">John Doe wants to be a scientist.</a>
+        </div>
+        <div class="flex-none">
+          
+
+<select class="select select-bordered w-full max-w-xs" data-choose-theme>
+  
+    <option value="light" >
+      🌞 Light
+    </option>
+  
+    <option value="dark" selected>
+      🌙 Dark
+    </option>
+  
+    <option value="cupcake" >
+      🧁 Cupcake
+    </option>
+  
+    <option value="bumblebee" >
+      🐝 Bumblebee
+    </option>
+  
+    <option value="wireframe" >
+      🖼️ Wireframe
+    </option>
+  
+</select>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar drawer panel for mobile -->
+    <div class="drawer-side z-60">
+      <label for="my-drawer" class="drawer-overlay"></label>
+      <aside class="w-80 bg-base-200 min-h-full">
+        <a href="/" class="block no-underline hover:bg-base-100 transition rounded-box">
+  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer">
+    <div class="avatar mb-4">
+      <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
+        <img
+  src="/images/avatar.jpg"
+  alt="Profile"
+  class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
+/>
+
+      </div>
+    </div>
+    <h2 class="text-xl font-bold text-base-content">John Doe</h2>
+    <p class="text-base-content opacity-80">Talk is cheap. Show me the code.</p>
+  </div>
+</a>
+
+
+<nav class="p-4 space-y-2 flex-grow">
+  
+    
+      <a href="/publications/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="ai ai-google-scholar mr-2"></i>
+        Publications
+      </a>
+    
+      <a href="/projects/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-project-diagram mr-2"></i>
+        Projects
+      </a>
+    
+      <a href="/cv/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-id-card mr-2"></i>
+        CV
+      </a>
+    
+      <a href="/talks/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-microphone mr-2"></i>
+        Talks
+      </a>
+    
+      <a href="/contact/" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+        <i class="fas fa-envelope mr-2"></i>
+        Contact
+      </a>
+    
+  
+</nav>
+
+<div class="p-4 border-t border-base-300 flex justify-center space-x-4">
+  
+    <a href="https://scholar.google.com/citations?user=YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="ai ai-google-scholar text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://orcid.org/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="ai ai-orcid text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://www.researchgate.net/profile/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="ai ai-researchgate text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://github.com/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-github text-2xl"></i>
+    </a>
+  
+  
+    <a href="https://linkedin.com/in/YOUR_ID" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-linkedin text-2xl"></i>
+    </a>
+  
+  
+</div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Content area for Desktop -->
+  <div class="lg:ml-80 pt-20 px-4 py-8">
+    <div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold mb-8">Academic Talks & Presentations</h1>
+
+  <!-- Filters -->
+  <div class="glass-card p-4 mb-8">
+    <div class="flex flex-wrap gap-4 items-center">
+      <!-- Type Filter -->
+      <div class="form-control w-48">
+        <label class="label"><span class="label-text">Type</span></label>
+        <select class="select select-bordered" id="typeFilter" name="typeFilter">
+          <option value="">All Types</option>
+          
+            <option value="conference">Conference</option>
+          
+            <option value="invited">Invited</option>
+          
+            <option value="seminar">Seminar</option>
+          
+            <option value="workshop">Workshop</option>
+          
+        </select>
+      </div>
+
+      <!-- Year Filter -->
+      <div class="form-control w-40">
+        <label class="label"><span class="label-text">Year</span></label>
+        <select class="select select-bordered" id="yearFilter" name="yearFilter">
+          <option value="">All Years</option>
+          
+            <option value="2023">2023</option>
+          
+            <option value="2022">2022</option>
+          
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="form-control flex-grow min-w-[200px]">
+        <label class="label"><span class="label-text">Search</span></label>
+        <input type="text" placeholder="Search talks..." class="input input-bordered" id="searchInput" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Talks List -->
+  <div class="grid gap-6" id="talksList">
+    
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 talk-item"
+           data-type="conference"
+           data-year="2023">
+        <h2 class="card-title text-lg font-semibold mb-1">Recent Advances in Machine Learning</h2>
+        <p class="opacity-80 mb-2">International Conference on Machine Learning (ICML) — July 15, 2023, Honolulu, Hawaii</p>
+
+        
+          <p class="mb-3">Keynote presentation on recent developments in machine learning algorithms and their applications.</p>
+        
+
+        <div class="flex flex-wrap gap-2">
+          
+            <a href="/slides/icml_2023.pdf" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Slides</a>
+          
+          
+            <a href="https://www.youtube.com/watch?v=example1" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Video</a>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 talk-item"
+           data-type="seminar"
+           data-year="2023">
+        <h2 class="card-title text-lg font-semibold mb-1">Deep Learning for Medical Imaging</h2>
+        <p class="opacity-80 mb-2">Department of Computer Science, Stanford University — March 10, 2023, Stanford, California</p>
+
+        
+          <p class="mb-3">Seminar on applying deep learning techniques to medical image analysis.</p>
+        
+
+        <div class="flex flex-wrap gap-2">
+          
+            <a href="/slides/stanford_2023.pdf" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Slides</a>
+          
+          
+          
+        </div>
+      </div>
+    
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 talk-item"
+           data-type="workshop"
+           data-year="2022">
+        <h2 class="card-title text-lg font-semibold mb-1">Natural Language Processing Workshop</h2>
+        <p class="opacity-80 mb-2">Annual Meeting of the Association for Computational Linguistics — July 7, 2022, Dublin, Ireland</p>
+
+        
+          <p class="mb-3">Workshop on advanced NLP techniques and their applications.</p>
+        
+
+        <div class="flex flex-wrap gap-2">
+          
+            <a href="/slides/acl_2022.pdf" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Slides</a>
+          
+          
+            <a href="https://www.youtube.com/watch?v=example2" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Video</a>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 talk-item"
+           data-type="invited"
+           data-year="2022">
+        <h2 class="card-title text-lg font-semibold mb-1">AI in Healthcare</h2>
+        <p class="opacity-80 mb-2">Healthcare Technology Summit — November 15, 2022, Boston, Massachusetts</p>
+
+        
+          <p class="mb-3">Invited talk on the role of artificial intelligence in modern healthcare.</p>
+        
+
+        <div class="flex flex-wrap gap-2">
+          
+            <a href="/slides/healthcare_2022.pdf" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Slides</a>
+          
+          
+          
+            <a href="/papers/ai_healthcare_2022.pdf" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Paper</a>
+          
+        </div>
+      </div>
+    
+  </div>
+</div>
+
+<script>
+  const typeFilter = document.getElementById('typeFilter');
+  const yearFilter = document.getElementById('yearFilter');
+  const searchInput = document.getElementById('searchInput');
+  const talks = document.querySelectorAll('.talk-item');
+
+  function filterTalks() {
+    const typeVal = typeFilter.value.toLowerCase();
+    const yearVal = yearFilter.value;
+    const searchVal = searchInput.value.toLowerCase();
+
+    talks.forEach(talk => {
+      const talkType = talk.getAttribute('data-type').toLowerCase();
+      const talkYear = talk.getAttribute('data-year');
+      const title = talk.querySelector('.card-title').textContent.toLowerCase();
+      const venue = talk.querySelector('p').textContent.toLowerCase();
+
+      const matchesType = !typeVal || talkType === typeVal;
+      const matchesYear = !yearVal || talkYear === yearVal;
+      const matchesSearch = !searchVal || title.includes(searchVal) || venue.includes(searchVal);
+
+      if (matchesType && matchesYear && matchesSearch) {
+        talk.classList.remove('hidden');
+      } else {
+        talk.classList.add('hidden');
+      }
+    });
+  }
+
+  typeFilter.addEventListener('change', filterTalks);
+  yearFilter.addEventListener('change', filterTalks);
+  searchInput.addEventListener('input', filterTalks);
+
+  // 初始化显示全部
+  filterTalks();
+</script>
+
+  </div>
+
+  <!-- Fixed top navbar for desktop -->
+  <div class="hidden lg:flex fixed top-0 left-80 right-0 z-50 bg-base-300 h-16 items-center px-4">
+    <div class="flex-1">
+      <a href="/" class="btn btn-ghost normal-case text-xl">
+        John Doe wants to be a scientist.
+      </a>
+    </div>
+    <div class="flex-none">
+      
+
+<select class="select select-bordered w-full max-w-xs" data-choose-theme>
+  
+    <option value="light" >
+      🌞 Light
+    </option>
+  
+    <option value="dark" selected>
+      🌙 Dark
+    </option>
+  
+    <option value="cupcake" >
+      🧁 Cupcake
+    </option>
+  
+    <option value="bumblebee" >
+      🐝 Bumblebee
+    </option>
+  
+    <option value="wireframe" >
+      🖼️ Wireframe
+    </option>
+  
+</select>
+
+    </div>
+  </div>
+
+  <!-- Footer, 页面只出现一次 -->
+  <footer class="mt-auto">
+    <!-- Footer -->
+<footer class="footer footer-center p-4 bg-base-200 text-base-content">
+  <div class="grid grid-flow-col gap-4">
+    <div class="text-center">
+      <span>© 2025 John Doe</span>
+      <span>·</span>
+      <span>Powered by <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer" class="link link-info no-underline">Hexo</a></span>
+      <span>·</span>
+      <span>Theme: <a href="https://github.com/jiehua1995/hexo-theme-researcher" target="_blank" rel="noopener noreferrer" class="link link-info no-underline">Researcher</a></span>
+    </div>
+  </div>
+</footer>
+
+  </footer>
+
+  <!-- back to top -->
+  <!-- 返回顶部按钮 -->
+<button id="back_to_top"
+  class="btn btn-accent fixed bottom-10 right-10 opacity-0 pointer-events-none transition-opacity duration-300 z-50 "
+  title="Back to top" aria-label="Back to top" tabindex="0">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<script>
+  (function(){
+    const backToTopBtn = document.getElementById('back_to_top');
+
+    // 更新按钮颜色由daisyUI的btn自动管理，无需额外代码
+
+    function toggleVisibility() {
+      if(window.scrollY > 100) {
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    backToTopBtn.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        backToTopBtn.click();
+      }
+    });
+
+    window.addEventListener('scroll', toggleVisibility);
+
+    // 页面加载时判断一下
+    toggleVisibility();
+  })();
+</script>
+
+
+</body>
+</html>
