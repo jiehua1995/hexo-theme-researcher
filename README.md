@@ -17,11 +17,34 @@ The Researcher theme is designed with the following principles in mind:
 ## Features
 
 - 📱 Fully responsive design
-- 🎨 Multiple theme options
+- 🎨 Multiple theme options (light, dark, cupcake, bumblebee, wireframe)
 - 📊 Project showcase with detailed descriptions
 - 📝 CV/Resume page with download option
 - 🎤 Talks and presentations section
 - 🔗 Academic profile links (Google Scholar, ORCID, ResearchGate)
+- 🎯 DaisyUI theme integration
+- 📚 Academic icons support
+- 📧 Contact information section
+- 👤 About section with customizable content
+
+## Blog Root Configuration
+
+Before installing the theme, you need to configure your blog's root directory. Edit the `_config.yml` in your blog's root directory:
+
+```yaml
+# Site
+title: Your Name
+subtitle: Your Title
+description: Your research description
+keywords: research, academic, portfolio
+author: Your Name
+language: en
+timezone: ''
+# URL
+url: https://youname.github.io/repo
+# Extensions
+theme: hexo-theme-researcher
+```
 
 ## Installation
 
@@ -56,11 +79,9 @@ theme: hexo-theme-researcher
 Edit `_config.yml` in the theme directory to customize your site:
 
 ```yaml
-# Basic Information
-title: Your Name
-subtitle: Your Title
-description: Your research description
+# Theme Configuration
 avatar: /images/avatar.jpg
+favicon: /images/favicon.ico
 
 # Menu Configuration
 menu:
@@ -70,17 +91,51 @@ menu:
   - name: Projects
     url: /projects/
     icon: fas fa-project-diagram
-  - name: Talks
-    url: /talks/
-    icon: fas fa-chalkboard-teacher
   - name: CV
     url: /cv/
-    icon: fas fa-file-alt
+    icon: fas fa-id-card
+  - name: Talks
+    url: /talks/
+    icon: fas fa-microphone
   - name: Contact
     url: /contact/
     icon: fas fa-envelope
 
-# Check other sections in the _config.yml file
+# CV Download
+cv:
+  download_link: 
+
+# About Section
+about:
+  I am a researcher passionate about artificial intelligence and computational biology.
+  My work focuses on leveraging machine learning to solve real-world problems.
+  <br><br>
+  Outside of research, I enjoy hiking, writing, and coffee brewing.
+
+# Academic Profiles
+academic_profiles:
+  google_scholar: https://scholar.google.com/citations?user=YOUR_ID
+  orcid: https://orcid.org/YOUR_ID
+  researchgate: https://www.researchgate.net/profile/YOUR_ID
+  github: https://github.com/YOUR_ID
+  linkedin: https://linkedin.com/in/YOUR_ID
+
+# Contact Information
+contact:
+  email: your.email@example.com
+  phone: "+49 123 456789"
+  address: "Room 123, Department of Biology, LMU Munich"
+  office_hours: "Mon–Fri 10:00–16:00"
+
+# DaisyUI Theme Configuration
+daisyui:
+  default: cupcake
+  enabled:
+    - light
+    - dark
+    - cupcake
+    - bumblebee
+    - wireframe
 ```
 
 ## Create Required Pages
@@ -128,11 +183,6 @@ npm install
 hexo server
 ```
 
-3. Build the site:
-```bash
-hexo generate
-```
-
 ## License
 
 This theme is released under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -148,6 +198,8 @@ This theme is released under the MIT License. See the [LICENSE](LICENSE) file fo
 ## Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/graphs/contributors)
+
+## 
 
 ---
 
