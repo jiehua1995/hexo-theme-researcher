@@ -142,27 +142,43 @@
 
 <select class="select select-bordered w-full max-w-xs" data-choose-theme>
   
-    <option value="light" >
+    <option 
+      value="light" 
+      
+    >
       🌞 Light
     </option>
   
-    <option value="dark" >
+    <option 
+      value="dark" 
+      
+    >
       🌙 Dark
     </option>
   
-    <option value="cupcake" selected>
+    <option 
+      value="cupcake" 
+      selected
+    >
       🧁 Cupcake
     </option>
   
-    <option value="bumblebee" >
+    <option 
+      value="bumblebee" 
+      
+    >
       🐝 Bumblebee
     </option>
   
-    <option value="wireframe" >
+    <option 
+      value="wireframe" 
+      
+    >
       🖼️ Wireframe
     </option>
   
 </select>
+
 
         </div>
       </div>
@@ -261,7 +277,7 @@
 
   <!-- Jump to section -->
   <p class="mb-2 text-base-content font-medium">Click a section below to jump to it:</p>
-  <nav class="flex space-x-4 mb-6">
+  <nav class="flex flex-wrap gap-2 mb-6">
     <a href="#education" class="btn btn-outline btn-secondary">Education</a>
     <a href="#experience" class="btn btn-outline btn-secondary">Experience</a>
     <a href="#skills" class="btn btn-outline btn-secondary">Skills</a>
@@ -292,12 +308,13 @@
       
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
-              Ph.D. in Computer Science
-              
-                <div class="badge badge-primary">2015 - 2019</div>
-              
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
+            Ph.D. in Computer Science
+            
+              <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap">2015 - 2019</div>
+            
             </h2>
+
             <div class="text-base-content opacity-80">
               <p class="font-medium">Stanford University</p>
               
@@ -309,12 +326,13 @@
       
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
-              M.S. in Computer Science
-              
-                <div class="badge badge-primary">2013 - 2015</div>
-              
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
+            M.S. in Computer Science
+            
+              <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap">2013 - 2015</div>
+            
             </h2>
+
             <div class="text-base-content opacity-80">
               <p class="font-medium">Massachusetts Institute of Technology</p>
               
@@ -326,12 +344,13 @@
       
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
-              B.S. in Computer Science
-              
-                <div class="badge badge-primary">2009 - 2013</div>
-              
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
+            B.S. in Computer Science
+            
+              <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap">2009 - 2013</div>
+            
             </h2>
+
             <div class="text-base-content opacity-80">
               <p class="font-medium">University of California, Berkeley</p>
               
@@ -565,10 +584,10 @@
       
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
               Best Paper Award
               
-                <div class="badge badge-primary">2022</div>
+                <div class="badge badge-primary badge-xs lg:badge-md whitespace-nowrap">2022</div>
               
             </h2>
             <div class="text-base-content opacity-80">
@@ -582,10 +601,10 @@
       
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
               Early Career Research Award
               
-                <div class="badge badge-primary">2021-02-21</div>
+                <div class="badge badge-primary badge-xs lg:badge-md whitespace-nowrap">2021-02-21</div>
               
             </h2>
             <div class="text-base-content opacity-80">
@@ -599,10 +618,10 @@
       
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
               Teaching Excellence Award
               
-                <div class="badge badge-primary">2020</div>
+                <div class="badge badge-primary badge-xs lg:badge-md whitespace-nowrap">2020</div>
               
             </h2>
             <div class="text-base-content opacity-80">
@@ -619,31 +638,31 @@
 
   <!-- Languages -->
   <section class="mb-8" id="languages">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Languages</h2>
-    <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-6">
-      <div class="grid grid-cols-4 gap-6">
-        
-          <div class="flex justify-between items-center opacity-90 bg-base-200 rounded-md px-4 py-2 shadow-sm">
-            <span class="font-semibold">English</span>
-            <span class="text-sm opacity-70">Native</span>
-          </div>
-        
-          <div class="flex justify-between items-center opacity-90 bg-base-200 rounded-md px-4 py-2 shadow-sm">
-            <span class="font-semibold">Spanish</span>
-            <span class="text-sm opacity-70">Professional</span>
-          </div>
-        
-          <div class="flex justify-between items-center opacity-90 bg-base-200 rounded-md px-4 py-2 shadow-sm">
-            <span class="font-semibold">Mandarin</span>
-            <span class="text-sm opacity-70">Intermediate</span>
-          </div>
-        
-        
-              <div></div>
-        
-      </div>
+  <h2 class="text-2xl font-bold mb-4 text-base-content">Languages</h2>
+  <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-6">
+    <div class="flex flex-wrap gap-3">
+      
+        <div class="px-4 py-4 bg-base-200 rounded-md shadow-sm text-sm flex items-center gap-2 whitespace-nowrap">
+          <span class="font-semibold">English</span>
+          <span class="text-xs opacity-70">(Native)</span>
+        </div>
+      
+        <div class="px-4 py-4 bg-base-200 rounded-md shadow-sm text-sm flex items-center gap-2 whitespace-nowrap">
+          <span class="font-semibold">Spanish</span>
+          <span class="text-xs opacity-70">(Professional)</span>
+        </div>
+      
+        <div class="px-4 py-4 bg-base-200 rounded-md shadow-sm text-sm flex items-center gap-2 whitespace-nowrap">
+          <span class="font-semibold">Mandarin</span>
+          <span class="text-xs opacity-70">(Intermediate)</span>
+        </div>
+      
     </div>
-  </section>
+  </div>
+</section>
+
+
+
 
 </div>
 
@@ -661,27 +680,43 @@
 
 <select class="select select-bordered w-full max-w-xs" data-choose-theme>
   
-    <option value="light" >
+    <option 
+      value="light" 
+      
+    >
       🌞 Light
     </option>
   
-    <option value="dark" >
+    <option 
+      value="dark" 
+      
+    >
       🌙 Dark
     </option>
   
-    <option value="cupcake" selected>
+    <option 
+      value="cupcake" 
+      selected
+    >
       🧁 Cupcake
     </option>
   
-    <option value="bumblebee" >
+    <option 
+      value="bumblebee" 
+      
+    >
       🐝 Bumblebee
     </option>
   
-    <option value="wireframe" >
+    <option 
+      value="wireframe" 
+      
+    >
       🖼️ Wireframe
     </option>
   
 </select>
+
 
     </div>
   </div>
