@@ -1,7 +1,5 @@
 # Hexo Theme Researcher
 
-# hexo-theme-researcher
-
 [![License](https://img.shields.io/github/license/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/network/members)
