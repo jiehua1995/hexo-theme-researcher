@@ -27,25 +27,6 @@ The Researcher theme is designed with the following principles in mind:
 - 📧 Contact information section
 - 👤 About section with customizable content
 
-## Blog Root Configuration
-
-Before installing the theme, you need to configure your blog's root directory. Edit the `_config.yml` in your blog's root directory:
-
-```yaml
-# Site
-title: Your Name
-subtitle: Your Title
-description: Your research description
-keywords: research, academic, portfolio
-author: Your Name
-language: en
-timezone: ''
-# URL
-url: https://youname.github.io/repo
-# Extensions
-theme: hexo-theme-researcher
-```
-
 ## Installation
 
 1. Install Hexo:
@@ -71,10 +52,26 @@ npm install
 
 5. Configure your site by editing `_config.yml` in your site's root directory:
 ```yaml
+## Blog Root Configuration
+
+Before installing the theme, you need to configure your blog's root directory. Edit the `_config.yml` in your blog's root directory:
+
+```yaml
+# Site
+title: Your Name
+subtitle: Your Title
+description: Your research description
+keywords: research, academic, portfolio
+author: Your Name
+language: en
+timezone: ''
+# URL
+url: https://youname.github.io/repo
+# Extensions
 theme: hexo-theme-researcher
 ```
 
-## Configuration
+## Configuration of this theme
 
 Edit `_config.yml` in the theme directory to customize your site:
 
@@ -198,8 +195,6 @@ This theme is released under the MIT License. See the [LICENSE](LICENSE) file fo
 ## Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/graphs/contributors)
-
-## 
 
 ---
 
