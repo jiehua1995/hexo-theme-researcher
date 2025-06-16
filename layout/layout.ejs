@@ -24,7 +24,9 @@
           </svg>
         </label>
         <div class="flex-1">
-          <a href="/" class="btn btn-ghost normal-case text-sm"><%= config.title %></a>
+          <a href="<%= url_for('/') %>" class="btn btn-ghost normal-case text-sm">
+          <%= config.title %>
+          </a>
         </div>
         <div class="flex-none">
           <%- partial('partials/themes') %>
@@ -49,8 +51,8 @@
   <!-- Fixed top navbar for desktop -->
   <div class="hidden lg:flex fixed top-0 left-80 right-0 z-50 bg-base-300 h-16 items-center px-4">
     <div class="flex-1">
-      <a href="/" class="btn btn-ghost normal-case text-xl">
-        <%= config.title %>
+      <a href="<%= url_for('/') %>" class="btn btn-ghost normal-case text-xl">
+      <%= config.title %>
       </a>
     </div>
     <div class="flex-none">
