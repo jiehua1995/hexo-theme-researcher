@@ -3,7 +3,7 @@
     <div class="avatar mb-4">
       <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
         <img
-  src="<%= theme.avatar %>"
+  src="<%= url_for(theme.avatar) %>"
   alt="Profile"
   class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
 />
@@ -19,13 +19,14 @@
 <nav class="p-4 space-y-2 flex-grow">
   <% if (theme.menu && Array.isArray(theme.menu)) { %>
     <% theme.menu.forEach(function(item) { %>
-      <a href="<%= item.url %>" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
+      <a href="<%= url_for(item.url) %>" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
         <i class="<%= item.icon %> mr-2"></i>
         <%= item.name %>
       </a>
     <% }); %>
   <% } %>
 </nav>
+
 
 <div class="p-4 border-t border-base-300 flex justify-center space-x-4">
   <% if (theme.academic_profiles.google_scholar) { %>

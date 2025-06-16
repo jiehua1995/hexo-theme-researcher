@@ -1,23 +1,23 @@
 # Theme Configuration
-avatar: ./images/avatar.jpg
-favicon: ./images/favicon.ico
+avatar: /images/avatar.jpg
+favicon: /images/favicon.ico
 
 # Menu Configuration
 menu:
   - name: Publications
-    url: ./publications/
+    url: /publications/
     icon: ai ai-google-scholar
   - name: Projects
-    url: ./projects/
+    url: /projects/
     icon: fas fa-project-diagram
   - name: CV
-    url: ./cv/
+    url: /cv/
     icon: fas fa-id-card
   - name: Talks
-    url: ./talks/
+    url: /talks/
     icon: fas fa-microphone
   - name: Contact
-    url: ./contact/
+    url: /contact/
     icon: fas fa-envelope
 
 # CV Download
@@ -38,15 +38,6 @@ academic_profiles:
   github: https://github.com/YOUR_ID
   linkedin: https://linkedin.com/in/YOUR_ID
 
-# Navigation
-navigation:
-  Home: /
-  Publications: ./publications
-  Projects: ./projects
-  CV: ./cv
-  Talks: ./talks
-  Contact: ./contact
-
 contact:
   email: your.email@example.com
   phone: "+49 123 456789"
@@ -55,7 +46,7 @@ contact:
 
 # daisyui themes
 daisyui:
-  default: dark
+  default: cupcake
   enabled:
     - light
     - dark
