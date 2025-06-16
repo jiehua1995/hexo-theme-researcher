@@ -1,5 +1,15 @@
 # Hexo Theme Researcher
 
+# hexo-theme-researcher
+
+[![License](https://img.shields.io/github/license/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/network/members)
+[![Issues](https://img.shields.io/github/issues/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/commits)
+[![Hexo Version](https://img.shields.io/badge/hexo-%3E%3D7.0.0-blue)](https://hexo.io/)
+
+
 A modern, responsive, and professional academic portfolio theme for researchers, built with Tailwind CSS, and DaisyUI.
 
 ![Theme Preview](./source/images/preview.png)
@@ -51,11 +61,6 @@ npm install
 ```
 
 5. Configure your site by editing `_config.yml` in your site's root directory:
-```yaml
-## Blog Root Configuration
-
-Before installing the theme, you need to configure your blog's root directory. Edit the `_config.yml` in your blog's root directory:
-
 ```yaml
 # Site
 title: Your Name
@@ -167,18 +172,6 @@ Create the following data files in your site's `source/_data` directory. You can
 - `projects.yml`: Research projects
 - `talks.yml`: Presentations and talks
 - `cv.yml`: Your CV/resume information
-
-## Development
-
-1. Install development dependencies:
-```bash
-npm install
-```
-
-2. Start the development server:
-```bash
-hexo server
-```
 
 ## License
 
