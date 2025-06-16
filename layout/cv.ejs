@@ -3,7 +3,7 @@
 
   <!-- Jump to section -->
   <p class="mb-2 text-base-content font-medium">Click a section below to jump to it:</p>
-  <nav class="flex space-x-4 mb-6">
+  <nav class="flex flex-wrap gap-2 mb-6">
     <a href="#education" class="btn btn-outline btn-secondary">Education</a>
     <a href="#experience" class="btn btn-outline btn-secondary">Experience</a>
     <a href="#skills" class="btn btn-outline btn-secondary">Skills</a>
@@ -45,12 +45,13 @@
       <% site.data.cv.education.forEach(function(edu) { %>
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
-              <%= edu.degree %>
-              <% if (edu.period) { %>
-                <div class="badge badge-primary"><%= edu.period %></div>
-              <% } %>
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
+            <%= edu.degree %>
+            <% if (edu.period) { %>
+              <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap"><%= edu.period %></div>
+            <% } %>
             </h2>
+
             <div class="text-base-content opacity-80">
               <p class="font-medium"><%= edu.institution %></p>
               <% if (edu.description) { %>
@@ -124,10 +125,10 @@
       <% site.data.cv.awards.forEach(function(award) { %>
         <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
           <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
               <%= award.title %>
               <% if (award.date) { %>
-                <div class="badge badge-primary"><%= award.date %></div>
+                <div class="badge badge-primary badge-xs lg:badge-md whitespace-nowrap"><%= award.date %></div>
               <% } %>
             </h2>
             <div class="text-base-content opacity-80">
@@ -144,23 +145,20 @@
 
   <!-- Languages -->
   <section class="mb-8" id="languages">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Languages</h2>
-    <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-6">
-      <div class="grid grid-cols-4 gap-6">
-        <% site.data.cv.languages.forEach(function(lang) { %>
-          <div class="flex justify-between items-center opacity-90 bg-base-200 rounded-md px-4 py-2 shadow-sm">
-            <span class="font-semibold"><%= lang.name %></span>
-            <span class="text-sm opacity-70"><%= lang.level %></span>
-          </div>
-        <% }); %>
-        <% 
-          const remainder = 4 - (site.data.cv.languages.length % 4);
-          if (remainder < 4) {
-            for (let i = 0; i < remainder; i++) { %>
-              <div></div>
-        <% } } %>
-      </div>
+  <h2 class="text-2xl font-bold mb-4 text-base-content">Languages</h2>
+  <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-6">
+    <div class="flex flex-wrap gap-3">
+      <% site.data.cv.languages.forEach(function(lang) { %>
+        <div class="px-4 py-4 bg-base-200 rounded-md shadow-sm text-sm flex items-center gap-2 whitespace-nowrap">
+          <span class="font-semibold"><%= lang.name %></span>
+          <span class="text-xs opacity-70">(<%= lang.level %>)</span>
+        </div>
+      <% }); %>
     </div>
-  </section>
+  </div>
+</section>
+
+
+
 
 </div>

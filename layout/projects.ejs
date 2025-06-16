@@ -101,14 +101,23 @@
           
 
           <% if (project.publications && project.publications.length) { %>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 max-w-full">
               <% project.publications.forEach(pub => { %>
-                <a href="<%= pub.link %>" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-info btn-outline">
+                <a 
+                  href="<%= pub.link %>" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="px-3 py-2 rounded-md text-sm max-w-sm break-words whitespace-normal text-left hover:bg-base-200 transition"
+                >
                   <i class="fas fa-file-alt mr-1"></i> <%= pub.title %>
                 </a>
               <% }); %>
             </div>
           <% } %>
+
+
+
+          
         </div>
       </div>
     <% }); %>

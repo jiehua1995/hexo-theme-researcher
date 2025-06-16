@@ -45,8 +45,12 @@
 
 <select class="select select-bordered w-full max-w-xs" data-choose-theme>
   <% themesToShow.forEach(themeItem => { %>
-    <option value="<%= themeItem.name %>" <%= themeItem.name === (theme.daisyui.default || 'cupcake') ? "selected" : "" %>>
+    <option 
+      value="<%= themeItem.name %>" 
+      <%= themeItem.name === theme.daisyui.default ? "selected" : "" %>
+    >
       <%= themeItem.icon %> <%= themeItem.name.charAt(0).toUpperCase() + themeItem.name.slice(1) %>
     </option>
   <% }) %>
 </select>
+
