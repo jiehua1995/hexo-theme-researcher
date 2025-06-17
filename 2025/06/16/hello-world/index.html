@@ -40,7 +40,7 @@
   <!-- Sidebar for Desktop -->
   <aside class="hidden lg:flex fixed left-0 top-0 h-screen w-80 bg-base-200 z-40 flex-col">
     <a href="/hexo-theme-researcher/" class="block no-underline hover:bg-base-100 transition rounded-box">
-  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer">
+  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer hidden lg:flex">
     <div class="avatar mb-4">
       <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
         <img
@@ -189,7 +189,7 @@
       <label for="my-drawer" class="drawer-overlay"></label>
       <aside class="w-80 bg-base-200 min-h-full">
         <a href="/hexo-theme-researcher/" class="block no-underline hover:bg-base-100 transition rounded-box">
-  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer">
+  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer hidden lg:flex">
     <div class="avatar mb-4">
       <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
         <img
@@ -274,9 +274,28 @@
   <div class="lg:ml-80 pt-20 px-4 py-8">
     <!-- About Section -->
 <div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 text-base-content">About Me</h2>
+
+  <!-- Avatar -->
+  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer lg:hidden">
+    <div class="avatar mb-4">
+      <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
+        <img
+  src="/hexo-theme-researcher/images/avatar.jpg"
+  alt="Profile"
+  class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
+/>
+      </div>
+    </div>
+    <h2 class="text-xl font-bold text-base-content">John Doe</h2>
+    <p class="text-base-content opacity-80">Talk is cheap, show me the code</p>
+  </div>
+
+
+
+
   <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content">
     <div class="card-body">
-      <h2 class="card-title text-3xl font-bold mb-4">About Me</h2>
       <div class="prose max-w-none">
         I am a researcher passionate about artificial intelligence and computational biology. My work focuses on leveraging machine learning to solve real-world problems. <br><br> Outside of research, I enjoy hiking, writing, and coffee brewing.
       </div>
@@ -371,7 +390,7 @@
 
   <!-- View All -->
   <div class="text-center mt-8">
-    <a href="/publications/" class="btn btn-primary glass">View All Publications</a>
+    <a href="/hexo-theme-researcher/publications" class="btn btn-primary glass">View All Publications</a>
   </div>
 </div>
 
@@ -448,7 +467,7 @@
     
   </div>
   <div class="text-center mt-8">
-    <a href="/projects/" class="btn btn-primary glass">View All Projects</a>
+    <a href="/hexo-theme-researcher/projects" class="btn btn-primary glass">View All Projects</a>
   </div>
 </div>
 
