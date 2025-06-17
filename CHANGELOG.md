@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.1] - 2025-06-16
 
 ### Changed
-- Improved mobile responsiveness and layout
+- Improved mobile responsiveness and layout. More avatar to main content in mobile view.
+- Improved desktop layout for better readability. Hide avatar in desktop view in main content. Show avatar in sidebar.
 - Enhanced CV page with:
   - Better section navigation
   - Improved card layouts
