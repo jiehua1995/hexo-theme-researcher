@@ -1,8 +1,27 @@
 <!-- About Section -->
 <div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 text-base-content">About Me</h2>
+
+  <!-- Avatar -->
+  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer lg:hidden">
+    <div class="avatar mb-4">
+      <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
+        <img
+  src="<%= url_for(theme.avatar) %>"
+  alt="Profile"
+  class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
+/>
+      </div>
+    </div>
+    <h2 class="text-xl font-bold text-base-content"><%= config.author %></h2>
+    <p class="text-base-content opacity-80"><%= config.subtitle %></p>
+  </div>
+
+
+
+
   <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content">
     <div class="card-body">
-      <h2 class="card-title text-3xl font-bold mb-4">About Me</h2>
       <div class="prose max-w-none">
         <%- theme.about %>
       </div>
@@ -61,7 +80,7 @@
 
   <!-- View All -->
   <div class="text-center mt-8">
-    <a href="/publications/" class="btn btn-primary glass">View All Publications</a>
+    <a href="<%= url_for('/publications') %>" class="btn btn-primary glass">View All Publications</a>
   </div>
 </div>
 
@@ -115,6 +134,6 @@
     <% }); %>
   </div>
   <div class="text-center mt-8">
-    <a href="/projects/" class="btn btn-primary glass">View All Projects</a>
+    <a href="<%= url_for('/projects') %>" class="btn btn-primary glass">View All Projects</a>
   </div>
 </div>
