@@ -198,7 +198,7 @@ If you find this theme useful, consider supporting the development by buying me 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://coff.ee/fdjiehuae)
 
 <a href="https://github.com/jiehua1995/hexo-theme-researcher?tab=readme-ov-file#buy-me-a-coffee">
-  <img src="./source/images/coffee.png" width="250" alt="QR Code"/>
+  <img src="./source/images/coffee.png" width="400" alt="QR Code"/>
 </a>
 
 Made with ❤️ for the academic community
