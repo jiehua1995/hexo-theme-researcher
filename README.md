@@ -187,8 +187,18 @@ This theme is released under the MIT License. See the [LICENSE](LICENSE) file fo
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/graphs/contributors)
+<a href="https://github.com/jiehua1995/hexo-theme-researcher/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jiehua1995/hexo-theme-researcher" />
+</a>
 
 ---
+## Buy me a coffee
+If you find this theme useful, consider supporting the development by buying me a coffee! ☕ You can scan the QR code below or click the button to support my work:
 
-Made with ❤️ for the academic community 
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://coff.ee/fdjiehuae)
+
+<a href="https://github.com/jiehua1995/hexo-theme-researcher?tab=readme-ov-file#buy-me-a-coffee">
+  <img src="./source/images/coffee.png" width="250" alt="QR Code"/>
+</a>
+
+Made with ❤️ for the academic community
