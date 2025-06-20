@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.2] - 2025-06-20
 
 ### Added
-- Add support for Altmetric badges in publications.
+- Add support for Altmetric and Dimensions badges in publications.
 - Add more themes options.
 
 ### Changed 
