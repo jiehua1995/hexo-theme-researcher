@@ -44,12 +44,14 @@
            data-year="<%= pub.year %>"
            data-category="<%= (pub.category || '').toLowerCase() %>">
         <div class="card-body">
-          <!-- Title + Type -->
-          <h2 class="card-title text-xl font-bold flex items-center gap-2">
+          <!-- Title + Type + Badges-->
+          <h2 class="card-title text-xl font-bold flex items-center gap-2 flex-wrap">
             <span class="title"><%= pub.title %></span>
             <% if (pub.type) { %>
               <div class="badge badge-primary"><%= pub.type %></div>
-            <% } %>
+            <% } %> 	
+            <div class='altmetric-embed' data-badge-type='donut' data-doi='<%= pub.doi %>' data-badge-popover="bottom" data-hide-no-mentions="true"></div>
+            <span class="__dimensions_badge_embed__" data-doi='<%= pub.doi %>' data-style="small_circle" data-hide-zero-citations="true"></span>
           </h2>
   
           <!-- Authors / Venue / Year -->

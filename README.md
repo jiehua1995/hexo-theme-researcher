@@ -1,5 +1,7 @@
 # Hexo Theme Researcher
 
+A modern, responsive, and professional academic portfolio theme for researchers, built with Tailwind CSS, and DaisyUI.
+
 [![License](https://img.shields.io/github/license/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/network/members)
@@ -7,8 +9,7 @@
 [![Last Commit](https://img.shields.io/github/last-commit/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/commits)
 [![Hexo Version](https://img.shields.io/badge/hexo-%3E%3D7.0.0-blue)](https://hexo.io/)
 
-
-A modern, responsive, and professional academic portfolio theme for researchers, built with Tailwind CSS, and DaisyUI.
+### If you find this project useful, a ⭐️ would be greatly appreciated!
 
 ![Theme Preview](./source/images/preview.png)
 
@@ -125,6 +126,7 @@ contact:
   email: your.email@example.com
   phone: "+49 123 456789"
   address: "Room 123, Department of Biology, LMU Munich"
+  google_map: "https://maps.app.goo.gl/xxxxxxxxxx"
   office_hours: "Mon–Fri 10:00–16:00"
 
 # DaisyUI Theme Configuration

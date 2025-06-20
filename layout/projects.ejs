@@ -48,7 +48,7 @@
         data-description="<%= (project.description || '').toLowerCase() %>"
       >
         <div class="card-body">
-          <h2 class="card-title text-xl font-bold flex items-center gap-3">
+          <h2 class="card-title text-xl font-bold flex items-center gap-3 flex-wrap">
             <%= project.title %>
             <% if (project.status) { 
               const statusClass = project.status === 'current' 
@@ -84,7 +84,7 @@
 
           
           <% if (project.collaborators && project.collaborators.length) { %>
-            <div class="mb-4 text-sm">
+            <div class="mb-4 text-sm flex-wrap">
               <span class="font-semibold">Collaborators: </span>
               <% project.collaborators.forEach((collab, idx) => { %>
                 <a 
@@ -101,7 +101,7 @@
           
 
           <% if (project.publications && project.publications.length) { %>
-            <div class="flex flex-wrap gap-2 max-w-full">
+            <div class="flex flex-wrap gap-2 max-w-full flex-wrap">
               <% project.publications.forEach(pub => { %>
                 <a 
                   href="<%= pub.link %>" 

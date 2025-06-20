@@ -22,7 +22,7 @@ menu:
 
 # CV Download
 cv:
-  download_link: 
+  download_link: https://www.nature.com/articles/d41586-025-01882-7.pdf # Optional: use a file in your repository but not an online link.
 
 about:
   I am a researcher passionate about artificial intelligence and computational biology.
@@ -40,16 +40,47 @@ academic_profiles:
 
 contact:
   email: your.email@example.com
-  phone: "+49 123 456789"
-  address: "Room 123, Department of Biology, LMU Munich"
+  phone: "+0 123 456789"
+  address: "Room 123, Department of Biology, University of Example, 12345 City, Country"
+  google_map: "https://maps.app.goo.gl/xxxxxxxxxxx"
   office_hours: "Mon–Fri 10:00–16:00"
 
 # daisyui themes
 daisyui:
-  default: cupcake
+  default: light
   enabled:
     - light
     - dark
     - cupcake
     - bumblebee
+    - emerald
+    - corporate
+    - synthwave
+    - retro
+    - cyberpunk
+    - valentine
+    - halloween
+    - garden
+    - forest
+    - aqua
+    - lofi
+    - pastel
+    - fantasy
     - wireframe
+    - black
+    - luxury
+    - dracula
+    - cmyk
+    - autumn
+    - business
+    - acid
+    - lemonade
+    - night
+    - coffee
+    - winter
+    - dim
+    - nord
+    - sunset
+    - caramellatte
+    - abyss
+    - silk

@@ -3,9 +3,9 @@
 
   <div class="grid gap-6 max-w-3xl mx-auto">
     <% if (theme.contact.email) { %>
-      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 text-center">
-        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-envelope mr-2 text-info"></i>Email</h2>
-        <a href="mailto:<%= theme.contact.email %>" class="link text-info block mt-2 text-lg font-medium no-underline">
+      <div class="card glass rounded-box shadow-lg hover:shadow-xl transition-all duration-300 p-4 text-center">
+        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-envelope mr-2"></i>Email</h2>
+        <a href="mailto:<%= theme.contact.email %>" class="link block mt-2 text-lg font-medium no-underline">
           <%= theme.contact.email %>
         </a>
       </div>
@@ -13,22 +13,33 @@
     
 
     <% if (theme.contact.phone) { %>
-      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 text-center">
-        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-phone-alt mr-2 text-info"></i>Phone</h2>
-        <a href="tel:<%= theme.contact.phone %>" class="link text-info block mt-2 text-lg font-medium no-underline"><%= theme.contact.phone %></a>
+      <div class="card glass rounded-box shadow-lg hover:shadow-xl transition-all duration-300 p-4 text-center">
+        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-phone-alt mr-2"></i>Phone</h2>
+        <a href="tel:<%= theme.contact.phone %>" class="link block mt-2 text-lg font-medium no-underline"><%= theme.contact.phone %></a>
       </div>
     <% } %>
 
+    <!-- Address -->
     <% if (theme.contact.address) { %>
-      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4">
-        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-map-marker-alt mr-2 text-info"></i>Office Location</h2>
+    <div class="card glass rounded-box shadow-lg hover:shadow-xl transition-all duration-300 p-4">
+      <h2 class="card-title text-lg font-semibold mb-1">
+        <i class="fas fa-map-marker-alt mr-2"></i>Office Location
+      </h2>
+
+      <% if (theme.contact.google_map) { %>
+        <a href="<%= theme.contact.google_map %>" target="_blank" class="link no-underline">
+          <%= theme.contact.address %>
+        </a>
+      <% } else { %>
         <p><%= theme.contact.address %></p>
-      </div>
+      <% } %>
+    </div>
     <% } %>
 
+    <!-- Office hours -->
     <% if (theme.contact.office_hours) { %>
-      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4">
-        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-clock mr-2 text-info"></i>Office Hours</h2>
+      <div class="card glass rounded-box shadow-lg hover:shadow-xl transition-all duration-300 p-4">
+        <h2 class="card-title text-lg font-semibold mb-1"><i class="fas fa-clock mr-2"></i>Office Hours</h2>
         <p><%= theme.contact.office_hours %></p>
       </div>
     <% } %>
