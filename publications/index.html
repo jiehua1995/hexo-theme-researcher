@@ -34,6 +34,12 @@
 
 <!-- Theme Change Script -->
 <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+
+<!-- Altmetric Badge -->
+<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+
+<!-- Dimensions Badge -->
+<script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 <meta name="generator" content="Hexo 7.3.0"></head>
 <body class="min-h-screen bg-base-200">
 
@@ -144,7 +150,7 @@
   
     <option 
       value="light" 
-      
+      selected
     >
       🌞 Light
     </option>
@@ -158,7 +164,7 @@
   
     <option 
       value="cupcake" 
-      selected
+      
     >
       🧁 Cupcake
     </option>
@@ -171,10 +177,220 @@
     </option>
   
     <option 
+      value="emerald" 
+      
+    >
+      💚 Emerald
+    </option>
+  
+    <option 
+      value="corporate" 
+      
+    >
+      🏢 Corporate
+    </option>
+  
+    <option 
+      value="synthwave" 
+      
+    >
+      🕹️ Synthwave
+    </option>
+  
+    <option 
+      value="retro" 
+      
+    >
+      🎞️ Retro
+    </option>
+  
+    <option 
+      value="cyberpunk" 
+      
+    >
+      🤖 Cyberpunk
+    </option>
+  
+    <option 
+      value="valentine" 
+      
+    >
+      ❤️ Valentine
+    </option>
+  
+    <option 
+      value="halloween" 
+      
+    >
+      🎃 Halloween
+    </option>
+  
+    <option 
+      value="garden" 
+      
+    >
+      🌻 Garden
+    </option>
+  
+    <option 
+      value="forest" 
+      
+    >
+      🌲 Forest
+    </option>
+  
+    <option 
+      value="aqua" 
+      
+    >
+      💧 Aqua
+    </option>
+  
+    <option 
+      value="lofi" 
+      
+    >
+      🎧 Lofi
+    </option>
+  
+    <option 
+      value="pastel" 
+      
+    >
+      🎨 Pastel
+    </option>
+  
+    <option 
+      value="fantasy" 
+      
+    >
+      🧚 Fantasy
+    </option>
+  
+    <option 
       value="wireframe" 
       
     >
       🖼️ Wireframe
+    </option>
+  
+    <option 
+      value="black" 
+      
+    >
+      ⚫ Black
+    </option>
+  
+    <option 
+      value="luxury" 
+      
+    >
+      💎 Luxury
+    </option>
+  
+    <option 
+      value="dracula" 
+      
+    >
+      🧛 Dracula
+    </option>
+  
+    <option 
+      value="cmyk" 
+      
+    >
+      🎨 Cmyk
+    </option>
+  
+    <option 
+      value="autumn" 
+      
+    >
+      🍂 Autumn
+    </option>
+  
+    <option 
+      value="business" 
+      
+    >
+      💼 Business
+    </option>
+  
+    <option 
+      value="acid" 
+      
+    >
+      🧪 Acid
+    </option>
+  
+    <option 
+      value="lemonade" 
+      
+    >
+      🍋 Lemonade
+    </option>
+  
+    <option 
+      value="night" 
+      
+    >
+      🌃 Night
+    </option>
+  
+    <option 
+      value="coffee" 
+      
+    >
+      ☕ Coffee
+    </option>
+  
+    <option 
+      value="winter" 
+      
+    >
+      ❄️ Winter
+    </option>
+  
+    <option 
+      value="dim" 
+      
+    >
+      💡 Dim
+    </option>
+  
+    <option 
+      value="nord" 
+      
+    >
+      ❄️ Nord
+    </option>
+  
+    <option 
+      value="sunset" 
+      
+    >
+      🌅 Sunset
+    </option>
+  
+    <option 
+      value="caramellatte" 
+      
+    >
+      🥛 Caramellatte
+    </option>
+  
+    <option 
+      value="abyss" 
+      
+    >
+      🌌 Abyss
+    </option>
+  
+    <option 
+      value="silk" 
+      
+    >
+      🧵 Silk
     </option>
   
 </select>
@@ -324,12 +540,14 @@
            data-year="2024"
            data-category="artificial intelligence">
         <div class="card-body">
-          <!-- Title + Type -->
-          <h2 class="card-title text-xl font-bold flex items-center gap-2">
+          <!-- Title + Type + Badges-->
+          <h2 class="card-title text-xl font-bold flex items-center gap-2 flex-wrap">
             <span class="title">AI-Driven Literature Synthesis</span>
             
               <div class="badge badge-primary">Journal</div>
-            
+             	
+            <div class='altmetric-embed' data-badge-type='donut' data-doi='10.1016/S0140-6736(11)61619-x' data-badge-popover="bottom" data-hide-no-mentions="true"></div>
+            <span class="__dimensions_badge_embed__" data-doi='10.1016/S0140-6736(11)61619-x' data-style="small_circle" data-hide-zero-citations="true"></span>
           </h2>
   
           <!-- Authors / Venue / Year -->
@@ -369,7 +587,7 @@
           <!-- Action Buttons -->
           <div class="card-actions justify-end mt-4 flex flex-wrap gap-2">
             
-              <a href="https://doi.org/10.1038/s42256-024-00001" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="DOI">
+              <a href="https://doi.org/10.1016/S0140-6736(11)61619-x" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="DOI">
                 <i class="ai ai-doi mr-1"></i>DOI
               </a>
             
@@ -396,12 +614,14 @@
            data-year="2023"
            data-category="computer vision">
         <div class="card-body">
-          <!-- Title + Type -->
-          <h2 class="card-title text-xl font-bold flex items-center gap-2">
+          <!-- Title + Type + Badges-->
+          <h2 class="card-title text-xl font-bold flex items-center gap-2 flex-wrap">
             <span class="title">Deep Learning for Pathology Image Segmentation</span>
             
               <div class="badge badge-primary">Conference</div>
-            
+             	
+            <div class='altmetric-embed' data-badge-type='donut' data-doi='10.1038/nature.2012.9872' data-badge-popover="bottom" data-hide-no-mentions="true"></div>
+            <span class="__dimensions_badge_embed__" data-doi='10.1038/nature.2012.9872' data-style="small_circle" data-hide-zero-citations="true"></span>
           </h2>
   
           <!-- Authors / Venue / Year -->
@@ -441,7 +661,7 @@
           <!-- Action Buttons -->
           <div class="card-actions justify-end mt-4 flex flex-wrap gap-2">
             
-              <a href="https://doi.org/10.1109/CVPR52688.2023.01234" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="DOI">
+              <a href="https://doi.org/10.1038/nature.2012.9872" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer" title="DOI">
                 <i class="ai ai-doi mr-1"></i>DOI
               </a>
             
@@ -468,12 +688,14 @@
            data-year="2022"
            data-category="natural language processing">
         <div class="card-body">
-          <!-- Title + Type -->
-          <h2 class="card-title text-xl font-bold flex items-center gap-2">
+          <!-- Title + Type + Badges-->
+          <h2 class="card-title text-xl font-bold flex items-center gap-2 flex-wrap">
             <span class="title">An Open Toolkit for Natural Language Processing</span>
             
               <div class="badge badge-primary">Workshop</div>
-            
+             	
+            <div class='altmetric-embed' data-badge-type='donut' data-doi='10.18653/v1/2022.nlposs-1.10' data-badge-popover="bottom" data-hide-no-mentions="true"></div>
+            <span class="__dimensions_badge_embed__" data-doi='10.18653/v1/2022.nlposs-1.10' data-style="small_circle" data-hide-zero-citations="true"></span>
           </h2>
   
           <!-- Authors / Venue / Year -->
@@ -540,12 +762,14 @@
            data-year="2021"
            data-category="robotics">
         <div class="card-body">
-          <!-- Title + Type -->
-          <h2 class="card-title text-xl font-bold flex items-center gap-2">
+          <!-- Title + Type + Badges-->
+          <h2 class="card-title text-xl font-bold flex items-center gap-2 flex-wrap">
             <span class="title">Reinforcement Learning for Adaptive Robot Control</span>
             
               <div class="badge badge-primary">Journal</div>
-            
+             	
+            <div class='altmetric-embed' data-badge-type='donut' data-doi='10.1109/TRO.2021.3056789' data-badge-popover="bottom" data-hide-no-mentions="true"></div>
+            <span class="__dimensions_badge_embed__" data-doi='10.1109/TRO.2021.3056789' data-style="small_circle" data-hide-zero-citations="true"></span>
           </h2>
   
           <!-- Authors / Venue / Year -->
@@ -665,7 +889,7 @@
   
     <option 
       value="light" 
-      
+      selected
     >
       🌞 Light
     </option>
@@ -679,7 +903,7 @@
   
     <option 
       value="cupcake" 
-      selected
+      
     >
       🧁 Cupcake
     </option>
@@ -692,10 +916,220 @@
     </option>
   
     <option 
+      value="emerald" 
+      
+    >
+      💚 Emerald
+    </option>
+  
+    <option 
+      value="corporate" 
+      
+    >
+      🏢 Corporate
+    </option>
+  
+    <option 
+      value="synthwave" 
+      
+    >
+      🕹️ Synthwave
+    </option>
+  
+    <option 
+      value="retro" 
+      
+    >
+      🎞️ Retro
+    </option>
+  
+    <option 
+      value="cyberpunk" 
+      
+    >
+      🤖 Cyberpunk
+    </option>
+  
+    <option 
+      value="valentine" 
+      
+    >
+      ❤️ Valentine
+    </option>
+  
+    <option 
+      value="halloween" 
+      
+    >
+      🎃 Halloween
+    </option>
+  
+    <option 
+      value="garden" 
+      
+    >
+      🌻 Garden
+    </option>
+  
+    <option 
+      value="forest" 
+      
+    >
+      🌲 Forest
+    </option>
+  
+    <option 
+      value="aqua" 
+      
+    >
+      💧 Aqua
+    </option>
+  
+    <option 
+      value="lofi" 
+      
+    >
+      🎧 Lofi
+    </option>
+  
+    <option 
+      value="pastel" 
+      
+    >
+      🎨 Pastel
+    </option>
+  
+    <option 
+      value="fantasy" 
+      
+    >
+      🧚 Fantasy
+    </option>
+  
+    <option 
       value="wireframe" 
       
     >
       🖼️ Wireframe
+    </option>
+  
+    <option 
+      value="black" 
+      
+    >
+      ⚫ Black
+    </option>
+  
+    <option 
+      value="luxury" 
+      
+    >
+      💎 Luxury
+    </option>
+  
+    <option 
+      value="dracula" 
+      
+    >
+      🧛 Dracula
+    </option>
+  
+    <option 
+      value="cmyk" 
+      
+    >
+      🎨 Cmyk
+    </option>
+  
+    <option 
+      value="autumn" 
+      
+    >
+      🍂 Autumn
+    </option>
+  
+    <option 
+      value="business" 
+      
+    >
+      💼 Business
+    </option>
+  
+    <option 
+      value="acid" 
+      
+    >
+      🧪 Acid
+    </option>
+  
+    <option 
+      value="lemonade" 
+      
+    >
+      🍋 Lemonade
+    </option>
+  
+    <option 
+      value="night" 
+      
+    >
+      🌃 Night
+    </option>
+  
+    <option 
+      value="coffee" 
+      
+    >
+      ☕ Coffee
+    </option>
+  
+    <option 
+      value="winter" 
+      
+    >
+      ❄️ Winter
+    </option>
+  
+    <option 
+      value="dim" 
+      
+    >
+      💡 Dim
+    </option>
+  
+    <option 
+      value="nord" 
+      
+    >
+      ❄️ Nord
+    </option>
+  
+    <option 
+      value="sunset" 
+      
+    >
+      🌅 Sunset
+    </option>
+  
+    <option 
+      value="caramellatte" 
+      
+    >
+      🥛 Caramellatte
+    </option>
+  
+    <option 
+      value="abyss" 
+      
+    >
+      🌌 Abyss
+    </option>
+  
+    <option 
+      value="silk" 
+      
+    >
+      🧵 Silk
     </option>
   
 </select>
