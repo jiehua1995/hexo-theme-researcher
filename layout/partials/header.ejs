@@ -37,3 +37,20 @@
 
 <!-- Dimensions Badge -->
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+
+<!-- Google Adsense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= theme.google_adsense %>" crossorigin="anonymous"></script>
+
+<!-- Umami -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="<%= theme.umami_id %>"></script>
+
+<!-- Baidu Tongji -->
+ <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?<%= theme.baidu_tongji %>";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>

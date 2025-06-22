@@ -24,6 +24,7 @@ menu:
 cv:
   download_link: https://www.nature.com/articles/d41586-025-01882-7.pdf # Optional: use a file in your repository but not an online link.
 
+# About
 about:
   I am a researcher passionate about artificial intelligence and computational biology.
   My work focuses on leveraging machine learning to solve real-world problems.
@@ -38,12 +39,21 @@ academic_profiles:
   github: https://github.com/YOUR_ID
   linkedin: https://linkedin.com/in/YOUR_ID
 
+# Contact
 contact:
   email: your.email@example.com
   phone: "+0 123 456789"
   address: "Room 123, Department of Biology, University of Example, 12345 City, Country"
   google_map: "https://maps.app.goo.gl/xxxxxxxxxxx"
   office_hours: "Mon–Fri 10:00–16:00"
+
+# Push/Ab
+# Google adsense
+google_adsense: your_google_adsense_id
+# Umami
+umami_id: your_umami_id
+# Baidu_tongji
+baidu_tongji: your_baidu_tongji_id
 
 # daisyui themes
 daisyui:
