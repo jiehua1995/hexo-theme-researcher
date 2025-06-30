@@ -15,6 +15,7 @@ A modern, responsive, and professional academic portfolio theme for researchers,
 ### If you find this project useful, a ⭐️ would be greatly appreciated!
 
 ![Theme Preview](./source/images/preview.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjiehua1995%2Fhexo-theme-researcher.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjiehua1995%2Fhexo-theme-researcher?ref=badge_shield)
 
 ## Design Philosophy
 
@@ -179,6 +180,9 @@ Create the following data files in your site's `source/_data` directory. You can
 ## License
 
 This theme is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjiehua1995%2Fhexo-theme-researcher.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjiehua1995%2Fhexo-theme-researcher?ref=badge_large)
 
 ## Credits
 
