@@ -9,8 +9,7 @@ A modern, responsive, and professional academic portfolio theme for researchers,
 [![Last Commit](https://img.shields.io/github/last-commit/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/commits)
 [![Hexo Version](https://img.shields.io/badge/hexo-%3E%3D7.0.0-blue)](https://hexo.io/)
 [![Demo](https://img.shields.io/badge/Demo-Online-blue?logo=hexo)](https://hexo-theme-researcher.jiehua1995.xyz/)
-
-Read more about this project in DeepWiki: [https://deepwiki.com/jiehua1995/hexo-theme-researcher](https://deepwiki.com/jiehua1995/hexo-theme-researcher)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/jiehua1995/hexo-theme-researcher)
 
 
 ### If you find this project useful, a ⭐️ would be greatly appreciated!
