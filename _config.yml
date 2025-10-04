@@ -1,28 +1,47 @@
-# Theme Configuration
+# Theme Configuration for Hexo Researcher Theme
+
+# Basic Information
 avatar: /images/avatar.jpg
 favicon: /images/favicon.ico
 
 # Menu Configuration
+# Add or remove menu items as needed
 menu:
   - name: Publications
     url: /publications/
-    icon: ai ai-google-scholar
+    icon: fa-solid fa-newspaper
   - name: Projects
     url: /projects/
-    icon: fas fa-project-diagram
+    icon: fa-solid fa-project-diagram
   - name: CV
     url: /cv/
-    icon: fas fa-id-card
+    icon: fa-solid fa-id-card
   - name: Talks
     url: /talks/
-    icon: fas fa-microphone
+    icon: fa-solid fa-microphone
+  - name: Notes
+    url: /notes/
+    icon: fa-solid fa-sticky-note
   - name: Contact
     url: /contact/
-    icon: fas fa-envelope
+    icon: fa-solid fa-envelope
 
 # CV Download
+# Provide a link to download your CV or put the pdf file in the 'source/files' folder of your Hexo site and use a relative path.
 cv:
-  download_link: https://www.nature.com/articles/d41586-025-01882-7.pdf # Optional: use a file in your repository but not an online link.
+  #download_link: https://www.nature.com/articles/d41586-025-01882-7.pdf 
+  # or
+  download_link: /files/cv-template.pdf
+
+# CV Sections Configuration
+# Set to false to hide any section
+cv_sections:
+  education: true
+  experience: true
+  skills: true
+  awards: true
+  languages: true
+  teaching: true
 
 # About
 about:
@@ -38,6 +57,7 @@ academic_profiles:
   researchgate: https://www.researchgate.net/profile/YOUR_ID
   github: https://github.com/YOUR_ID
   linkedin: https://linkedin.com/in/YOUR_ID
+  twitter: https://twitter.com/YOUR_ID
 
 # Contact
 contact:

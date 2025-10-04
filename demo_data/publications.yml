@@ -6,7 +6,7 @@
   abstract: "We propose an AI-driven framework for automating literature reviews using knowledge graphs and language models."
   venue: "Nature Machine Intelligence"
   year: 2024
-  doi: "10.1016/j.molp.2017.12.003"
+  doi: "10.1001/jama.2016.9797"
   pdf: "https://example.com/papers/ai-synthesis.pdf"
   code: "https://github.com/example/ai-synthesis"
   website: "https://ai-synthesis.org"
@@ -20,7 +20,7 @@
   abstract: "We introduce a new U-Net variant that significantly improves segmentation performance on histopathology datasets."
   venue: "CVPR"
   year: 2023
-  doi: "10.1001/jama.2016.9797"
+  doi: "10.1016/j.molp.2017.12.003"
   pdf: "https://example.com/papers/pathology-segmentation.pdf"
   code: "https://github.com/example/med-seg-net"
   website: "https://med-seg.org"

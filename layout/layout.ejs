@@ -6,8 +6,10 @@
 <body class="min-h-screen bg-base-200">
 
   <!-- Sidebar for Desktop -->
-  <aside class="hidden lg:flex fixed left-0 top-0 h-screen w-80 bg-base-200 z-40 flex-col">
-    <%- partial('partials/sidebar') %>
+  <aside class="hidden lg:flex fixed left-0 top-0 h-screen w-80 bg-base-200 z-40 flex-col overflow-y-auto">
+    <div class="relative h-full">
+      <%- partial('partials/sidebar') %>
+    </div>
   </aside>
 
   <!-- Drawer for Mobile -->
@@ -37,8 +39,10 @@
     <!-- Sidebar drawer panel for mobile -->
     <div class="drawer-side z-60">
       <label for="my-drawer" class="drawer-overlay"></label>
-      <aside class="w-80 bg-base-200 min-h-full">
-        <%- partial('partials/sidebar') %>
+      <aside class="w-80 bg-base-200 min-h-full overflow-y-auto">
+        <div class="relative h-full">
+          <%- partial('partials/sidebar') %>
+        </div>
       </aside>
     </div>
   </div>
@@ -67,6 +71,56 @@
 
   <!-- back to top -->
   <%- partial('partials/back_to_top') %>
+
+  <!-- MathJax for mathematical formulas -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: 'tex2jax_ignore',
+        processHtmlClass: 'tex2jax_process'
+      },
+      startup: {
+        ready: () => {
+          MathJax.startup.defaultReady();
+        },
+        pageReady: () => {
+          MathJax.startup.defaultPageReady().then(() => {
+            // Clean up $$ delimiters after rendering
+            setTimeout(() => {
+              const walker = document.createTreeWalker(
+                document.querySelector('.post-content') || document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+              );
+              
+              let textNode;
+              const nodesToUpdate = [];
+              
+              while (textNode = walker.nextNode()) {
+                if (textNode.nodeValue.includes('$$') && 
+                    textNode.parentNode.querySelector('mjx-container[display="true"]')) {
+                  nodesToUpdate.push(textNode);
+                }
+              }
+              
+              nodesToUpdate.forEach(node => {
+                node.nodeValue = node.nodeValue.replace(/\$\$/g, '');
+              });
+            }, 100);
+          });
+        }
+      }
+    };
+  </script>
+
 
 </body>
 </html>

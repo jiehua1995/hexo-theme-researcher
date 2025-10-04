@@ -71,3 +71,82 @@
       link: "https://jmb.org/articles/deep-learning-protein"
   website: "https://proteinpredictor.org"
   featured: disable
+
+- title: "Multimodal AI for Medical Imaging"
+  status: "current"
+  period: "2024 - Present"
+  category: "Medical AI"
+  description: "Developing AI systems that can analyze medical images alongside patient data for improved diagnosis accuracy."
+  tags: ["Medical Imaging", "Multimodal AI", "Healthcare", "Computer Vision"]
+  collaborators:
+    - name: "Dr. Maria Rodriguez"
+      role: "Clinical Lead"
+      link: "https://hospital.edu/maria-rodriguez"
+    - name: "Dr. James Wilson"
+      role: "AI Researcher"
+      link: "https://university.edu/james-wilson"
+    - name: "Lisa Park"
+      role: "PhD Student"
+      link: "https://university.edu/lisa-park"
+  publications:
+    - title: "Rodriguez et al. (2024), Multimodal Medical AI, Nature Medicine"
+      link: "https://nature.com/articles/multimodal-medical-ai"
+  website: "https://medai.stanford.edu"
+  github: "https://github.com/stanford-medai/multimodal-diagnosis"
+  featured: enable
+
+- title: "Climate Change Prediction Models"
+  status: "current"
+  period: "2023 - Present"
+  category: "Climate Science"
+  description: "Using machine learning to improve climate change predictions and understand environmental impacts."
+  tags: ["Climate Science", "Environmental AI", "Predictive Modeling", "Sustainability"]
+  collaborators:
+    - name: "Dr. Robert Green"
+      role: "Climate Scientist"
+      link: "https://climatelab.edu/robert-green"
+    - name: "Dr. Anna Thompson"
+      role: "Data Scientist"
+      link: "https://university.edu/anna-thompson"
+  publications:
+    - title: "Green et al. (2024), AI for Climate Prediction, Nature Climate Change"
+      link: "https://nature.com/articles/ai-climate-prediction"
+  website: "https://climate-ai.org"
+  featured: enable
+
+- title: "Educational AI Platform"
+  status: "completed"
+  period: "2021 - 2023"
+  category: "Educational Technology"
+  description: "An adaptive learning platform that personalizes educational content based on student performance and learning styles."
+  tags: ["EdTech", "Personalized Learning", "AI in Education", "Learning Analytics"]
+  collaborators:
+    - name: "Dr. Patricia Lee"
+      role: "Education Researcher"
+      link: "https://education.edu/patricia-lee"
+    - name: "Michael Chang"
+      role: "Software Engineer"
+      link: "https://linkedin.com/in/michael-chang"
+  publications:
+    - title: "Lee et al. (2023), Adaptive Learning Systems, Computers & Education"
+      link: "https://sciencedirect.com/adaptive-learning-systems"
+  website: "https://eduai-platform.com"
+  github: "https://github.com/eduai/adaptive-platform"
+  featured: disable
+
+- title: "Autonomous Vehicle Safety System"
+  status: "completed"
+  period: "2020 - 2022"
+  category: "Autonomous Systems"
+  description: "Developing safety-critical AI systems for autonomous vehicles with focus on edge case detection and handling."
+  tags: ["Autonomous Vehicles", "Safety Systems", "Computer Vision", "Edge Cases"]
+  collaborators:
+    - name: "Dr. David Kim"
+      role: "Robotics Expert"
+      link: "https://robotics.edu/david-kim"
+    - name: "Tesla Research Team"
+      role: "Industry Partner"
+  publications:
+    - title: "Kim et al. (2022), Safety in Autonomous Systems, IEEE Transactions on Robotics"
+      link: "https://ieee.org/safety-autonomous-systems"
+  featured: disable

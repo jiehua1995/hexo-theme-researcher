@@ -1,6 +1,6 @@
 {
   "name": "hexo-theme-researcher",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A professional academic theme for researchers",
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i ./source/css/tailwind.css -o ./source/css/style.css --minify",
@@ -22,7 +22,6 @@
   "bugs": {
     "url": "https://github.com/jiehua1995/hexo-theme-researcher/issues"
   },
-  "dependencies": {},
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.10",
     "daisyui": "^5.0.43",

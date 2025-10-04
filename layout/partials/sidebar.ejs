@@ -19,8 +19,8 @@
 <nav class="p-4 space-y-2 flex-grow">
   <% if (theme.menu && Array.isArray(theme.menu)) { %>
     <% theme.menu.forEach(function(item) { %>
-      <a href="<%= url_for(item.url) %>" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary flex items-center">
-        <i class="<%= item.icon %> mr-2"></i>
+      <a href="<%= url_for(item.url) %>" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary hover:bg-primary/10 transition-all duration-200 flex items-center group">
+        <i class="<%= item.icon %> mr-3 text-lg group-hover:scale-110 transition-transform"></i>
         <%= item.name %>
       </a>
     <% }); %>
@@ -28,35 +28,37 @@
 </nav>
 
 
-<div class="p-4 border-t border-base-300 flex justify-center space-x-4">
-  <% if (theme.academic_profiles.google_scholar) { %>
-    <a href="<%= theme.academic_profiles.google_scholar %>" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
-      <i class="ai ai-google-scholar text-2xl"></i>
-    </a>
-  <% } %>
-  <% if (theme.academic_profiles.orcid) { %>
-    <a href="<%= theme.academic_profiles.orcid %>" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
-      <i class="ai ai-orcid text-2xl"></i>
-    </a>
-  <% } %>
-  <% if (theme.academic_profiles.researchgate) { %>
-    <a href="<%= theme.academic_profiles.researchgate %>" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
-      <i class="ai ai-researchgate text-2xl"></i>
-    </a>
-  <% } %>
-  <% if (theme.academic_profiles.github) { %>
-    <a href="<%= theme.academic_profiles.github %>" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
-      <i class="fab fa-github text-2xl"></i>
-    </a>
-  <% } %>
-  <% if (theme.academic_profiles.linkedin) { %>
-    <a href="<%= theme.academic_profiles.linkedin %>" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
-      <i class="fab fa-linkedin text-2xl"></i>
-    </a>
-  <% } %>
-  <% if (theme.academic_profiles.twitter) { %>
-    <a href="<%= theme.academic_profiles.twitter %>" class="text-base-content hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
-      <i class="fab fa-twitter text-2xl"></i>
-    </a>
-  <% } %>
+<div class="p-4 border-t border-base-300">
+  <div class="flex justify-center items-center gap-4">
+    <% if (theme.academic_profiles.google_scholar) { %>
+      <a href="<%= theme.academic_profiles.google_scholar %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="Google Scholar">
+        <i class="fa-brands fa-google-scholar text-2xl block"></i>
+      </a>
+    <% } %>
+    <% if (theme.academic_profiles.orcid) { %>
+      <a href="<%= theme.academic_profiles.orcid %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="ORCID">
+        <i class="fa-brands fa-orcid text-2xl block"></i>
+      </a>
+    <% } %>
+    <% if (theme.academic_profiles.researchgate) { %>
+      <a href="<%= theme.academic_profiles.researchgate %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="ResearchGate">
+        <i class="fa-brands fa-researchgate text-2xl block"></i>
+      </a>
+    <% } %>
+    <% if (theme.academic_profiles.github) { %>
+      <a href="<%= theme.academic_profiles.github %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="GitHub">
+        <i class="fa-brands fa-github text-2xl block"></i>
+      </a>
+    <% } %>
+    <% if (theme.academic_profiles.linkedin) { %>
+      <a href="<%= theme.academic_profiles.linkedin %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+        <i class="fa-brands fa-linkedin text-2xl block"></i>
+      </a>
+    <% } %>
+    <% if (theme.academic_profiles.twitter) { %>
+      <a href="<%= theme.academic_profiles.twitter %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="Twitter">
+        <i class="fa-brands fa-twitter text-2xl block"></i>
+      </a>
+    <% } %>
+  </div>
 </div>

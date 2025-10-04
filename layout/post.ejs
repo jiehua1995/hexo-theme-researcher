@@ -1,0 +1,530 @@
+<!-- Post Layout -->
+<div class="container mx-auto px-4 py-8">
+
+    <!-- Main Article -->
+    <article class="card bg-base-100 shadow-xl">
+      <div class="card-body p-8">
+        <!-- Article Header -->
+        <header class="mb-8 border-b border-base-300 pb-6">
+          <h1 class="text-2xl font-bold mb-4 text-base-content leading-tight">
+            <%= page.title %>
+          </h1>
+          
+          <!-- Meta Information -->
+          <div class="flex flex-wrap items-center gap-4 text-sm opacity-75 mb-4">
+            <div class="flex items-center gap-1">
+              <i class="fa-solid fa-calendar"></i>
+              <time datetime="<%= page.date.format('YYYY-MM-DD') %>">
+                <%= page.date.format('MMMM DD, YYYY') %>
+              </time>
+            </div>
+            
+            <div class="flex items-center gap-1">
+              <i class="fa-solid fa-clock"></i>
+              <span><%= Math.ceil(strip_html(page.content).length / 250) %> min read</span>
+            </div>
+          </div>
+
+          <!-- Categories and Tags -->
+          <div class="flex flex-wrap gap-2">
+            <% if (page.categories && page.categories.length > 0) { %>
+              <% page.categories.forEach(function(category) { %>
+                <a href="<%= url_for('/notes/') %>?category=<%= encodeURIComponent(category.name) %>" class="badge badge-primary hover:badge-primary-focus transition-colors">
+                  <%= category.name %>
+                </a>
+              <% }); %>
+            <% } %>
+            
+            <% if (page.tags && page.tags.length > 0) { %>
+              <% page.tags.forEach(function(tag) { %>
+                <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="badge badge-outline hover:badge-primary transition-colors">
+                  #<%= tag.name %>
+                </a>
+              <% }); %>
+            <% } %>
+          </div>
+        </header>
+
+        <!-- Article Content -->
+        <div class="post-content">
+          <!-- Enhanced Prose Styles -->
+          <style>
+            .post-content {
+              line-height: 1.7;
+              font-size: 1.1rem;
+            }
+            
+            .post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
+              color: hsl(var(--bc));
+              font-weight: 700;
+              margin-top: 2rem;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            }
+            
+            .post-content h1 { font-size: 1.5rem; }
+            .post-content h2 { font-size: 1.25rem; }
+            .post-content h3 { font-size: 1.125rem; }
+            .post-content h4 { font-size: 1rem; }
+            .post-content h5 { font-size: 0.875rem; }
+            .post-content h6 { font-size: 0.8rem; }
+            
+            .post-content p {
+              color: hsl(var(--bc));
+              margin-bottom: 1.5rem;
+            }
+            
+            .post-content strong, .post-content b {
+              color: hsl(var(--bc));
+              font-weight: 600;
+            }
+            
+            .post-content em, .post-content i {
+              font-style: italic;
+            }
+            
+            /* Code blocks styling */
+            .post-content .mockup-code {
+              margin: 1.5rem 0;
+            }
+            
+            .post-content .mockup-code pre {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+            }
+            
+            .post-content .mockup-code code {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+            }
+            
+            /* Hide original highlight containers */
+            .post-content .highlight {
+              display: none;
+            }
+            
+            /* Style for transformed code blocks */
+            .post-content pre:not(.mockup-code pre) {
+              background-color: hsl(var(--b2));
+              padding: 1rem;
+              border-radius: 0.5rem;
+              overflow-x: auto;
+              margin: 1.5rem 0;
+            }
+            
+            /* Inline code styling */
+            .post-content code {
+              background-color: hsl(var(--n) / 0.08);
+              color: hsl(var(--bc));
+              padding: 0.2rem 0.4rem;
+              border-radius: 0.25rem;
+              font-size: 0.875rem;
+              border: 1px solid hsl(var(--b3));
+            }
+            
+            /* Reset code styling inside mockup-code */
+            .post-content .mockup-code code {
+              background: none;
+              border: none;
+              padding: 0;
+              font-size: inherit;
+            }
+            
+            .post-content blockquote {
+              border: 2px solid hsl(var(--b3));
+              border-left: 4px solid hsl(var(--p));
+              background-color: hsl(var(--n) / 0.03);
+              padding: 1rem 1.5rem;
+              margin: 1.5rem 0;
+              font-style: italic;
+              color: hsl(var(--bc));
+              border-radius: 0.5rem;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .post-content ul, .post-content ol {
+              margin: 1.5rem 0;
+              padding-left: 2rem;
+            }
+            
+            .post-content li {
+              color: hsl(var(--bc));
+              margin-bottom: 0.5rem;
+            }
+            
+            .post-content ul {
+              list-style-type: disc;
+            }
+            
+            .post-content ol {
+              list-style-type: decimal;
+            }
+            
+            .post-content a {
+              color: hsl(var(--p));
+              text-decoration: underline;
+              text-decoration-thickness: 1px;
+              text-underline-offset: 2px;
+              transition: all 0.2s ease;
+            }
+            
+            .post-content a:hover {
+              color: hsl(var(--pf));
+              text-decoration-thickness: 2px;
+            }
+            
+            .post-content table {
+              width: 100%;
+              margin: 1.5rem 0;
+              border-collapse: collapse;
+              border-radius: 0.5rem;
+              overflow: hidden;
+              border: 2px solid hsl(var(--b3));
+              border-left: 4px solid hsl(var(--p));
+              background-color: hsl(var(--b2) / 0.3);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .post-content th {
+              background-color: hsl(var(--b2));
+              font-weight: 600;
+              padding: 0.75rem 1rem;
+              text-align: left;
+              color: hsl(var(--bc));
+              border-bottom: 1px solid hsl(var(--bc));
+              border-right: 1px solid hsl(var(--bc));
+            }
+            
+            .post-content th:last-child {
+              border-right: none;
+            }
+            
+            .post-content td {
+              padding: 0.75rem 1rem;
+              color: hsl(var(--bc));
+              border-bottom: 1px solid hsl(var(--bc));
+              border-right: 1px solid hsl(var(--bc));
+            }
+            
+            .post-content td:last-child {
+              border-right: none;
+            }
+            
+            .post-content tbody tr:nth-child(even) {
+              background-color: hsl(var(--b2) / 0.5);
+            }
+            
+            .post-content tbody tr:hover {
+              background-color: hsl(var(--b2));
+            }
+            
+            .post-content tbody tr:last-child td {
+              border-bottom: none;
+            }
+            
+            .post-content img {
+              max-width: 100%;
+              height: auto;
+              border-radius: 0.5rem;
+              margin: 1.5rem 0;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            
+            .post-content hr {
+              border: none;
+              height: 1px;
+              background-color: hsl(var(--b3));
+              margin: 2rem 0;
+            }
+            
+            /* Math formulas styling */
+            .post-content .MathJax {
+              font-size: 1.1em !important;
+            }
+            
+            .post-content mjx-container {
+              margin: 0.5rem 0;
+            }
+            
+            .post-content mjx-container[display="true"] {
+              margin: 1.5rem 0;
+              text-align: center;
+            }
+            
+            /* Better handling of display math containers */
+            .post-content p:has(mjx-container[display="true"]) {
+              text-align: center;
+              line-height: 1;
+            }
+            
+            /* Hide standalone $$ text nodes */
+            .post-content p {
+              word-spacing: normal;
+            }
+            
+            /* Fix for inline code in headings */
+            .post-content h1 code, .post-content h2 code, .post-content h3 code, 
+            .post-content h4 code, .post-content h5 code, .post-content h6 code {
+              font-size: 0.85em;
+              background-color: hsl(var(--b2));
+              padding: 0.2rem 0.4rem;
+            }
+          </style>
+          
+          <%- page.content %>
+        </div>
+
+        <!-- Tags Footer -->
+        <% if (page.tags && page.tags.length > 0) { %>
+          <footer class="mt-8 pt-6 border-t border-base-300">
+            <div class="flex flex-wrap gap-2 items-center">
+              <span class="text-sm font-medium opacity-70">Tags:</span>
+              <% page.tags.forEach(function(tag) { %>
+                <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="badge badge-ghost hover:badge-primary transition-colors">
+                  #<%= tag.name %>
+                </a>
+              <% }); %>
+            </div>
+          </footer>
+        <% } %>
+      </div>
+    </article>
+
+    <!-- Post Footer -->
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Share Section -->
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body p-6">
+          <h3 class="card-title mb-4">Share this post</h3>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(page.title) %>&url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
+               target="_blank" rel="noopener" class="btn btn-sm btn-primary">
+              <i class="fa-brands fa-twitter"></i>
+              X (Twitter)
+            </a>
+            
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
+               target="_blank" rel="noopener" class="btn btn-sm btn-info">
+              <i class="fa-brands fa-linkedin"></i>
+              LinkedIn
+            </a>
+            
+            <button onclick="copyToClipboard()" class="btn btn-sm btn-outline">
+              <i class="fa-solid fa-copy"></i>
+              Copy Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Section -->
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body p-6">
+          <h3 class="card-title mb-4">Navigation</h3>
+          <div class="space-y-3">
+            <a href="<%= url_for('/notes/') %>" class="btn btn-sm btn btn-outline w-full justify-start">
+              <i class="fa-solid fa-folder-tree"></i>
+              All Notes
+            </a>
+            
+            <% if (page.categories && page.categories.length > 0) { %>
+              <a href="<%= url_for('/notes/') %>?category=<%= page.categories.toArray()[0].name %>" class="btn btn-sm btn btn-outline w-full justify-start">
+                <i class="fa-solid fa-layer-group"></i>
+                <%= page.categories.toArray()[0].name %> Posts
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Previous/Next Navigation -->
+    <% if (page.prev || page.next) { %>
+      <nav class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <% if (page.prev) { %>
+          <a href="<%= url_for(page.prev.path) %>" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div class="card-body p-6">
+              <div class="flex items-center gap-4">
+                <i class="fa-solid fa-left-long"></i>
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs opacity-60 mb-1">Previous Post</div>
+                  <div class="font-semibold truncate"><%= page.prev.title %></div>
+                </div>
+              </div>
+            </div>
+          </a>
+        <% } else { %>
+          <div></div>
+        <% } %>
+        
+        <% if (page.next) { %>
+          <a href="<%= url_for(page.next.path) %>" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div class="card-body p-6">
+              <div class="flex items-center gap-4">
+                <div class="flex-1 min-w-0 text-right">
+                  <div class="text-xs opacity-60 mb-1">Next Post</div>
+                  <div class="font-semibold truncate"><%= page.next.title %></div>
+                </div>
+                <i class="fa-solid fa-right-long"></i>
+              </div>
+            </div>
+          </a>
+        <% } %>
+      </nav>
+    <% } %>
+</div>
+
+<script>
+// Initialize post content when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Transform Hexo highlight.js code blocks to mockup-code style
+  const highlightFigures = document.querySelectorAll('.post-content figure.highlight');
+  
+  highlightFigures.forEach(function(figure) {
+    // Extract all code lines from the table structure
+    const codeLines = [];
+    const lineSpans = figure.querySelectorAll('td.code .line');
+    
+    lineSpans.forEach(function(lineSpan) {
+      // Get the text content of each line, preserving spaces
+      let lineText = '';
+      
+      // Process all child nodes to preserve text and spaces
+      for (let node of lineSpan.childNodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          lineText += node.textContent;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          lineText += node.textContent;
+        }
+      }
+      
+      codeLines.push(lineText);
+    });
+    
+    // If we couldn't get lines from the table, try alternative method
+    if (codeLines.length === 0) {
+      const codeContent = figure.querySelector('td.code');
+      if (codeContent) {
+        const text = codeContent.textContent || codeContent.innerText;
+        codeLines.push(...text.split('\n').filter(line => line.trim() !== ''));
+      }
+    }
+    
+    if (codeLines.length === 0) return; // Skip if no content
+    
+    // Create new mockup-code container
+    const mockupCode = document.createElement('div');
+    mockupCode.className = 'mockup-code bg-base-200 text-base-content w-full';
+    
+    // Build HTML string with line numbers
+    let htmlContent = '';
+    codeLines.forEach((line, index) => {
+      const lineNumber = index + 1;
+      const escapedLine = line
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+      
+      // Detect special line types and add appropriate styling
+      let className = '';
+      const lowerLine = line.toLowerCase().trim();
+      
+      if (lowerLine.includes('error') || lowerLine.includes('exception') || lowerLine.includes('failed')) {
+        className = ' class="bg-error text-error-content"';
+      } else if (lowerLine.includes('warning') || lowerLine.includes('warn')) {
+        className = ' class="bg-warning text-warning-content"';
+      } else if (lowerLine.includes('success') || lowerLine.includes('done') || lowerLine.includes('completed')) {
+        className = ' class="bg-success text-success-content"';
+      } else if (lowerLine.includes('info') || lowerLine.includes('installing') || lowerLine.includes('loading')) {
+        className = ' class="bg-info text-info-content"';
+      }
+      
+      htmlContent += `<pre data-prefix="${lineNumber}"${className}><code>${escapedLine}</code></pre>`;
+      if (index < codeLines.length - 1) {
+        htmlContent += '\n';
+      }
+    });
+    
+    mockupCode.innerHTML = htmlContent;
+    
+    // Replace the original figure element
+    figure.parentNode.replaceChild(mockupCode, figure);
+  });
+  
+  // Also handle any remaining regular pre/code blocks
+  const preBlocks = document.querySelectorAll('.post-content pre:not(.mockup-code pre)');
+  preBlocks.forEach(function(pre) {
+    if (pre.closest('.mockup-code')) return; // Skip if already processed
+    
+    const codeElement = pre.querySelector('code') || pre;
+    const text = codeElement.textContent || codeElement.innerText || '';
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    
+    if (lines.length === 0) return;
+    
+    const mockupCode = document.createElement('div');
+    mockupCode.className = 'mockup-code bg-base-200 text-base-content w-full';
+    
+    let htmlContent = '';
+    lines.forEach((line, index) => {
+      const lineNumber = index + 1;
+      const escapedLine = line
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+      
+      htmlContent += `<pre data-prefix="${lineNumber}"><code>${escapedLine}</code></pre>`;
+      if (index < lines.length - 1) {
+        htmlContent += '\n';
+      }
+    });
+    
+    mockupCode.innerHTML = htmlContent;
+    pre.parentNode.replaceChild(mockupCode, pre);
+  });
+});
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    const button = event.target.closest('button');
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
+    button.classList.add('btn-success');
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.classList.remove('btn-success');
+    }, 2000);
+  }).catch(function() {
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = window.location.href;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    
+    const button = event.target.closest('button');
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
+    button.classList.add('btn-success');
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.classList.remove('btn-success');
+    }, 2000);
+  });
+}
+
+
+</script>
+
+<script type="text/javascript" id="MathJax-script" async
+src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>

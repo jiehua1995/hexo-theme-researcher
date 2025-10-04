@@ -47,36 +47,49 @@
         data-title="<%= (project.title || '').toLowerCase() %>"
         data-description="<%= (project.description || '').toLowerCase() %>"
       >
-        <div class="card-body">
-          <h2 class="card-title text-xl font-bold flex items-center gap-3 flex-wrap">
+        <div class="card-body relative">
+          <!-- Status Badge - Right Top Corner -->
+          <% if (project.status) { 
+            const statusClass = project.status === 'current' 
+              ? 'badge-primary' 
+              : (project.status === 'completed' 
+                ? 'badge-secondary' 
+                : 'badge-neutral');
+            %>
+            <div class="absolute top-4 right-4 z-10">
+              <div class="badge <%= statusClass %> badge-lg font-semibold"><%= project.status %></div>
+            </div>
+          <% } %>
+          
+          <!-- Title -->
+          <h2 class="card-title text-xl font-bold mb-3 pr-20">
             <%= project.title %>
-            <% if (project.status) { 
-              const statusClass = project.status === 'current' 
-                ? 'badge-primary' 
-                : (project.status === 'completed' 
-                  ? 'badge-secondary' 
-                  : 'badge-neutral');
-              %>
-           <div class="badge <%= statusClass %>"><%= project.status %></div>
-            <% } %>
-         
           </h2>
 
-          <div class="mb-1">
+          <!-- Metadata Row -->
+          <div class="flex flex-wrap items-center gap-4 mb-4 text-sm">
             <% if (project.period) { %>
-              <p class="text-sm flex items-center gap-1"><i class="far fa-calendar-alt"></i> <%= project.period %></p>
+              <div class="flex items-center gap-2 text-base-content/70">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span><%= project.period %></span>
+              </div>
             <% } %>
             <% if (project.category) { %>
-              <p class="text-md flex items-center gap-1"><i class="fas fa-tag"></i> <%= project.category %></p>
-            <% } %>
-            <% if (project.tags && project.tags.length) { %>
-              <div class="flex flex-wrap gap-2 mt-1">
-                <% project.tags.forEach(tag => { %>
-                  <div class="badge badge-outline text-xs"><%= tag %></div>
-                <% }); %>
+              <div class="flex items-center gap-2 text-base-content/70">
+                <i class="fa-solid fa-layer-group"></i>
+                <span class="font-medium"><%= project.category %></span>
               </div>
             <% } %>
           </div>
+
+          <!-- Tags -->
+          <% if (project.tags && project.tags.length) { %>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <% project.tags.forEach(tag => { %>
+                <div class="badge badge-outline badge-sm hover:badge-primary transition-colors"><%= tag %></div>
+              <% }); %>
+            </div>
+          <% } %>
 
           <% if (project.description) { %>
             <p class="text-base-content opacity-90 mb-4"><%= project.description %></p>
@@ -101,7 +114,7 @@
           
 
           <% if (project.publications && project.publications.length) { %>
-            <div class="flex flex-wrap gap-2 max-w-full flex-wrap">
+            <div class="flex flex-wrap gap-2 max-w-full">
               <% project.publications.forEach(pub => { %>
                 <a 
                   href="<%= pub.link %>" 
@@ -109,14 +122,40 @@
                   rel="noopener noreferrer" 
                   class="px-3 py-2 rounded-md text-sm max-w-sm break-words whitespace-normal text-left hover:bg-base-200 transition"
                 >
-                  <i class="fas fa-file-alt mr-1"></i> <%= pub.title %>
+                  <i class="fa-solid fa-newspaper"></i>
+                   <%= pub.title %>
                 </a>
               <% }); %>
             </div>
           <% } %>
 
-
-
+          <!-- Project Links -->
+          <% if (project.website || project.github) { %>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <% if (project.website) { %>
+                <a 
+                  href="<%= project.website %>" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="btn btn-sm btn-outline"
+                >
+                  <i class="fa-solid fa-link mr-0"></i>
+                  Link
+                </a>
+              <% } %>
+              <% if (project.github) { %>
+                <a 
+                  href="<%= project.github %>" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="btn btn-sm btn-outline"
+                >
+                  <i class="fa-brands fa-github w-4 h-4 mr-0"></i>
+                  GitHub
+                </a>
+              <% } %>
+            </div>
+          <% } %>
           
         </div>
       </div>

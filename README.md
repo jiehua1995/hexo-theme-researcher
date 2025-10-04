@@ -1,6 +1,6 @@
 # Hexo Theme Researcher
 
-A modern, responsive, and professional academic portfolio theme for researchers, built with Tailwind CSS, and DaisyUI.
+A modern, responsive, and professional academic portfolio theme for researchers.
 
 [![License](https://img.shields.io/github/license/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/jiehua1995/hexo-theme-researcher)](https://github.com/jiehua1995/hexo-theme-researcher/stargazers)
@@ -28,135 +28,104 @@ The Researcher theme is designed with the following principles in mind:
 
 ## Features
 
-- 📱 Fully responsive design
-- 🎨 Multiple theme options (light, dark, cupcake, bumblebee, wireframe)
-- 📊 Project showcase with detailed descriptions
-- 📝 CV/Resume page with download option
-- 🎤 Talks and presentations section
-- 🔗 Academic profile links (Google Scholar, ORCID, ResearchGate)
-- 🎯 DaisyUI theme integration
-- 📚 Academic icons support
-- 📧 Contact information section
-- 👤 About section with customizable content
+- 📱 **Fully responsive design** - Mobile-first approach with optimal viewing on all devices
+- 🎨 **30+ DaisyUI themes** - Light, dark, cupcake, bumblebee, wireframe and more
+- 🏠 **Enhanced homepage** - Recent Notes, Featured Publications & Projects in 3-column layouts
+- 📝 **Blog/Notes system** - Real-time search, filtering, and clean typography
+- 📚 **Publications management** - Academic showcase with DOI, PDF links, and badges
+- 📊 **Project showcase** - Status tracking, GitHub integration, and collaboration details
+- 📄 **Professional CV page** - Downloadable resume with modular sections
+- 🎤 **Talks & presentations** - Conference and seminar showcase
+- 💻 **Enhanced code display** - Syntax highlighting with line numbers and copy functionality
+- 🔍 **Site-wide search** - Real-time search across all content (requires `hexo-generator-search`)
+- 🔗 **Academic profiles** - Google Scholar, ORCID, ResearchGate, GitHub, LinkedIn
+- ⚡ **Performance optimized** - Fast loading with modern web technologies
 
-## Installation
+## Usage
 
-1. Install Hexo:
+### Prerequisites
+- Node.js (version 12.0 or higher)
+- npm or yarn package manager
+
+### Step-by-Step Installation
+
+1. **Install Hexo CLI globally:**
 ```bash
 npm install -g hexo-cli
 ```
 
-2. Create a new Hexo site:
+2. **Create a new Hexo site:**
 ```bash
-hexo init my-site
-cd my-site
+hexo init my-academic-site
+cd my-academic-site
 ```
 
-3. Install the theme:
+3. **Install required Hexo packages:**
 ```bash
-git clone https://github.com/yourusername/hexo-theme-researcher themes/hexo-theme-researcher
+yarn install
 ```
 
-4. Install dependencies:
+4. **Install theme dependencies (required for search functionality):**
 ```bash
-npm install
+yarn add hexo-generator-search --save
 ```
 
-5. Configure your site by editing `_config.yml` in your site's root directory:
+5. **Clone the theme:**
+```bash
+git clone https://github.com/jiehua1995/hexo-theme-researcher themes/hexo-theme-researcher
+```
+
+6. **Configure your main site** by editing `_config.yml` in your site's root directory:
 ```yaml
-# Site
+# Site Information
 title: Your Name
-subtitle: Your Title
-description: Your research description
-keywords: research, academic, portfolio
+subtitle: Your Academic Title
+description: Your research description and academic bio
+keywords: research, academic, portfolio, your-field
 author: Your Name
 language: en
 timezone: ''
-# URL
-url: https://youname.github.io/repo
-# Extensions
-theme: hexo-theme-researcher
-```
 
-## Configuration of this theme
+# URL Configuration
+url: https://yourusername.github.io
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+  lang: en
 
-Edit `_config.yml` in the theme directory to customize your site:
-
-```yaml
 # Theme Configuration
-avatar: /images/avatar.jpg
-favicon: /images/favicon.ico
+theme: hexo-theme-researcher
 
-# Menu Configuration
-menu:
-  - name: Publications
-    url: /publications/
-    icon: ai ai-google-scholar
-  - name: Projects
-    url: /projects/
-    icon: fas fa-project-diagram
-  - name: CV
-    url: /cv/
-    icon: fas fa-id-card
-  - name: Talks
-    url: /talks/
-    icon: fas fa-microphone
-  - name: Contact
-    url: /contact/
-    icon: fas fa-envelope
+# Search Configuration (Required for search functionality)
+search:
+  path: search.xml
+  field: post
+  content: true
 
-# CV Download
-cv:
-  download_link: 
-
-# About Section
-about:
-  I am a researcher passionate about artificial intelligence and computational biology.
-  My work focuses on leveraging machine learning to solve real-world problems.
-  <br><br>
-  Outside of research, I enjoy hiking, writing, and coffee brewing.
-
-# Academic Profiles
-academic_profiles:
-  google_scholar: https://scholar.google.com/citations?user=YOUR_ID
-  orcid: https://orcid.org/YOUR_ID
-  researchgate: https://www.researchgate.net/profile/YOUR_ID
-  github: https://github.com/YOUR_ID
-  linkedin: https://linkedin.com/in/YOUR_ID
-
-# Contact Information
-contact:
-  email: your.email@example.com
-  phone: "+49 123 456789"
-  address: "Room 123, Department of Biology, LMU Munich"
-  google_map: "https://maps.app.goo.gl/xxxxxxxxxx"
-  office_hours: "Mon–Fri 10:00–16:00"
-
-# DaisyUI Theme Configuration
-daisyui:
-  default: cupcake
-  enabled:
-    - light
-    - dark
-    - cupcake
-    - bumblebee
-    - wireframe
+# Deployment (example for GitHub Pages)
+deploy:
+  type: git
+  repo: https://github.com/yourusername/yourusername.github.io.git
+  branch: main
 ```
 
-## Create Required Pages
+7. **Create the required pages** that the theme uses to display your academic content.
 
-Before using the theme, you need to create the following pages:
+Before using the theme, you need to create the following pages in your Hexo site:
 
 ```bash
+# Create all required pages
 hexo new page publications
 hexo new page projects
 hexo new page talks
 hexo new page cv
+hexo new page notes
 hexo new page contact
 ```
 
-After creating each page, you need to set the correct layout in the front-matter of each page's markdown file. For example, for the publications page:
+After creating each page, you **must** set the correct layout in the front-matter of each page's markdown file:
 
+**Publications page** (`source/publications/index.md`):
 ```yaml
 ---
 title: Publications
@@ -165,11 +134,78 @@ layout: publications
 ---
 ```
 
-Similarly, set the layout for other pages to match their names (e.g., `layout: projects` for projects page, `layout: talks` for talks page, etc.).
+**Projects page** (`source/projects/index.md`):
+```yaml
+---
+title: Projects
+date: 2024-01-01
+layout: projects
+---
+```
 
-## Data Files
+**CV page** (`source/cv/index.md`):
+```yaml
+---
+title: CV
+date: 2024-01-01
+layout: cv
+---
+```
 
-Create the following data files in your site's `source/_data` directory. You can find example data in the theme's `demo_data` folder:
+**Talks page** (`source/talks/index.md`):
+```yaml
+---
+title: Talks
+date: 2024-01-01
+layout: talks
+---
+```
+
+**Notes page** (`source/notes/index.md`):
+```yaml
+---
+title: Notes
+date: 2024-01-01
+layout: notes
+---
+```
+
+**Contact page** (`source/contact/index.md`):
+```yaml
+---
+title: Contact
+date: 2024-01-01
+layout: contact
+---
+```
+
+**Important Notes**
+
+- The `layout` field must match the page name exactly
+- The Notes page will automatically display all your blog posts
+- The Recent Notes section on the homepage will show the 3 latest posts automatically
+
+Edit `_config.yml` in the theme directory to customize your site:
+
+8. **Configure the theme** by editing the `_config.yml` file located in the `themes/hexo-theme-researcher` directory. Edit `_config.yml` in the theme directory to customize your site.
+
+   It will be better to copy the `_config.yml` out as `_config.hexo-theme-researcher.yml ` into the main folder.
+
+```bash
+cp themes/hexo-theme-researcher/_config.yml _config.hexo-theme-researcher.yml
+```
+
+9. **Create blog posts** by adding markdown files in the `source/_posts` directory.
+To create blog posts, use the standard Hexo command:
+```bash
+hexo new post "Your Post Title"
+```
+
+​	Then you could write whatever you want, those notes will be shown in **Notes** page.
+
+9. **Create data files** in the `source/_data` directory to manage your academic content.
+
+   Create the following data files in your site's `source/_data` directory. You can find example data in the theme's `demo_data` folder:
 
 - `publications.yml`: Your academic publications
 - `projects.yml`: Research projects

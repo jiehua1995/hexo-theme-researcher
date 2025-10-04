@@ -41,25 +41,66 @@
   <!-- Talks List -->
   <div class="grid gap-6" id="talksList">
     <% site.data.talks.forEach(function(talk) { %>
-      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-4 talk-item"
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border border-base-300 talk-item"
            data-type="<%= talk.type ? talk.type.toLowerCase() : '' %>"
            data-year="<%= talk.year %>">
-        <h2 class="card-title text-lg font-semibold mb-1"><%= talk.title %></h2>
-        <p class="opacity-80 mb-2"><%= talk.venue %> — <%= talk.date %>, <%= talk.location %></p>
+        <div class="card-body p-6">
+          <!-- Header with Type Badge -->
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+            <div class="flex-1">
+              <h2 class="card-title text-xl font-bold text-primary mb-2 leading-tight"><%= talk.title %></h2>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base-content/70">
+                <i class="fa-solid fa-building w-4 h-4 mr-1"></i>
+                <span class="font-medium"><%= talk.venue %></span>
+                <span class="hidden sm:inline">•</span>
+                <i class="fa-solid fa-calendar-week w-4 h-4 mr-1"></i>
+                <span><%= talk.date %></span>
+                <span class="hidden sm:inline">•</span>
+                <span class="flex items-center">
+                  <i class="fa-solid fa-location-dot w-2 h-4 mr-1"></i>
+                  <%= talk.location %>
+                </span>
+              </div>
+            </div>
+            <% if (talk.type) { %>
+              <div class="badge badge-secondary badge-lg mt-2 md:mt-0">
+                <%= talk.type.charAt(0).toUpperCase() + talk.type.slice(1) %>
+              </div>
+            <% } %>
+          </div>
 
-        <% if (talk.description) { %>
-          <p class="mb-3"><%= talk.description %></p>
-        <% } %>
+          <!-- Description -->
+          <% if (talk.description) { %>
+            <div class="prose max-w-none mb-4 text-base-content/80">
+              <p><%= talk.description %></p>
+            </div>
+          <% } %>
 
-        <div class="flex flex-wrap gap-2">
-          <% if (talk.slides) { %>
-            <a href="<%= talk.slides %>" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Slides</a>
-          <% } %>
-          <% if (talk.video) { %>
-            <a href="<%= talk.video %>" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Video</a>
-          <% } %>
-          <% if (talk.paper) { %>
-            <a href="<%= talk.paper %>" target="_blank" rel="noopener noreferrer" class="link link-primary underline">Paper</a>
+          <!-- Action Links -->
+          <% if (talk.slides || talk.video || talk.paper) { %>
+            <div class="card-actions justify-start">
+              <% if (talk.slides) { %>
+                <a href="<%= talk.slides %>" target="_blank" rel="noopener noreferrer" 
+                   class="btn btn-primary btn-sm">
+                  <i class="fa-solid fa-person-chalkboard"></i>
+                  Slides
+                </a>
+              <% } %>
+              <% if (talk.video) { %>
+                <a href="<%= talk.video %>" target="_blank" rel="noopener noreferrer" 
+                   class="btn btn-secondary btn-sm">
+                  <i class="fa-solid fa-video"></i>
+                  Video
+                </a>
+              <% } %>
+              <% if (talk.paper) { %>
+                <a href="<%= talk.paper %>" target="_blank" rel="noopener noreferrer" 
+                   class="btn btn-accent btn-sm">
+                  <i class="fa-solid fa-book-open-reader"></i>
+                  Paper
+                </a>
+              <% } %>
+            </div>
           <% } %>
         </div>
       </div>

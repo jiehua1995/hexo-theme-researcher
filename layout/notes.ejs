@@ -1,0 +1,402 @@
+<div class="container mx-auto px-4">
+  <h1 class="text-4xl font-extrabold mb-8 text-base-content">Research Notes</h1>
+  
+  <!-- Search and Filter -->
+  <!-- Filters -->
+  <div class="glass-card p-4 mb-8">
+    <div class="flex flex-wrap gap-4">
+      <!-- Category Filter -->
+      <div class="form-control">
+        <select class="select select-bordered" id="categoryFilter" name="categoryFilter">
+          <option value="">All Categories</option>
+          <% 
+            const allCategories = [];
+            site.posts.forEach(p => {
+              if (p.categories.length > 0) {
+                p.categories.forEach(cat => {
+                  if (!allCategories.includes(cat.name)) {
+                    allCategories.push(cat.name);
+                  }
+                });
+              }
+            });
+            allCategories.sort().forEach(category => {
+          %>
+            <option value="<%= category %>"><%= category %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Year Filter -->
+      <div class="form-control">
+        <select class="select select-bordered" id="yearFilter" name="yearFilter">
+          <option value="">All Years</option>
+          <% 
+            const years = [...new Set(site.posts.map(p => p.date.year()))].sort((a, b) => b - a);
+            years.forEach(year => {
+          %>
+            <option value="<%= year %>"><%= year %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="form-control flex-1">
+        <input type="text" placeholder="Search notes..." class="input input-bordered" id="searchInput" />
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="mt-2 text-sm opacity-70">
+      <span id="resultsCount">Showing all <%= site.posts.length %> notes</span>
+    </div>
+
+    <!-- Search suggestions (hidden by default) -->
+    <div id="searchSuggestions" class="hidden mt-2">
+      <div class="bg-base-100 border border-base-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+        <!-- Search suggestions will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts Archive -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="notesContainer">
+    <% site.posts.sort('date', -1).forEach(function(post) { %>
+      <article class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl hover:scale-105 transition-all duration-300 note-item h-80 flex flex-col" 
+               data-category="<%= post.categories.length > 0 ? post.categories.toArray().map(c => c.name).join(',') : '' %>"
+               data-year="<%= post.date.year() %>"
+               data-title="<%= post.title.toLowerCase() %>"
+               data-content="<%= post.excerpt ? post.excerpt.replace(/<[^>]*>/g, '').toLowerCase() : '' %>"
+               data-tags="<%= post.tags.length > 0 ? post.tags.toArray().map(t => t.name).join(',') : '' %>">
+        <div class="card-body p-6 flex flex-col h-full">
+          <!-- Header -->
+          <div class="mb-4">
+            <h2 class="card-title text-lg font-bold leading-tight mb-2">
+              <a href="<%= url_for(post.path) %>" class="hover:text-primary no-underline transition-colors duration-200">
+                <%= post.title %>
+              </a>
+            </h2>
+            <div class="flex items-center justify-between">
+              <time class="text-sm opacity-70">
+                <%= post.date.format('MMM DD, YYYY') %>
+              </time>
+              <% if (post.categories.length > 0) { %>
+                <div class="badge badge-primary badge-sm">
+                  <%= post.categories.toArray()[0].name %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Excerpt -->
+          <% if (post.excerpt) { %>
+            <div class="text-sm opacity-80 mb-4 flex-1 overflow-hidden">
+              <div class="line-clamp-4">
+                <%= post.excerpt.replace(/<[^>]*>/g, '').substring(0, 150) %>...
+              </div>
+            </div>
+          <% } else { %>
+            <div class="flex-1"></div>
+          <% } %>
+
+          <!-- Tags -->
+          <% if (post.tags.length > 0) { %>
+            <div class="flex flex-wrap gap-1 mb-4">
+              <% post.tags.slice(0, 3).forEach(function(tag) { %>
+                <span class="badge badge-outline badge-xs">
+                  <%= tag.name %>
+                </span>
+              <% }); %>
+              <% if (post.tags.length > 3) { %>
+                <span class="badge badge-ghost badge-xs">+<%= post.tags.length - 3 %></span>
+              <% } %>
+            </div>
+          <% } %>
+
+          <!-- Read More -->
+          <div class="card-actions justify-end mt-auto">
+            <a href="<%= url_for(post.path) %>" class="btn btn-primary btn-sm">
+              Read More
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+    <% }); %>
+  </div>
+
+  <!-- Empty State -->
+  <div id="emptyState" class="text-center py-16 hidden">
+    <div class="text-6xl opacity-20 mb-4">📝</div>
+    <h3 class="text-xl font-semibold mb-2">No notes found</h3>
+    <p class="opacity-70">Try adjusting your search criteria</p>
+  </div>
+
+  <!-- Pagination (if needed) -->
+  <% if (site.posts.length > 10) { %>
+    <div class="flex justify-center mt-12">
+      <div class="btn-group">
+        <button class="btn btn-outline" id="loadMore">Load More</button>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<script>
+let searchData = [];
+let allPosts = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const yearFilter = document.getElementById('yearFilter');
+  const resultsCount = document.getElementById('resultsCount');
+  const noteItems = document.querySelectorAll('.note-item');
+
+  // Store all posts data
+  allPosts = Array.from(noteItems).map(item => ({
+    element: item,
+    title: item.dataset.title,
+    content: item.dataset.content,
+    category: item.dataset.category,
+    categories: item.dataset.category.split(',').filter(c => c.trim()),
+    year: item.dataset.year,
+    tags: item.dataset.tags ? item.dataset.tags.split(',').filter(t => t.trim()) : []
+  }));
+
+  // Handle URL parameters for category and tag filtering
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryParam = urlParams.get('category');
+  const tagParam = urlParams.get('tag');
+  
+  if (categoryParam) {
+    categoryFilter.value = categoryParam;
+  }
+  
+  // Initial filter
+  filterPosts();
+
+  // Load search data from hexo-generator-search
+  loadSearchData();
+
+  async function loadSearchData() {
+    try {
+      const response = await fetch('<%= url_for("/search.xml") %>');
+      const text = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(text, 'text/xml');
+      const entries = xmlDoc.querySelectorAll('entry');
+      
+      searchData = Array.from(entries).map(entry => ({
+        title: entry.querySelector('title')?.textContent || '',
+        content: entry.querySelector('content')?.textContent || '',
+        url: entry.querySelector('url')?.textContent || '',
+        categories: entry.querySelector('categories')?.textContent || '',
+        tags: entry.querySelector('tags')?.textContent || ''
+      }));
+    } catch (error) {
+      console.warn('Could not load search data:', error);
+      // Fallback to local search if XML fails
+      searchData = allPosts.map(post => ({
+        title: post.title,
+        content: post.content,
+        url: post.element.querySelector('a').href,
+        categories: post.category,
+        tags: ''
+      }));
+    }
+  }
+
+  function filterPosts() {
+    const categoryVal = categoryFilter.value;
+    const yearVal = yearFilter.value;
+    const searchVal = searchInput.value.toLowerCase().trim();
+    const urlParams = new URLSearchParams(window.location.search);
+    const tagParam = urlParams.get('tag');
+    
+    let visibleCount = 0;
+
+    allPosts.forEach(post => {
+      const matchesCategory = !categoryVal || post.categories.includes(categoryVal);
+      const matchesYear = !yearVal || post.year === yearVal;
+      
+      // Check if post matches tag filter
+      let matchesTag = !tagParam;
+      if (tagParam) {
+        // Use the tags data from the post data
+        matchesTag = post.tags.some(tag => tag.trim() === tagParam.trim());
+      }
+      
+      // Search functionality
+      let matchesSearch = true;
+      if (searchVal.length >= 2) {
+        matchesSearch = post.title.includes(searchVal) || 
+                      post.content.includes(searchVal);
+        
+        // Use search data if available
+        if (searchData.length > 0) {
+          const postUrl = post.element.querySelector('a').getAttribute('href');
+          const searchMatch = searchData.find(data => data.url.includes(postUrl));
+          if (searchMatch) {
+            matchesSearch = searchMatch.title.toLowerCase().includes(searchVal) ||
+                           searchMatch.content.toLowerCase().includes(searchVal) ||
+                           searchMatch.categories.toLowerCase().includes(searchVal) ||
+                           searchMatch.tags.toLowerCase().includes(searchVal);
+          }
+        }
+      } else if (searchVal.length > 0 && searchVal.length < 2) {
+        matchesSearch = false;
+      }
+
+      if (matchesCategory && matchesYear && matchesTag && matchesSearch) {
+        post.element.style.display = 'block';
+        visibleCount++;
+      } else {
+        post.element.style.display = 'none';
+      }
+    });
+
+    // Update results count
+    if (searchVal || categoryVal || yearVal || tagParam) {
+      resultsCount.textContent = `Found ${visibleCount} result${visibleCount !== 1 ? 's' : ''}`;
+    } else {
+      resultsCount.textContent = `Showing all ${allPosts.length} notes`;
+    }
+  }
+
+  // Initialize filters
+  categoryFilter.addEventListener('change', filterPosts);
+  yearFilter.addEventListener('change', filterPosts);
+  searchInput.addEventListener('input', debounce(filterPosts, 300));
+
+  // Debounce function for search
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  function highlightText(element, query) {
+    const titleElement = element.querySelector('.card-title a, .card-title span');
+    const contentElement = element.querySelector('.prose');
+    
+    if (titleElement) {
+      titleElement.innerHTML = titleElement.innerHTML.replace(
+        new RegExp(`(${escapeRegExp(query)})`, 'gi'),
+        '<mark class="bg-yellow-200 text-yellow-800">$1</mark>'
+      );
+    }
+    
+    if (contentElement) {
+      contentElement.innerHTML = contentElement.innerHTML.replace(
+        new RegExp(`(${escapeRegExp(query)})`, 'gi'),
+        '<mark class="bg-yellow-200 text-yellow-800">$1</mark>'
+      );
+    }
+  }
+
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function showAllPosts() {
+    allPosts.forEach(post => {
+      // Restore original content
+      post.element.innerHTML = post.originalContent;
+    });
+    filterByCategories();
+  }
+
+  function filterByCategories() {
+    const selectedCategory = categoryFilter.value;
+    const selectedYear = yearFilter.value;
+    let visibleCount = 0;
+
+    allPosts.forEach(post => {
+      const matchesCategory = !selectedCategory || post.category === selectedCategory;
+      const matchesYear = !selectedYear || post.year === selectedYear;
+
+      if (matchesCategory && matchesYear) {
+        post.element.style.display = 'block';
+        visibleCount++;
+      } else {
+        post.element.style.display = 'none';
+      }
+    });
+
+    updateResultsDisplay(visibleCount);
+  }
+
+  function updateResultsDisplay(count, query = '') {
+    if (count === 0) {
+      emptyState.classList.remove('hidden');
+      notesContainer.style.display = 'none';
+      resultsCount.textContent = query ? `No results found for "${query}"` : 'No notes match the selected filters';
+    } else {
+      emptyState.classList.add('hidden');
+      notesContainer.style.display = 'grid';
+      if (query) {
+        resultsCount.textContent = `Found ${count} result${count > 1 ? 's' : ''} for "${query}"`;
+      } else {
+        resultsCount.textContent = `Showing ${count} note${count > 1 ? 's' : ''}`;
+      }
+    }
+  }
+
+  // Event listeners
+  searchBtn.addEventListener('click', () => {
+    performSearch(searchInput.value);
+  });
+
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      performSearch(searchInput.value);
+    }
+  });
+
+  // Real-time search with debounce
+  let searchTimeout;
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      if (query.length >= 2) {
+        performSearch(query);
+        showSearchSuggestions(query);
+      } else {
+        clearSearch();
+      }
+    }, 300); // 300ms debounce
+  });
+
+  clearBtn.addEventListener('click', clearSearch);
+
+  function clearSearch() {
+    searchInput.value = '';
+    showAllPosts();
+  }
+
+  categoryFilter.addEventListener('change', () => {
+    if (searchInput.value.trim()) {
+      performSearch(searchInput.value);
+    } else {
+      filterByCategories();
+    }
+  });
+
+  yearFilter.addEventListener('change', () => {
+    if (searchInput.value.trim()) {
+      performSearch(searchInput.value);
+    } else {
+      filterByCategories();
+    }
+  });
+});
+</script>

@@ -85,4 +85,51 @@ languages:
   - name: "Spanish"
     level: "Professional"
   - name: "Mandarin"
-    level: "Intermediate" 
+    level: "Intermediate"
+
+teaching:
+  - course_name: "CS229: Machine Learning"
+    institution: "Stanford University"
+    period: "2021 - Present"
+    role: "Instructor"
+    description: "Advanced graduate course covering machine learning algorithms and applications"
+    students: "120 students per semester"
+    evaluation: "4.8/5.0"
+
+  - course_name: "CS106A: Programming Fundamentals"
+    institution: "Stanford University"
+    period: "2020 - 2021"
+    role: "Teaching Assistant"
+    description: "Introductory programming course in Python"
+    students: "300 students"
+    evaluation: "4.6/5.0"
+
+  - course_name: "AI Ethics and Society"
+    institution: "Stanford University"
+    period: "2022 - Present"
+    role: "Co-Instructor"
+    description: "Interdisciplinary course exploring ethical implications of AI"
+    students: "80 students per semester"
+    evaluation: "4.9/5.0"
+
+research_interests:
+  - area: "Machine Learning Theory"
+    description: "Developing theoretical foundations for deep learning algorithms, with focus on generalization bounds and optimization landscapes"
+    keywords: ["Deep Learning", "Optimization", "Generalization", "PAC-Bayes"]
+    current_projects:
+      - "Non-convex optimization in neural networks"
+      - "Generalization bounds for large language models"
+
+  - area: "AI Safety and Alignment"
+    description: "Ensuring AI systems behave safely and in accordance with human values"
+    keywords: ["AI Safety", "Value Alignment", "Robustness", "Interpretability"]
+    current_projects:
+      - "Mechanistic interpretability in transformers"
+      - "Reward modeling for human feedback"
+
+  - area: "Natural Language Processing"
+    description: "Building systems that can understand and generate human language"
+    keywords: ["Language Models", "Transformers", "Multimodal AI", "Reasoning"]
+    current_projects:
+      - "Improving reasoning in large language models"
+      - "Multimodal understanding and generation"

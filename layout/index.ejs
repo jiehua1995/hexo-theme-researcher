@@ -1,6 +1,6 @@
 <!-- About Section -->
 <div class="container mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 text-base-content">About Me</h2>
+  <h2 class="text-3xl font-bold mb-8 text-base-content">About</h2>
 
   <!-- Avatar -->
   <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer lg:hidden">
@@ -17,7 +17,7 @@
     <p class="text-base-content opacity-80"><%= config.subtitle %></p>
   </div>
 
-<!--About-->
+  <!--About-->
   <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content">
     <div class="card-body">
       <div class="prose max-w-none text-base">
@@ -27,13 +27,112 @@
   </div>
 </div>
 
+<!-- Research Interests -->
+<% if (site.data.cv && site.data.cv.research_interests) { %>
+<div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 text-base-content">Research Interests</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% site.data.cv.research_interests.forEach(function(area) { %>
+      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
+        <div class="card-body p-4">
+          <h3 class="card-title text-lg font-bold mb-3"><%= area.area %></h3>
+          <% if (area.description) { %>
+            <p class="text-sm opacity-80 mb-3"><%= area.description %></p>
+          <% } %>
+          <% if (area.keywords && area.keywords.length > 0) { %>
+            <div class="flex flex-wrap gap-1">
+              <% area.keywords.forEach(function(keyword) { %>
+                <span class="badge badge-primary badge-sm"><%= keyword %></span>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+<% } %>
+
+<!-- Recent Notes -->
+<div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 text-base-content">Recent Notes</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% site.posts.sort('date', -1).slice(0, 3).forEach(function(post) { %>
+      <article class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl hover:scale-105 transition-all duration-300 h-80 flex flex-col">
+        <div class="card-body p-6 flex flex-col h-full">
+          <!-- Header -->
+          <div class="mb-4">
+            <h3 class="card-title text-lg font-bold leading-tight mb-2">
+              <a href="<%= url_for(post.path) %>" class="hover:text-primary no-underline transition-colors duration-200">
+                <%= post.title %>
+              </a>
+            </h3>
+            <div class="flex items-center justify-between">
+              <time class="text-sm opacity-70">
+                <%= post.date.format('MMM DD, YYYY') %>
+              </time>
+              <% if (post.categories.length > 0) { %>
+                <div class="badge badge-primary badge-sm">
+                  <%= post.categories.toArray()[0].name %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Excerpt -->
+          <% if (post.excerpt) { %>
+            <div class="text-sm opacity-80 mb-4 flex-1 overflow-hidden">
+              <div class="line-clamp-4">
+                <%= post.excerpt.replace(/<[^>]*>/g, '').substring(0, 150) %>...
+              </div>
+            </div>
+          <% } else { %>
+            <div class="flex-1"></div>
+          <% } %>
+
+          <!-- Tags -->
+          <% if (post.tags.length > 0) { %>
+            <div class="flex flex-wrap gap-1 mb-4">
+              <% post.tags.slice(0, 2).forEach(function(tag) { %>
+                <span class="badge badge-outline badge-xs">
+                  <%= tag.name %>
+                </span>
+              <% }); %>
+              <% if (post.tags.length > 2) { %>
+                <span class="badge badge-ghost badge-xs">+<%= post.tags.length - 2 %></span>
+              <% } %>
+            </div>
+          <% } %>
+
+          <!-- Read More -->
+          <div class="card-actions justify-end mt-auto">
+            <a href="<%= url_for(post.path) %>" class="btn btn-primary btn-sm">
+              Read More
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    <% }); %>
+  </div>
+
+  <!-- View All -->
+  <div class="text-center mt-8">
+    <a href="<%= url_for('/notes') %>" class="btn btn-primary">View All Notes</a>
+  </div>
+</div>
+
 <!-- Featured Publications -->
 <div class="container mx-auto px-4 py-8">
   <h2 class="text-3xl font-bold mb-8 text-base-content">Featured Publications</h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <%
-      const featuredPubs = site.data.publications.filter(p => p.featured === 'enable').slice(0, 4);
+      const featuredPubs = site.data.publications.filter(p => p.featured === 'enable').slice(0, 3);
       featuredPubs.forEach(function(pub) {
     %>
       <div class="card glass rounded-box shadow-md bg-base-100 text-base-content hover:shadow-lg transition-all duration-300">
@@ -88,9 +187,9 @@
 <!-- Featured Projects -->
 <div class="container mx-auto px-4 py-8">
   <h2 class="text-3xl font-bold mb-8 text-base-content">Featured Projects</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <%
-      const featuredProjects = site.data.projects.filter(p => p.featured === 'enable').slice(0, 4);
+      const featuredProjects = site.data.projects.filter(p => p.featured === 'enable').slice(0, 3);
       featuredProjects.forEach(function(project) {
     %>
       <div class="card glass rounded-box shadow-md bg-base-100 text-base-content hover:shadow-lg transition-all duration-300">
@@ -124,7 +223,7 @@
             <% } %>
             <% if (project.github) { %>
               <a href="<%= project.github %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-github mr-1"></i>Code
+                <i class="fa-brands fa-github mr-1"></i>Code
               </a>
             <% } %>
           </div>

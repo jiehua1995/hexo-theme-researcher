@@ -4,11 +4,28 @@
   <!-- Jump to section -->
   <p class="mb-2 text-base-content font-medium">Click a section below to jump to it:</p>
   <nav class="flex flex-wrap gap-2 mb-6">
-    <a href="#education" class="btn btn-outline btn-secondary">Education</a>
-    <a href="#experience" class="btn btn-outline btn-secondary">Experience</a>
-    <a href="#skills" class="btn btn-outline btn-secondary">Skills</a>
-    <a href="#awards" class="btn btn-outline btn-secondary">Awards</a>
-    <a href="#languages" class="btn btn-outline btn-secondary">Languages</a>
+    <% if (theme.cv_sections && theme.cv_sections.education !== false) { %>
+      <a href="#education" class="btn btn-outline btn-secondary">Education</a>
+    <% } %>
+    <% if (theme.cv_sections && theme.cv_sections.experience !== false) { %>
+      <a href="#experience" class="btn btn-outline btn-secondary">Experience</a>
+    <% } %>
+    <% if (theme.cv_sections && theme.cv_sections.skills !== false) { %>
+      <a href="#skills" class="btn btn-outline btn-secondary">Skills</a>
+    <% } %>
+    <% if (theme.cv_sections && theme.cv_sections.awards !== false) { %>
+      <a href="#awards" class="btn btn-outline btn-secondary">Awards</a>
+    <% } %>
+    <% if (theme.cv_sections && theme.cv_sections.languages !== false) { %>
+      <a href="#languages" class="btn btn-outline btn-secondary">Languages</a>
+    <% } %>
+    <% if (theme.cv_sections && theme.cv_sections.teaching !== false) { %>
+      <a href="#teaching" class="btn btn-outline btn-secondary">Teaching</a>
+    <% } %>
+
+
+
+
   </nav>
 
   <!-- Download CV -->
@@ -19,9 +36,7 @@
          target="_blank" rel="noopener noreferrer" 
          title="Download PDF" 
          download>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
+        <i class="fa-solid fa-file-arrow-down"></i>
         <span>Download PDF</span>
       </a>
     <% } else { %>
@@ -29,9 +44,7 @@
               class="btn btn-primary glass-button inline-flex items-center space-x-2 px-4 py-2" 
               title="Download PDF" 
               type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
+        <i class="fa-solid fa-file-arrow-down"></i>
         <span>Download PDF</span>
       </button>
     <% } %>
@@ -39,6 +52,7 @@
   
 
   <!-- Education -->
+  <% if (theme.cv_sections && theme.cv_sections.education !== false) { %>
   <section class="mb-8" id="education">
     <h2 class="text-2xl font-bold mb-4 text-base-content">Education</h2>
     <div class="grid gap-6">
@@ -63,8 +77,10 @@
       <% }); %>
     </div>
   </section>
+  <% } %>
 
   <!-- Professional Experience -->
+  <% if (theme.cv_sections && theme.cv_sections.experience !== false) { %>
   <section class="mb-8" id="experience">
     <h2 class="text-2xl font-bold mb-4 text-base-content">Professional Experience</h2>
     <div class="grid gap-6">
@@ -93,8 +109,10 @@
       <% }); %>
     </div>
   </section>
+  <% } %>
 
   <!-- Skills -->
+  <% if (theme.cv_sections && theme.cv_sections.skills !== false) { %>
   <section class="mb-8" id="skills">
     <h2 class="text-2xl font-bold mb-4 text-base-content">Skills</h2>
     <div class="grid gap-6">
@@ -117,8 +135,10 @@
       <% } %>
     </div>
   </section>
+  <% } %>
 
   <!-- Awards & Honors -->
+  <% if (theme.cv_sections && theme.cv_sections.awards !== false) { %>
   <section class="mb-8" id="awards">
     <h2 class="text-2xl font-bold mb-4 text-base-content">Awards & Honors</h2>
     <div class="grid gap-6">
@@ -142,8 +162,10 @@
       <% }); %>
     </div>
   </section>
+  <% } %>
 
   <!-- Languages -->
+  <% if (theme.cv_sections && theme.cv_sections.languages !== false) { %>
   <section class="mb-8" id="languages">
   <h2 class="text-2xl font-bold mb-4 text-base-content">Languages</h2>
   <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-6">
@@ -157,8 +179,42 @@
     </div>
   </div>
 </section>
+<% } %>
 
-
-
+  <!-- Teaching -->
+  <% if (theme.cv_sections && theme.cv_sections.teaching !== false && site.data.cv.teaching) { %>
+  <section class="mb-8" id="teaching">
+    <h2 class="text-2xl font-bold mb-4 text-base-content">Teaching Experience</h2>
+    <div class="grid gap-6">
+      <% site.data.cv.teaching.forEach(function(course) { %>
+        <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
+          <div class="card-body">
+            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
+              <%= course.course_name %>
+              <% if (course.period) { %>
+                <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap"><%= course.period %></div>
+              <% } %>
+            </h2>
+            <div class="text-base-content opacity-80">
+              <p class="font-medium"><%= course.institution %></p>
+              <% if (course.role) { %>
+                <p class="text-sm opacity-70"><%= course.role %></p>
+              <% } %>
+              <% if (course.description) { %>
+                <p class="mt-2 opacity-90"><%= course.description %></p>
+              <% } %>
+              <% if (course.students) { %>
+                <p class="text-sm mt-2 opacity-70">Students: <%= course.students %></p>
+              <% } %>
+              <% if (course.evaluation) { %>
+                <p class="text-sm mt-1 opacity-70">Evaluation: <%= course.evaluation %></p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } %>
 
 </div>
