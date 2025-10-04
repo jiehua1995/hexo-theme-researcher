@@ -50,7 +50,7 @@
           <!-- Enhanced Prose Styles -->
           <style>
             .post-content {
-              line-height: 1.7;
+              line-height: 1.2;
               font-size: 1.1rem;
             }
             
@@ -86,15 +86,13 @@
             /* Code blocks styling */
             .post-content .mockup-code {
               margin: 1.5rem 0;
+              font-size: 1rem;
             }
             
             .post-content .mockup-code pre {
               white-space: pre-wrap;
               word-wrap: break-word;
               overflow-wrap: break-word;
-              padding-top: 0.25rem;
-              padding-bottom: 0.25rem;
-              line-height: 1.2;
             }
             
             .post-content .mockup-code code {
@@ -262,9 +260,10 @@
               line-height: 1;
             }
             
-            /* Hide standalone $$ text nodes */
-            .post-content p {
-              word-spacing: normal;
+            /* Math display styling */
+            .math-display {
+              text-align: center;
+              margin: 1.5rem 0;
             }
             
             /* Fix for inline code in headings */
@@ -276,7 +275,32 @@
             }
           </style>
           
-          <%- page.content %>
+          <div id="raw-content" style="display: none;"><%- page.content %></div>
+          <div id="processed-content"></div>
+          
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const rawContent = document.getElementById('raw-content').innerHTML;
+              const processedContent = document.getElementById('processed-content');
+              
+              // 处理多行 $$ 公式：去除单独行的 $$
+              let cleanedContent = rawContent.replace(/<p>\s*\$\$\s*<\/p>/g, '');
+              
+              // 处理包含 $$ 的段落，只保留中间的内容
+              cleanedContent = cleanedContent.replace(/<p>\s*\$\$([\s\S]*?)\$\$\s*<\/p>/g, function(match, formula) {
+                return '<div class="math-display">$$' + formula + '$$</div>';
+              });
+              
+              processedContent.innerHTML = cleanedContent;
+              
+              // 重新初始化 MathJax
+              if (window.MathJax) {
+                MathJax.typesetPromise([processedContent]).catch(function (err) {
+                  console.log('MathJax typeset failed: ' + err.message);
+                });
+              }
+            });
+          </script>
         </div>
 
         <!-- Tags Footer -->
@@ -526,6 +550,22 @@ function copyToClipboard() {
 }
 
 
+</script>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    tags: 'ams'
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
 </script>
 
 <script type="text/javascript" id="MathJax-script" async
