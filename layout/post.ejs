@@ -1,31 +1,20 @@
-<!-- Post Layout -->
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8 max-w-4xl space-y-6">
+  <!-- Post Header Card -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h1 class="text-4xl font-bold text-primary mb-4"><%= page.title %></h1>
+      
+      <div class="flex flex-wrap items-center gap-4 text-sm opacity-70 mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-regular fa-calendar"></i>
+          <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
+        </div>
 
-    <!-- Main Article -->
-    <article class="card bg-base-100 shadow-xl">
-      <div class="card-body p-8">
-        <!-- Article Header -->
-        <header class="mb-8 border-b border-base-300 pb-6">
-          <h1 class="text-2xl font-bold mb-4 text-base-content leading-tight">
-            <%= page.title %>
-          </h1>
-          
-          <!-- Meta Information -->
-          <div class="flex flex-wrap items-center gap-4 text-sm opacity-75 mb-4">
-            <div class="flex items-center gap-1">
-              <i class="fa-solid fa-calendar"></i>
-              <time datetime="<%= page.date.format('YYYY-MM-DD') %>">
-                <%= page.date.format('MMMM DD, YYYY') %>
-              </time>
-            </div>
-            
-            <div class="flex items-center gap-1">
+        <div class="flex items-center gap-1">
               <i class="fa-solid fa-clock"></i>
               <span><%= Math.ceil(strip_html(page.content).length / 250) %> min read</span>
-            </div>
-          </div>
-
-          <!-- Categories and Tags -->
+        </div>
+        <!-- Categories and Tags -->
           <div class="flex flex-wrap gap-2">
             <% if (page.categories && page.categories.length > 0) { %>
               <% page.categories.forEach(function(category) { %>
@@ -43,267 +32,288 @@
               <% }); %>
             <% } %>
           </div>
-        </header>
+      </div>
+    
+    </div>
+  </div>
 
-        <!-- Article Content -->
-        <div class="post-content">
-          <!-- Enhanced Prose Styles -->
-          <style>
-            .post-content {
-              line-height: 1.2;
-              font-size: 1.1rem;
-            }
-            
-            .post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
-              color: hsl(var(--bc));
-              font-weight: 700;
-              margin-top: 2rem;
-              margin-bottom: 1rem;
-              line-height: 1.3;
-            }
-            
-            .post-content h1 { font-size: 1.5rem; }
-            .post-content h2 { font-size: 1.25rem; }
-            .post-content h3 { font-size: 1.125rem; }
-            .post-content h4 { font-size: 1rem; }
-            .post-content h5 { font-size: 0.875rem; }
-            .post-content h6 { font-size: 0.8rem; }
-            
-            .post-content p {
-              color: hsl(var(--bc));
-              margin-bottom: 1.5rem;
-            }
-            
-            .post-content strong, .post-content b {
-              color: hsl(var(--bc));
-              font-weight: 600;
-            }
-            
-            .post-content em, .post-content i {
-              font-style: italic;
-            }
-            
-            /* Code blocks styling */
-            .post-content .mockup-code {
-              margin: 1.5rem 0;
-              font-size: 1rem;
-            }
-            
-            .post-content .mockup-code pre {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-              overflow-wrap: break-word;
-            }
-            
-            .post-content .mockup-code code {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-              overflow-wrap: break-word;
-            }
-            
-            /* Hide original highlight containers */
-            .post-content .highlight {
-              display: none;
-            }
-            
-            /* Style for transformed code blocks */
-            .post-content pre:not(.mockup-code pre) {
-              background-color: hsl(var(--b2));
-              padding: 1rem;
-              border-radius: 0.5rem;
-              overflow-x: auto;
-              margin: 1.5rem 0;
-            }
-            
-            /* Inline code styling */
-            .post-content code {
-              background-color: hsl(var(--n) / 0.08);
-              color: hsl(var(--bc));
-              padding: 0.2rem 0.4rem;
-              border-radius: 0.25rem;
-              font-size: 0.875rem;
-              border: 1px solid hsl(var(--b3));
-            }
-            
-            /* Reset code styling inside mockup-code */
-            .post-content .mockup-code code {
-              background: none;
-              border: none;
-              padding: 0;
-              font-size: inherit;
-            }
-            
-            .post-content blockquote {
-              border: 2px solid hsl(var(--b3));
-              border-left: 4px solid hsl(var(--p));
-              background-color: hsl(var(--n) / 0.03);
-              padding: 1rem 1.5rem;
-              margin: 1.5rem 0;
-              font-style: italic;
-              color: hsl(var(--bc));
-              border-radius: 0.5rem;
-              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
-            
-            .post-content ul, .post-content ol {
-              margin: 1.5rem 0;
-              padding-left: 2rem;
-            }
-            
-            .post-content li {
-              color: hsl(var(--bc));
-              margin-bottom: 0.5rem;
-            }
-            
-            .post-content ul {
-              list-style-type: disc;
-            }
-            
-            .post-content ol {
-              list-style-type: decimal;
-            }
-            
-            .post-content a {
-              color: hsl(var(--p));
-              text-decoration: underline;
-              text-decoration-thickness: 1px;
-              text-underline-offset: 2px;
-              transition: all 0.2s ease;
-            }
-            
-            .post-content a:hover {
-              color: hsl(var(--pf));
-              text-decoration-thickness: 2px;
-            }
-            
-            .post-content table {
-              width: 100%;
-              margin: 1.5rem 0;
-              border-collapse: collapse;
-              border-radius: 0.5rem;
-              overflow: hidden;
-              border: 2px solid hsl(var(--b3));
-              border-left: 4px solid hsl(var(--p));
-              background-color: hsl(var(--b2) / 0.3);
-              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
-            
-            .post-content th {
-              background-color: hsl(var(--b2));
-              font-weight: 600;
-              padding: 0.75rem 1rem;
-              text-align: left;
-              color: hsl(var(--bc));
-              border-bottom: 1px solid hsl(var(--bc));
-              border-right: 1px solid hsl(var(--bc));
-            }
-            
-            .post-content th:last-child {
-              border-right: none;
-            }
-            
-            .post-content td {
-              padding: 0.75rem 1rem;
-              color: hsl(var(--bc));
-              border-bottom: 1px solid hsl(var(--bc));
-              border-right: 1px solid hsl(var(--bc));
-            }
-            
-            .post-content td:last-child {
-              border-right: none;
-            }
-            
-            .post-content tbody tr:nth-child(even) {
-              background-color: hsl(var(--b2) / 0.5);
-            }
-            
-            .post-content tbody tr:hover {
-              background-color: hsl(var(--b2));
-            }
-            
-            .post-content tbody tr:last-child td {
-              border-bottom: none;
-            }
-            
-            .post-content img {
-              max-width: 100%;
-              height: auto;
-              border-radius: 0.5rem;
-              margin: 1.5rem 0;
-              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            }
-            
-            .post-content hr {
-              border: none;
-              height: 1px;
-              background-color: hsl(var(--b3));
-              margin: 2rem 0;
-            }
-            
-            /* Math formulas styling */
-            .post-content .MathJax {
-              font-size: 1.1em !important;
-            }
-            
-            .post-content mjx-container {
-              margin: 0.5rem 0;
-            }
-            
-            .post-content mjx-container[display="true"] {
-              margin: 1.5rem 0;
-              text-align: center;
-            }
-            
-            /* Better handling of display math containers */
-            .post-content p:has(mjx-container[display="true"]) {
-              text-align: center;
-              line-height: 1;
-            }
-            
-            /* Math display styling */
-            .math-display {
-              text-align: center;
-              margin: 1.5rem 0;
-            }
-            
-            /* Fix for inline code in headings */
-            .post-content h1 code, .post-content h2 code, .post-content h3 code, 
-            .post-content h4 code, .post-content h5 code, .post-content h6 code {
-              font-size: 0.85em;
-              background-color: hsl(var(--b2));
-              padding: 0.2rem 0.4rem;
-            }
-          </style>
+  <!-- Post Content Card -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <!-- Post Content -->
+      <div class="prose prose-lg max-w-none post-content">
+        <style>
+          /* ========== 基础排版样式 ========== */
+          /* 主要内容容器：post-content 类 */
+          .post-content {
+            line-height: 1.8;                   /* 行高：1.8 */
+            color: hsl(var(--bc));              /* 颜色：基础内容色 */
+          }
           
-          <div id="raw-content" style="display: none;"><%- page.content %></div>
-          <div id="processed-content"></div>
+          /* 标题样式：h1-h6 元素 */
+          .post-content h1, .post-content h2, .post-content h3,
+          .post-content h4, .post-content h5, .post-content h6 {
+            color: hsl(var(--bc));              /* 颜色：基础内容色 */
+            font-weight: 600;                   /* 字重：半粗体 */
+            margin-top: 2rem;                   /* 上边距 */
+            margin-bottom: 1rem;                /* 下边距 */
+            line-height: 1.3;                   /* 行高：紧密 */
+          }
           
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              const rawContent = document.getElementById('raw-content').innerHTML;
-              const processedContent = document.getElementById('processed-content');
-              
-              // 处理多行 $$ 公式：去除单独行的 $$
-              let cleanedContent = rawContent.replace(/<p>\s*\$\$\s*<\/p>/g, '');
-              
-              // 处理包含 $$ 的段落，只保留中间的内容
-              cleanedContent = cleanedContent.replace(/<p>\s*\$\$([\s\S]*?)\$\$\s*<\/p>/g, function(match, formula) {
-                return '<div class="math-display">$$' + formula + '$$</div>';
-              });
-              
-              processedContent.innerHTML = cleanedContent;
-              
-              // 重新初始化 MathJax
-              if (window.MathJax) {
-                MathJax.typesetPromise([processedContent]).catch(function (err) {
-                  console.log('MathJax typeset failed: ' + err.message);
-                });
-              }
-            });
-          </script>
-        </div>
+          /* 段落样式：p 元素 */
+          .post-content p {
+            margin: 1.2rem 0;                  /* 上下边距 */
+            text-align: justify;                /* 两端对齐 */
+          }
+          
+          /* 强调文本：strong 和 b 元素 */
+          .post-content strong, .post-content b {
+            font-weight: 700;                   /* 字重：粗体 */
+            color: hsl(var(--bc));              /* 颜色：基础内容色 */
+          }
+          
+          /* 斜体文本：em 和 i 元素 */
+          .post-content em, .post-content i {
+            font-style: italic;                 /* 斜体 */
+            color: hsl(var(--bc) / 0.9);       /* 颜色：略透明的基础内容色 */
+          }
 
-        <!-- Tags Footer -->
+          /* ========== 代码块样式 ========== */
+          /* DaisyUI mockup-code 组件：代码块容器 */
+          .post-content .mockup-code {
+            margin: 1.5rem 0;                  /* 上下边距 */
+            border-radius: 0.5rem;              /* 圆角 */
+            overflow: hidden;                   /* 隐藏溢出内容 */
+          }
+          
+          /* mockup-code 内的 pre 元素：预格式化文本容器 */
+          .post-content .mockup-code pre {
+            white-space: pre-wrap;              /* 保持空白，允许换行 */
+            word-wrap: break-word;              /* 长单词换行 */
+            overflow-wrap: break-word;          /* 溢出换行 */
+            line-height: 0;                     /* 行高：0（行与行之间无间距） */
+            margin: 0;                          /* 上下边距：0 */
+          }
+          
+          /* mockup-code 内的 code 元素：代码文本 */
+          .post-content .mockup-code code {
+            white-space: pre-wrap;              /* 保持空白，允许换行 */
+            word-wrap: break-word;              /* 长单词换行 */
+            overflow-wrap: break-word;          /* 溢出换行 */
+            background: none;                   /* 移除背景 */
+            border: none;                       /* 移除边框 */
+            padding: 0;                         /* 移除内边距 */
+            font-size: inherit;                 /* 继承父元素字体大小 */
+            line-height: 1.2;                     /* 行高：0（行与行之间无间距） */
+            margin: 0;                          /* 上下边距：0 */
+          }
+          
+          /* 隐藏原始的语法高亮容器：避免样式冲突 */
+          .post-content .highlight {
+            display: none;                      /* 完全隐藏 */
+          }
+          
+          /* 行内代码样式：code 标签 */
+          .post-content code {
+            background-color: hsl(var(--n) / 0.08);  /* 半透明中性色背景 */
+            color: hsl(var(--bc));                    /* 基础内容颜色 */
+            padding: 0.2rem 0.4rem;                   /* 内边距 */
+            border-radius: 0.25rem;                   /* 圆角 */
+            font-size: 0.875rem;                      /* 字体大小 14px */
+            border: 1px solid hsl(var(--b3));        /* 边框 */
+          }
+
+          /* ========== 引用块样式 ========== */
+          /* blockquote 元素：引用文本块 */
+          .post-content blockquote {
+            border-left: 4px solid hsl(var(--p));    /* 左边框：主色调 */
+            background-color: hsl(var(bg-base-200));        /* 背景：base-200 */
+            margin: 1.5rem 0;                        /* 上下边距 */
+            padding: 1rem 1.5rem;                    /* 内边距 */
+            border-radius: 0 0.5rem 0.5rem 0;        /* 右侧圆角 */
+            position: relative;                       /* 相对定位 */
+            font-style: italic;                       /* 斜体 */
+            color: hsl(var(--bc) / 0.9);            /* 颜色：略透明 */
+          }
+          
+          /* 引用块内的段落：移除额外边距 */
+          .post-content blockquote p {
+            margin: 0.5rem 0;                  /* 减少上下边距 */
+          }
+          
+          /* 引用块最后一个段落：移除下边距 */
+          .post-content blockquote p:last-child {
+            margin-bottom: 0;                  /* 移除下边距 */
+          }
+
+          /* ========== 列表样式 ========== */
+          /* 无序列表：ul 元素 */
+          .post-content ul {
+            margin: 1rem 0;                    /* 上下边距 */
+            padding-left: 2rem;                /* 左内边距 */
+            list-style-type: disc;              /* 列表标记：实心圆点 */
+          }
+          
+          /* 有序列表：ol 元素 */
+          .post-content ol {
+            margin: 1rem 0;                    /* 上下边距 */
+            padding-left: 2rem;                /* 左内边距 */
+            list-style-type: decimal;           /* 列表标记：数字 */
+          }
+          
+          /* 列表项：li 元素 */
+          .post-content li {
+            margin: 0.5rem 0;                  /* 上下边距 */
+            line-height: 1.6;                  /* 行高 */
+          }
+          
+          /* 嵌套列表：缩进和不同标记 */
+          .post-content ul ul {
+            list-style-type: circle;            /* 二级：空心圆 */
+            margin: 0.5rem 0;                  /* 减少边距 */
+          }
+          
+          .post-content ul ul ul {
+            list-style-type: square;            /* 三级：方形 */
+          }
+
+          /* ========== 链接样式 ========== */
+          /* 链接元素：a 标签的默认状态 */
+          .post-content a {
+            color: hsl(var(--p));               /* 主色调 */
+            text-decoration: underline;         /* 下划线 */
+            text-decoration-thickness: 1px;     /* 下划线粗细 */
+            text-underline-offset: 2px;         /* 下划线偏移距离 */
+            transition: all 0.2s ease;          /* 平滑过渡效果 */
+          }
+          
+          /* 链接悬停状态：鼠标悬停时的样式 */
+          .post-content a:hover {
+            color: hsl(var(--pf));              /* 主色调焦点色 */
+            text-decoration-thickness: 2px;     /* 下划线变粗 */
+          }
+          
+          /* ========== 表格样式 ========== */
+          /* 表格容器：table 元素 */
+          .post-content table {
+            width: 100%;                        /* 全宽 */
+            margin: 1.5rem 0;                  /* 上下边距 */
+            border-collapse: collapse;          /* 边框合并 */
+            border-radius: 0.5rem;              /* 圆角 */
+            overflow: hidden;                   /* 隐藏溢出（实现圆角效果） */
+            border: 2px solid hsl(var(--b3));  /* 整体边框 */
+            border-left: 4px solid hsl(var(--p)); /* 左边框加粗：主色调 */
+            background-color: hsl(var(--b2) / 0.3); /* 背景：半透明基础色 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+          }
+          
+          /* 表头单元格：th 元素 */
+          .post-content th {
+            background-color: hsl(var(--b2));   /* 基础色背景 */
+            font-weight: 600;                   /* 半粗体 */
+            padding: 0.75rem 1rem;              /* 内边距 */
+            text-align: left;                   /* 左对齐 */
+            color: hsl(var(--bc));              /* 基础内容颜色 */
+            border-bottom: 1px solid hsl(var(--bc)); /* 下边框 */
+            border-right: 1px solid hsl(var(--bc));  /* 右边框 */
+          }
+          
+          /* 表头最后一列：移除右边框 */
+          .post-content th:last-child {
+            border-right: none;                 /* 移除右边框 */
+          }
+          
+          /* 表格数据单元格：td 元素 */
+          .post-content td {
+            padding: 0.75rem 1rem;              /* 内边距 */
+            color: hsl(var(--bc));              /* 基础内容颜色 */
+            border-bottom: 1px solid hsl(var(--bc)); /* 下边框 */
+            border-right: 1px solid hsl(var(--bc));  /* 右边框 */
+          }
+          
+          /* 数据单元格最后一列：移除右边框 */
+          .post-content td:last-child {
+            border-right: none;                 /* 移除右边框 */
+          }
+          
+          /* 表格奇偶行样式：偶数行背景色 */
+          .post-content tbody tr:nth-child(even) {
+            background-color: hsl(var(--b2) / 0.5); /* 半透明基础色背景 */
+          }
+          
+          /* 表格行悬停效果：鼠标悬停时的背景色 */
+          .post-content tbody tr:hover {
+            background-color: hsl(var(--b2));   /* 基础色背景 */
+          }
+          
+          /* 表格最后一行：移除下边框 */
+          .post-content tbody tr:last-child td {
+            border-bottom: none;                /* 移除下边框 */
+          }
+
+          /* ========== 图片样式 ========== */
+          /* 图片元素：img 标签样式 */
+          .post-content img {
+            max-width: 100%;                    /* 最大宽度：响应式 */
+            height: auto;                       /* 自动高度：保持比例 */
+            border-radius: 0.5rem;              /* 圆角 */
+            margin: 1.5rem 0;                  /* 上下边距 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+          }
+          
+          /* ========== 分割线样式 ========== */
+          /* 分割线元素：hr 标签 */
+          .post-content hr {
+            border: none;                       /* 移除默认边框 */
+            height: 1px;                        /* 高度 */
+            background-color: hsl(var(--b3));   /* 背景色：基础色 */
+            margin: 2rem 0;                     /* 上下边距 */
+          }
+          
+          /* ========== 数学公式样式 ========== */
+          /* MathJax 通用样式：数学公式容器（v2兼容） */
+          .post-content .MathJax {
+            font-size: 1.1em !important;       /* 字体大小：略大于正文 */
+          }
+          
+          /* MathJax v3 容器：行内数学公式 */
+          .post-content mjx-container {
+            margin: 0.5rem 0;                  /* 上下边距 */
+          }
+          
+          /* MathJax v3 块级容器：display="true" 属性的公式 */
+          .post-content mjx-container[display="true"] {
+            margin: 1.5rem 0;                  /* 上下边距 */
+            text-align: center;                /* 居中对齐 */
+          }
+          
+          /* 包含块级数学公式的段落：:has() 伪类选择器 */
+          .post-content p:has(mjx-container[display="true"]) {
+            text-align: center;                /* 居中对齐 */
+            line-height: 1;                    /* 行高：紧密排列 */
+          }
+          
+          /* 自定义数学显示容器：.math-display 类 */
+          .math-display {
+            text-align: center;                /* 居中对齐 */
+            margin: 1.5rem 0;                 /* 上下边距 */
+          }
+
+          /* ========== 特殊元素样式修复 ========== */
+          /* 标题中的行内代码：h1-h6 标题内的 code 元素 */
+          .post-content h1 code, .post-content h2 code, .post-content h3 code, 
+          .post-content h4 code, .post-content h5 code, .post-content h6 code {
+            font-size: 0.85em;                 /* 字体大小：相对于标题字体的85% */
+            background-color: hsl(var(--b2));  /* 背景色：基础色 */
+            padding: 0.2rem 0.4rem;            /* 内边距 */
+          }
+        </style>
+        
+      <!-- Content will be processed here -->
+      <div id="processed-content"><%- page.content %></div>
+
+
+      <!-- Tags Footer -->
         <% if (page.tags && page.tags.length > 0) { %>
           <footer class="mt-8 pt-6 border-t border-base-300">
             <div class="flex flex-wrap gap-2 items-center">
@@ -316,10 +326,14 @@
             </div>
           </footer>
         <% } %>
-      </div>
-    </article>
+    </div>
+  </div>
 
-    <!-- Post Footer -->
+  
+   
+  </div>
+
+  <!-- Post Footer -->
     <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- Share Section -->
       <div class="card bg-base-100 shadow-lg">
@@ -367,19 +381,19 @@
       </div>
     </div>
 
-    <!-- Previous/Next Navigation -->
-    <% if (page.prev || page.next) { %>
-      <nav class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+  <!-- Previous/Next Navigation Card -->
+  <% if (page.prev || page.next) { %>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h3 class="card-title mb-4">More Posts</h3>
+      <nav class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <% if (page.prev) { %>
-          <a href="<%= url_for(page.prev.path) %>" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-            <div class="card-body p-6">
-              <div class="flex items-center gap-4">
-                <i class="fa-solid fa-left-long"></i>
-                <div class="flex-1 min-w-0">
-                  <div class="text-xs opacity-60 mb-1">Previous Post</div>
-                  <div class="font-semibold truncate"><%= page.prev.title %></div>
-                </div>
-              </div>
+          <a href="<%= url_for(page.prev.path) %>" class="btn btn-outline w-full justify-start hover:btn-primary transition-all duration-300">
+            <i class="fa-solid fa-left-long"></i>
+            <div class="flex-1 min-w-0 text-left ml-2">
+              <div class="text-xs opacity-60">Previous Post</div>
+              <div class="font-semibold truncate"><%= page.prev.title %></div>
             </div>
           </a>
         <% } else { %>
@@ -387,171 +401,219 @@
         <% } %>
         
         <% if (page.next) { %>
-          <a href="<%= url_for(page.next.path) %>" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-            <div class="card-body p-6">
-              <div class="flex items-center gap-4">
-                <div class="flex-1 min-w-0 text-right">
-                  <div class="text-xs opacity-60 mb-1">Next Post</div>
-                  <div class="font-semibold truncate"><%= page.next.title %></div>
-                </div>
-                <i class="fa-solid fa-right-long"></i>
-              </div>
+          <a href="<%= url_for(page.next.path) %>" class="btn btn-outline w-full justify-end hover:btn-primary transition-all duration-300">
+            <div class="flex-1 min-w-0 text-right mr-2">
+              <div class="text-xs opacity-60">Next Post</div>
+              <div class="font-semibold truncate"><%= page.next.title %></div>
             </div>
+            <i class="fa-solid fa-right-long"></i>
           </a>
         <% } %>
       </nav>
-    <% } %>
+    </div>
+  </div>
+  <% } %>
+
 </div>
 
-<script>
-// Initialize post content when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  // Transform Hexo highlight.js code blocks to mockup-code style
-  const highlightFigures = document.querySelectorAll('.post-content figure.highlight');
-  
-  highlightFigures.forEach(function(figure) {
-    // Extract all code lines from the table structure
-    const codeLines = [];
-    const lineSpans = figure.querySelectorAll('td.code .line');
-    
-    lineSpans.forEach(function(lineSpan) {
-      // Get the text content of each line, preserving spaces
-      let lineText = '';
-      
-      // Process all child nodes to preserve text and spaces
-      for (let node of lineSpan.childNodes) {
-        if (node.nodeType === Node.TEXT_NODE) {
-          lineText += node.textContent;
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-          lineText += node.textContent;
-        }
-      }
-      
-      codeLines.push(lineText);
-    });
-    
-    // If we couldn't get lines from the table, try alternative method
-    if (codeLines.length === 0) {
-      const codeContent = figure.querySelector('td.code');
-      if (codeContent) {
-        const text = codeContent.textContent || codeContent.innerText;
-        codeLines.push(...text.split('\n').filter(line => line.trim() !== ''));
-      }
-    }
-    
-    if (codeLines.length === 0) return; // Skip if no content
-    
-    // Create new mockup-code container
-    const mockupCode = document.createElement('div');
-    mockupCode.className = 'mockup-code bg-base-200 text-base-content w-full';
-    
-    // Build HTML string with line numbers
-    let htmlContent = '';
-    codeLines.forEach((line, index) => {
-      const lineNumber = index + 1;
-      const escapedLine = line
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-      
-      // Detect special line types and add appropriate styling
-      let className = '';
-      const lowerLine = line.toLowerCase().trim();
-      
-      if (lowerLine.includes('error') || lowerLine.includes('exception') || lowerLine.includes('failed')) {
-        className = ' class="bg-error text-error-content"';
-      } else if (lowerLine.includes('warning') || lowerLine.includes('warn')) {
-        className = ' class="bg-warning text-warning-content"';
-      } else if (lowerLine.includes('success') || lowerLine.includes('done') || lowerLine.includes('completed')) {
-        className = ' class="bg-success text-success-content"';
-      } else if (lowerLine.includes('info') || lowerLine.includes('installing') || lowerLine.includes('loading')) {
-        className = ' class="bg-info text-info-content"';
-      }
-      
-      htmlContent += `<pre data-prefix="${lineNumber}"${className}><code>${escapedLine}</code></pre>`;
-      if (index < codeLines.length - 1) {
-        htmlContent += '\n';
-      }
-    });
-    
-    mockupCode.innerHTML = htmlContent;
-    
-    // Replace the original figure element
-    figure.parentNode.replaceChild(mockupCode, figure);
-  });
-  
-  // Also handle any remaining regular pre/code blocks
-  const preBlocks = document.querySelectorAll('.post-content pre:not(.mockup-code pre)');
-  preBlocks.forEach(function(pre) {
-    if (pre.closest('.mockup-code')) return; // Skip if already processed
-    
-    const codeElement = pre.querySelector('code') || pre;
-    const text = codeElement.textContent || codeElement.innerText || '';
-    const lines = text.split('\n').filter(line => line.trim() !== '');
-    
-    if (lines.length === 0) return;
-    
-    const mockupCode = document.createElement('div');
-    mockupCode.className = 'mockup-code bg-base-200 text-base-content w-full';
-    
-    let htmlContent = '';
-    lines.forEach((line, index) => {
-      const lineNumber = index + 1;
-      const escapedLine = line
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-      
-      htmlContent += `<pre data-prefix="${lineNumber}"><code>${escapedLine}</code></pre>`;
-      if (index < lines.length - 1) {
-        htmlContent += '\n';
-      }
-    });
-    
-    mockupCode.innerHTML = htmlContent;
-    pre.parentNode.replaceChild(mockupCode, pre);
-  });
-});
 
+
+
+
+<!-- Math Processing and Code Block Transformation -->
+<script>
+// Copy to clipboard function
 function copyToClipboard() {
-  navigator.clipboard.writeText(window.location.href).then(function() {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(function() {
+    // Show success feedback
     const button = event.target.closest('button');
-    const originalHTML = button.innerHTML;
-    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    button.classList.remove('btn-outline');
     button.classList.add('btn-success');
     
-    setTimeout(() => {
-      button.innerHTML = originalHTML;
+    setTimeout(function() {
+      button.innerHTML = originalText;
       button.classList.remove('btn-success');
+      button.classList.add('btn-outline');
     }, 2000);
-  }).catch(function() {
+  }).catch(function(err) {
+    console.error('Failed to copy: ', err);
     // Fallback for older browsers
     const textArea = document.createElement('textarea');
-    textArea.value = window.location.href;
+    textArea.value = url;
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
     
+    // Show success feedback
     const button = event.target.closest('button');
-    const originalHTML = button.innerHTML;
-    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    button.classList.remove('btn-outline');
     button.classList.add('btn-success');
     
-    setTimeout(() => {
-      button.innerHTML = originalHTML;
+    setTimeout(function() {
+      button.innerHTML = originalText;
       button.classList.remove('btn-success');
+      button.classList.add('btn-outline');
     }, 2000);
   });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  const processedContent = document.getElementById('processed-content');
+  let content = processedContent.innerHTML;
 
+  // ========== 数学公式处理 ==========
+  console.log('开始处理数学公式...');
+  
+  // 1. 处理单行公式：<p>$$formula$$</p>
+  content = content.replace(/<p>\s*\$\$([\s\S]*?)\$\$\s*<\/p>/g, function(match, formula) {
+    console.log('找到单行公式:', formula.trim());
+    return '<div class="math-display">$$' + formula.trim() + '$$</div>';
+  });
+
+  // 2. 处理多行公式：<p>$$</p>...content...<p>$$</p>
+  content = content.replace(/<p>\s*\$\$\s*<\/p>([\s\S]*?)<p>\s*\$\$\s*<\/p>/g, function(match, mathContent) {
+    console.log('找到多行公式:', mathContent);
+    // 提取数学内容，移除HTML标签
+    const cleanContent = mathContent
+      .replace(/<p>/g, '\n')
+      .replace(/<\/p>/g, '')
+      .replace(/\n+/g, '\n')
+      .trim();
+    console.log('清理后的数学内容:', cleanContent);
+    return '<div class="math-display">$$\n' + cleanContent + '\n$$</div>';
+  });
+
+  // 3. 清理任何剩余的单独$$ 
+  content = content.replace(/<p>\s*\$\$\s*<\/p>/g, '');
+  
+  console.log('数学公式处理完成');
+
+  // 更新内容
+  processedContent.innerHTML = content;
+
+  // ========== 代码块转换 ==========
+  setTimeout(function() {
+    console.log('开始处理代码块...');
+    
+    // 转换 Hexo highlight.js 代码块为 mockup-code 样式
+    const highlightFigures = processedContent.querySelectorAll('figure.highlight');
+    console.log('找到代码块数量:', highlightFigures.length);
+    
+    highlightFigures.forEach(function(figure) {
+      const codeLines = [];
+      const lineSpans = figure.querySelectorAll('td.code .line');
+      
+      lineSpans.forEach(function(lineSpan) {
+        let lineText = '';
+        for (let node of lineSpan.childNodes) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            lineText += node.textContent;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            lineText += node.textContent;
+          }
+        }
+        codeLines.push(lineText);
+      });
+
+      // 如果没有从表格获取到行，尝试其他方法
+      if (codeLines.length === 0) {
+        const codeContent = figure.querySelector('td.code');
+        if (codeContent) {
+          const text = codeContent.textContent || codeContent.innerText;
+          codeLines.push(...text.split('\n').filter(line => line.trim() !== ''));
+        }
+      }
+
+      if (codeLines.length === 0) return;
+
+      // 创建新的 mockup-code 容器
+      const mockupCode = document.createElement('div');
+      mockupCode.className = 'mockup-code bg-base-200 text-base-content w-full';
+      
+      let htmlContent = '';
+      codeLines.forEach((line, index) => {
+        const lineNumber = index + 1;
+        const escapedLine = line
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+        
+        // 检测特殊行类型并添加相应样式
+        let className = '';
+        const lowerLine = line.toLowerCase().trim();
+        
+        if (lowerLine.includes('error') || lowerLine.includes('exception') || lowerLine.includes('failed')) {
+          className = ' class="bg-error text-error-content"';
+        } else if (lowerLine.includes('warning') || lowerLine.includes('warn')) {
+          className = ' class="bg-warning text-warning-content"';
+        } else if (lowerLine.includes('success') || lowerLine.includes('done') || lowerLine.includes('completed')) {
+          className = ' class="bg-success text-success-content"';
+        } else if (lowerLine.includes('info') || lowerLine.includes('installing') || lowerLine.includes('loading')) {
+          className = ' class="bg-info text-info-content"';
+        }
+        
+        htmlContent += `<pre data-prefix="${lineNumber}"${className}><code>${escapedLine}</code></pre>`;
+      });
+
+      mockupCode.innerHTML = htmlContent;
+      figure.parentNode.replaceChild(mockupCode, figure);
+    });
+
+    // 处理其他普通的 pre/code 块
+    const preBlocks = processedContent.querySelectorAll('pre:not(.mockup-code pre)');
+    preBlocks.forEach(function(pre) {
+      if (pre.closest('.mockup-code')) return;
+      
+      const codeElement = pre.querySelector('code') || pre;
+      const text = codeElement.textContent || codeElement.innerText || '';
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+      
+      if (lines.length === 0) return;
+      
+      const mockupCode = document.createElement('div');
+      mockupCode.className = 'mockup-code bg-base-200 text-base-content w-full';
+      
+      let htmlContent = '';
+      lines.forEach((line, index) => {
+        const lineNumber = index + 1;
+        const escapedLine = line
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+        
+        htmlContent += `<pre data-prefix="${lineNumber}"><code>${escapedLine}</code></pre>`;
+      });
+
+      mockupCode.innerHTML = htmlContent;
+      pre.parentNode.replaceChild(mockupCode, pre);
+    });
+
+    console.log('代码块处理完成');
+
+    // ========== MathJax 初始化 ==========
+    console.log('初始化 MathJax...');
+    if (window.MathJax) {
+      MathJax.typesetPromise([processedContent]).then(function() {
+        console.log('MathJax 渲染完成');
+      }).catch(function (err) {
+        console.log('MathJax typeset failed: ' + err.message);
+      });
+    }
+  }, 50); // 短暂延迟确保DOM更新完成
+});
 </script>
 
+<!-- MathJax Configuration -->
 <script>
 window.MathJax = {
   tex: {
