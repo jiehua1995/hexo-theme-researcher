@@ -341,53 +341,61 @@
    
   </div>
 
-  <!-- Post Footer -->
-    <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Share Section -->
-      <div class="card bg-base-100 hover:shadow-xl">
-        <div class="card-body p-6">
-          <h3 class="card-title mb-4">Share this post</h3>
-          <div class="flex flex-wrap gap-3">
-            <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(page.title) %>&url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
-               target="_blank" rel="noopener" class="btn btn-sm btn-primary">
-              <i class="fa-brands fa-twitter"></i>
-              X (Twitter)
-            </a>
-            
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
-               target="_blank" rel="noopener" class="btn btn-sm btn-info">
-              <i class="fa-brands fa-linkedin"></i>
-              LinkedIn
-            </a>
-            
-            <button onclick="copyToClipboard()" class="btn btn-sm btn-outline">
-              <i class="fa-solid fa-copy"></i>
-              Copy Link
-            </button>
-          </div>
-        </div>
-      </div>
+<!-- Post Footer -->
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <!-- Share Section -->
+  <div class="card bg-base-100 hover:shadow-xl">
+    <div class="card-body p-6">
+      <h3 class="card-title mb-4">Share this post</h3>
+      <div class="flex flex-wrap gap-3">
 
-      <!-- Navigation Section -->
-      <div class="card bg-base-100 hover:shadow-xl">
-        <div class="card-body p-6">
-          <h3 class="card-title mb-4">Navigation</h3>
-          <div class="space-y-3">
-            <a href="<%= url_for('/notes/') %>" class="btn btn-sm btn btn-outline w-full justify-start">
-              <i class="fa-solid fa-folder-tree"></i>
-              All Notes
-            </a>
-            
-            <% if (page.categories && page.categories.length > 0) { %>
-              <a href="<%= url_for('/notes/') %>?category=<%= page.categories.toArray()[0].name %>" class="btn btn-sm btn btn-outline w-full justify-start">
-                <i class="fa-solid fa-layer-group"></i>
-                <%= page.categories.toArray()[0].name %> Posts
-              </a>
-            <% } %>
-          </div>
-        </div>
+        <button class="btn btn-sm btn-primary">
+          <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(page.title) %>&url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
+            target="_blank" rel="noopener">
+          <i class="fa-brands fa-twitter"></i>
+          X (Twitter)
+          </a>
+        </button>
+
+        
+        <button class="btn btn-sm btn-info">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
+            target="_blank" rel="noopener">
+          <i class="fa-brands fa-linkedin"></i>
+          LinkedIn
+        </a>
+        </button>
+
+        <button onclick="copyToClipboard()" class="btn btn-sm btn-outline">
+          <i class="fa-solid fa-copy"></i>
+          Copy Link
+        </button>
+
+
       </div>
     </div>
+  </div>
+
+  <!-- Navigation Section -->
+  <div class="card bg-base-100 hover:shadow-xl">
+    <div class="card-body p-6">
+      <h3 class="card-title mb-4">Navigation</h3>
+      <div class="space-y-3">
+        <a href="<%= url_for('/notes/') %>" class="btn btn-sm btn btn-outline w-full justify-start">
+          <i class="fa-solid fa-folder-tree"></i>
+          All Notes
+        </a>
+        
+        <% if (page.categories && page.categories.length > 0) { %>
+          <a href="<%= url_for('/notes/') %>?category=<%= page.categories.toArray()[0].name %>" class="btn btn-sm btn btn-outline w-full justify-start">
+            <i class="fa-solid fa-layer-group"></i>
+            <%= page.categories.toArray()[0].name %> Posts
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
 
     
   <!-- Previous/Next Navigation Card -->
