@@ -353,7 +353,7 @@
           <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(page.title) %>&url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
             target="_blank" rel="noopener">
           <i class="fa-brands fa-twitter"></i>
-          X (Twitter)
+          <span>X (Twitter)</span>
           </a>
         </button>
 
@@ -362,13 +362,13 @@
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
             target="_blank" rel="noopener">
           <i class="fa-brands fa-linkedin"></i>
-          LinkedIn
+          <span>LinkedIn</span>
         </a>
         </button>
 
         <button onclick="copyToClipboard()" class="btn btn-sm btn-outline">
           <i class="fa-solid fa-copy"></i>
-          Copy Link
+          <span>Copy Link</span>
         </button>
 
 
