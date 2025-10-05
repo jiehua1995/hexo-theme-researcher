@@ -1,6 +1,7 @@
-<div class="container mx-auto px-4 py-8 max-w-4xl space-y-6">
+<div class="container mx-auto px-4 py-8 space-y-6">
   <!-- Post Header Card -->
-  <div class="card bg-base-100 shadow-xl">
+  <div class="rounded-box card bg-base-100 shadow-lg text-base-content hover:shadow-xl transition-all duration-300 timeline-item">
+
     <div class="card-body">
       <h1 class="text-4xl font-bold text-primary mb-4"><%= page.title %></h1>
       
@@ -83,7 +84,8 @@
           .post-content .mockup-code {
             margin: 1.5rem 0;                  /* 上下边距 */
             border-radius: 0.5rem;              /* 圆角 */
-            overflow: hidden;                   /* 隐藏溢出内容 */
+            overflow-x: auto;                   /* 水平滚动 */
+            overflow-y: hidden;                 /* 隐藏垂直溢出 */
           }
           
           /* mockup-code 内的 pre 元素：预格式化文本容器 */
@@ -194,17 +196,23 @@
           }
           
           /* ========== 表格样式 ========== */
+          /* 表格外层滚动容器：支持水平滚动 */
+          .post-content .table-container {
+            overflow-x: auto;                   /* 水平滚动 */
+            margin: 1.5rem 0;                  /* 上下边距 */
+            border-radius: 0.5rem;              /* 圆角 */
+            border: 2px solid hsl(var(--b3));  /* 整体边框 */
+            border-left: 4px solid hsl(var(--p)); /* 左边框加粗：主色调 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+          }
+          
           /* 表格容器：table 元素 */
           .post-content table {
             width: 100%;                        /* 全宽 */
-            margin: 1.5rem 0;                  /* 上下边距 */
+            min-width: 600px;                  /* 最小宽度：确保有足够空间 */
+            margin: 0;                          /* 移除边距，由外层容器控制 */
             border-collapse: collapse;          /* 边框合并 */
-            border-radius: 0.5rem;              /* 圆角 */
-            overflow: hidden;                   /* 隐藏溢出（实现圆角效果） */
-            border: 2px solid hsl(var(--b3));  /* 整体边框 */
-            border-left: 4px solid hsl(var(--p)); /* 左边框加粗：主色调 */
             background-color: hsl(var(--b2) / 0.3); /* 背景：半透明基础色 */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
           }
           
           /* 表头单元格：th 元素 */
@@ -496,6 +504,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 更新内容
   processedContent.innerHTML = content;
+
+  // ========== 表格滚动容器处理 ==========
+  // 为所有表格添加滚动容器
+  const tables = processedContent.querySelectorAll('table');
+  tables.forEach(function(table) {
+    if (!table.closest('.table-container')) {
+      const container = document.createElement('div');
+      container.className = 'table-container';
+      table.parentNode.insertBefore(container, table);
+      container.appendChild(table);
+    }
+  });
 
   // ========== 代码块转换 ==========
   setTimeout(function() {
