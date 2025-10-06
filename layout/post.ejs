@@ -13,7 +13,7 @@
 
         <div class="flex items-center gap-1">
               <i class="fa-solid fa-clock"></i>
-              <span><%= Math.ceil(strip_html(page.content).length / 250) %> min read</span>
+              <span><%= Math.ceil(strip_html(page.content).length / 400) %> min read</span>
         </div>
         <!-- Categories and Tags -->
           <div class="flex flex-wrap gap-2">
@@ -341,41 +341,13 @@
    
   </div>
 
-<!-- Post Footer -->
+  <!-- Post Footer -->
 <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-  <!-- Share Section -->
+
   <div class="card bg-base-100 hover:shadow-xl">
-    <div class="card-body p-6">
-      <h3 class="card-title mb-4">Share this post</h3>
-      <div class="flex flex-wrap gap-3">
-
-        <button class="btn btn-sm btn-primary">
-          <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(page.title) %>&url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
-            target="_blank" rel="noopener">
-          <i class="fa-brands fa-twitter"></i>
-          <span>X (Twitter)</span>
-          </a>
-        </button>
-
-        
-        <button class="btn btn-sm btn-info">
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(config.url + url_for(page.path)) %>" 
-            target="_blank" rel="noopener">
-          <i class="fa-brands fa-linkedin"></i>
-          <span>LinkedIn</span>
-        </a>
-        </button>
-
-        <button onclick="copyToClipboard()" class="btn btn-sm btn-outline">
-          <i class="fa-solid fa-copy"></i>
-          <span>Copy Link</span>
-        </button>
-
-
-      </div>
-    </div>
+    <%- partial('partials/sharepost') %>
   </div>
-
+  
   <!-- Navigation Section -->
   <div class="card bg-base-100 hover:shadow-xl">
     <div class="card-body p-6">

@@ -6,7 +6,38 @@
       <span>·</span>
       <span>Powered by <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer" class="link link-info no-underline">Hexo</a></span>
       <span>·</span>
-      <span>Theme: <a href="https://github.com/jiehua1995/hexo-theme-researcher" target="_blank" rel="noopener noreferrer" class="link link-info no-underline">Researcher v0.1.4</a></span>
+      <span>
+        Theme: 
+        <a href="https://github.com/jiehua1995/hexo-theme-researcher" target="_blank" rel="noopener noreferrer" class="link link-info no-underline">
+          Researcher v<span id="current-theme-version"></span>
+          <span id="theme-update-message" class="text-sm" style="display:none;">(<i class="fa-solid fa-cloud-arrow-up"></i> Update Available!)</span>
+        </a>
+      </span>
     </div>
   </div>
 </footer>
+
+<script>
+(function() {
+  const versionEl = document.getElementById('current-theme-version');
+  const updateMessageEl = document.getElementById('theme-update-message');
+
+  // 当前版本号，可以改成你希望前端展示的
+  const currentVersion = '0.1.5';
+  versionEl.textContent = currentVersion;
+
+  // GitHub API 获取最新 release
+  fetch('https://api.github.com/repos/jiehua1995/hexo-theme-researcher/releases/latest')
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.tag_name) {
+        const latestVersion = data.tag_name.replace(/^v/, '');
+        if (latestVersion !== currentVersion) {
+          updateMessageEl.style.display = 'inline';
+          updateMessageEl.title = `Latest version: ${latestVersion}`;
+        }
+      }
+    })
+    .catch(err => console.error('Failed to fetch latest theme version:', err));
+})();
+</script>

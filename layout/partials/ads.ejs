@@ -1,0 +1,7 @@
+<% if (theme.ads && theme.ads.enable) { %>
+  <% if (theme.ads.adsterra && theme.ads.adsterra.code_id) { %>
+    <script async="async" data-cfasync="false" 
+            src="<%= theme.ads.adsterra.js %>"></script>
+    <div id="<%= theme.ads.adsterra.div_id %>"></div>
+  <% } %>
+<% } %>

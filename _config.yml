@@ -1,11 +1,17 @@
-# Theme Configuration for Hexo Researcher Theme
+#-----------------------------------------------#
+# Theme Configuration for Hexo Researcher Theme #
+#-----------------------------------------------#
 
-# Basic Information
+
+#--------------Basic Pictures--------------#
+# Update the pictures with your own files in the 'source/images' folder of your Hexo site and use a relative path.
 avatar: /images/avatar.jpg
 favicon: /images/favicon.ico
 
-# Menu Configuration
-# Add or remove menu items as needed
+#--------------Menu Configuration--------------#
+# Add, remove or rearrange menu items as needed
+# Use Font Awesome icons: https://fontawesome.com/icons to find icon names
+# Example icon: fa-solid fa-newspaper
 menu:
   - name: Publications
     url: /publications/
@@ -26,14 +32,14 @@ menu:
     url: /contact/
     icon: fa-solid fa-envelope
 
-# CV Download
+#--------------PDF CV Download--------------#
 # Provide a link to download your CV or put the pdf file in the 'source/files' folder of your Hexo site and use a relative path.
 cv:
   #download_link: https://www.nature.com/articles/d41586-025-01882-7.pdf 
   # or
   download_link: /files/cv-template.pdf
 
-# CV Sections Configuration
+#--------------CV Page Configuration--------------#
 # Set to false to hide any section
 cv_sections:
   education: true
@@ -43,14 +49,15 @@ cv_sections:
   languages: true
   teaching: true
 
-# About
+#--------------Index Page About Configuration--------------#
 about:
   I am a researcher passionate about artificial intelligence and computational biology.
   My work focuses on leveraging machine learning to solve real-world problems.
   <br><br>
   Outside of research, I enjoy hiking, writing, and coffee brewing.
 
-# Academic Profiles
+
+#--------------Academic Profiles Configuration--------------#
 academic_profiles:
   google_scholar: https://scholar.google.com/citations?user=YOUR_ID
   orcid: https://orcid.org/YOUR_ID
@@ -59,7 +66,7 @@ academic_profiles:
   linkedin: https://linkedin.com/in/YOUR_ID
   twitter: https://twitter.com/YOUR_ID
 
-# Contact
+#--------------Contact Configuration--------------#
 contact:
   email: your.email@example.com
   phone: "+0 123 456789"
@@ -67,7 +74,21 @@ contact:
   google_map: "https://maps.app.goo.gl/xxxxxxxxxxx"
   office_hours: "Mon–Fri 10:00–16:00"
 
-# Push/Ab
+
+#--------------Share Post Configuration--------------#
+share_post:
+  enable: true  # Set to false to disable share post feature
+  platforms:    # Configure the platforms to display
+    twitter: true
+    linkedin: true
+    facebook: true
+    reddit: false
+    weibo: true
+    qq: true
+    wechat: true
+
+
+#--------------Push/Analytics Configuration--------------#
 # Google adsense
 google_adsense: your_google_adsense_id
 # Umami
@@ -75,7 +96,19 @@ umami_id: your_umami_id
 # Baidu_tongji
 baidu_tongji: your_baidu_tongji_id
 
-# daisyui themes
+
+#--------------Advertising Configuration--------------#
+# Enable or disable ads and configure ad settings
+# Currently supports Adsterra
+ads:
+  enable: true
+  adsterra:
+    js: "//pl26983555.revenuecpmgate.com/db7d69311c4f7d098bf9a0684c80620e/invoke.js"
+    div_id: "container-db7d69311c4f7d098bf9a0684c80620e"
+
+
+
+#--------------DaisyUI Theme Configuration--------------#
 daisyui:
   default: light
   enabled:

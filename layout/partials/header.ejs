@@ -1,24 +1,32 @@
 <!-- Meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><%= config.title %></title>
-<meta name="description" content="<%= config.description %>">
+<%
+// 如果是单页/文章，则使用 page.title，否则使用站点主标题
+const pageTitle = (page && page.title) ? page.title : config.title;
+const pageDescription = (page && page.description) ? page.description : config.description;
+const pageUrl = (page && page.path) ? config.url + url_for(page.path) : config.url;
+%>
+
+<title><%= pageTitle %></title>
+<meta name="description" content="<%= pageDescription %>">
 <meta name="keywords" content="<%= config.keywords %>">
 <meta name="author" content="<%= config.author %>">
 
 <!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+<link rel="icon" type="image/x-icon" href="<%- url_for('images/favicon.ico') %>">
+
 
 <!-- Open Graph tags -->
-<meta property="og:title" content="<%= config.title %>">
-<meta property="og:description" content="<%= config.description %>">
+<meta property="og:title" content="<%= pageTitle %>">
+<meta property="og:description" content="<%= pageDescription %>">
 <meta property="og:type" content="website">
-<meta property="og:url" content="<%= config.url %>">
+<meta property="og:url" content="<%= pageUrl %>">
 
 <!-- Twitter Card tags -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="<%= config.title %>">
-<meta name="twitter:description" content="<%= config.description %>">
+<meta name="twitter:title" content="<%= pageTitle %>">
+<meta name="twitter:description" content="<%= pageDescription %>">
 
 <!-- Academicons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">

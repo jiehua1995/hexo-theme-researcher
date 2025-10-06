@@ -1,0 +1,125 @@
+<% if (theme.share_post && theme.share_post.enable) { %>
+<div class="card-body p-6">
+  <h3 class="card-title mb-4">Post Actions</h3>
+  <div class="flex flex-wrap gap-3" id="share-buttons-container">
+    <!-- 分享按钮将由 JS 动态生成 -->
+  </div>
+</div>
+
+<script>
+function copyToClipboard() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    alert('Link copied!');
+  });
+}
+
+// 动态生成分享按钮
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('share-buttons-container');
+  const pageUrl = encodeURIComponent(window.location.href);
+  const pageTitle = encodeURIComponent(document.title);
+
+  const platforms = <%- JSON.stringify(theme.share_post.platforms) %>;
+
+  // 按钮生成函数
+  const createButton = (href, classes, iconClass, text, isButton = false, clickHandler = null) => {
+    let el;
+    if (isButton) {
+      el = document.createElement('button');
+      el.type = 'button';
+      el.className = classes;
+      if (clickHandler) el.addEventListener('click', clickHandler);
+    } else {
+      el = document.createElement('a');
+      el.href = href;
+      el.target = "_blank";
+      el.rel = "noopener";
+      el.className = classes;
+    }
+    el.innerHTML = `<i class="${iconClass}"></i> ${text}`;
+    container.appendChild(el);
+  };
+
+  // 国际平台
+  if (platforms.twitter) {
+    createButton(
+      `https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-twitter',
+      'X (Twitter)'
+    );
+  }
+
+  if (platforms.linkedin) {
+    createButton(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-linkedin',
+      'LinkedIn'
+    );
+  }
+
+  if (platforms.facebook) {
+    createButton(
+      `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-facebook',
+      'Facebook'
+    );
+  }
+
+  if (platforms.reddit) {
+    createButton(
+      `https://www.reddit.com/submit?url=${pageUrl}&title=${pageTitle}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-reddit',
+      'Reddit'
+    );
+  }
+
+  // 国内平台
+  if (platforms.weibo) {
+    createButton(
+      `https://service.weibo.com/share/share.php?title=${pageTitle}&url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-weibo',
+      'Weibo'
+    );
+  }
+
+  if (platforms.qq) {
+    createButton(
+      `http://connect.qq.com/widget/shareqq/index.html?title=${pageTitle}&url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-qq',
+      'QQ'
+    );
+  }
+
+  if (platforms.wechat) {
+    createButton(
+      '#',
+      'btn btn-sm btn-outline',
+      'fa-brands fa-weixin',
+      'WeChat',
+      true,
+      () => {
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${pageUrl}`;
+        const qrWindow = window.open('', 'WeChat Share', 'width=200,height=200');
+        qrWindow.document.write(`<img src="${qrUrl}" alt="Scan QR to share on WeChat">`);
+      }
+    );
+  }
+
+  // 复制链接按钮
+  createButton(
+    '#',
+    'btn btn-sm btn-outline',
+    'fa-solid fa-copy',
+    'Copy Link',
+    true,
+    copyToClipboard
+  );
+});
+</script>
+<% } %>
