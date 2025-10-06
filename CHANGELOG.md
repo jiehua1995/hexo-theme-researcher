@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [0.1.5] - 2025-10-06
+
+### Added
+- **Enhanced Post Template System**: Complete restructure of `post.ejs` with modular card-based architecture
+  - **Post Header Card**: Title, publication date, reading time, categories, and tags
+  - **Content Card**: Main article content with comprehensive styling system
+  - **Share & Navigation Cards**: Social media sharing and site navigation features
+  - **Previous/Next Navigation Card**: Improved post navigation with truncated titles
+
+- **Advanced Social Sharing System**: Full-featured sharing capabilities with anti-adblock protection
+  - **Twitter/X Integration**: Smart sharing with dynamic title and URL encoding
+  - **LinkedIn Sharing**: Professional network sharing functionality
+  - **Copy Link Feature**: One-click URL copying with visual feedback and cross-browser fallback
+  - **AdBlock Bypass**: Redesigned buttons to avoid common ad-blocker filters using generic icons and JavaScript-powered links
+
+- **Mathematical Formula Processing**: Comprehensive LaTeX and MathJax integration
+  - **Multi-line Formula Support**: Automatic processing of complex mathematical expressions spanning multiple lines
+  - **Symbol Cleanup**: Intelligent removal of LaTeX delimiters (`$$`) from rendered content without affecting formulas
+  - **Formula Isolation**: Proper containerization prevents math processing interference with other content
+
+- **Horizontal Scrolling Support**: Enhanced content display for wide elements
+  - **Table Containers**: Automatic wrapping of tables in scrollable containers with custom styling
+  - **Code Block Scrolling**: Horizontal scroll support for wide code blocks while maintaining line numbers
+
+- **Footer Enhancement**: Complete footer redesign with modern functionality
+  - **Version update**: When a new release was made, users will know.
+
+- **Advertisement Integration**: Added support for Google Adsense, Umami, and Baidu Analytics, Add support for adsterra
+
+### Enhanced
+- **Code Block Revolution**: Complete overhaul of code display using DaisyUI mockup-code styling
+  - **Enhanced Line Numbers**: Professional line numbering with proper spacing (line-height: 0, margin: 0)
+
+- **Contact Page Layout**: Transformed single-column layout to responsive 2-column design
+  - **Better Space Utilization**: Improved use of screen real estate on larger devices
+  - **Mobile Compatibility**: Seamless single-column layout on mobile devices
+  - **Consistent Styling**: Maintained design coherence with overall theme
+
+### Fixed
+- **Critical FontAwesome Icon Conflicts**: Resolved DaisyUI `.fab` class conflicts with FontAwesome `fab` prefix
+  - **Icon Standardization**: Migrated all brand icons from `fab fa-*` to `fa-brands fa-*` format
+  - **Position Correction**: Fixed icons jumping to bottom-right corner due to CSS conflicts
+  - **Comprehensive Coverage**: Updated icons across sidebar, homepage, and all content pages
+
+- **AdBlock Compatibility Issues**: Redesigned social sharing to bypass common ad-blocker filters
+  - **Generic Icon Strategy**: Replaced `fa-brands fa-twitter` and `fa-brands fa-linkedin` with generic alternatives
+  - **JavaScript-Powered Links**: Dynamic link generation prevents URL-based blocking
+  - **Semantic Text Updates**: Changed button text from brand-specific to generic descriptions
+
+## [0.1.4] - 2025-10-04
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+Preview the website on different devices: https://techsini.com/multi-mockup/index.php
+
 ## [0.1.4] - 2025-10-04
 
 ### Added
