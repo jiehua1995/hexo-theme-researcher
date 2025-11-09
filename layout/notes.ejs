@@ -4,10 +4,10 @@
   <!-- Search and Filter -->
   <!-- Filters -->
   <div class="glass-card p-4 mb-8">
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-col sm:flex-row gap-4">
       <!-- Category Filter -->
-      <div class="form-control">
-        <select class="select select-bordered" id="categoryFilter" name="categoryFilter">
+      <div class="form-control w-full sm:w-48">
+        <select class="select select-bordered w-full" id="categoryFilter" name="categoryFilter">
           <option value="">All Categories</option>
           <% 
             const allCategories = [];
@@ -28,8 +28,8 @@
       </div>
 
       <!-- Year Filter -->
-      <div class="form-control">
-        <select class="select select-bordered" id="yearFilter" name="yearFilter">
+      <div class="form-control w-full sm:w-40">
+        <select class="select select-bordered w-full" id="yearFilter" name="yearFilter">
           <option value="">All Years</option>
           <% 
             const years = [...new Set(site.posts.map(p => p.date.year()))].sort((a, b) => b - a);
@@ -41,8 +41,8 @@
       </div>
 
       <!-- Search -->
-      <div class="form-control flex-1">
-        <input type="text" placeholder="Search notes..." class="input input-bordered" id="searchInput" />
+      <div class="form-control w-full sm:flex-1">
+        <input type="text" placeholder="Search notes..." class="input input-bordered w-full" id="searchInput" />
       </div>
     </div>
 

@@ -19,9 +19,11 @@
 <nav class="p-4 space-y-2 flex-grow">
   <% if (theme.menu && Array.isArray(theme.menu)) { %>
     <% theme.menu.forEach(function(item) { %>
-      <a href="<%= url_for(item.url) %>" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary hover:bg-primary/10 transition-all duration-200 flex items-center group">
-        <i class="<%= item.icon %> mr-3 text-lg group-hover:scale-110 transition-transform"></i>
-        <%= item.name %>
+      <a href="<%= url_for(item.url) %>" class="btn btn-ghost w-full text-base-content hover:text-primary hover:bg-primary/10 transition-all duration-200 group">
+        <div class="flex items-center w-full">
+          <i class="<%= item.icon %> w-6 text-lg group-hover:scale-110 transition-transform flex-shrink-0"></i>
+          <span class="pl-4 text-left"><%= item.name %></span>
+        </div>
       </a>
     <% }); %>
   <% } %>

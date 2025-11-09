@@ -1,0 +1,338 @@
+/* ========================================================================== */
+/*                          Post Content Styles                             */
+/* ========================================================================== */
+
+/* ========== 基础排版样式 ========== */
+/* 主要内容容器：post-content 类 */
+.post-content {
+  line-height: 1.8;                   /* 行高：1.8 */
+  color: hsl(var(--bc));              /* 颜色：基础内容色 */
+}
+
+/* 标题样式：h1-h6 元素 */
+.post-content h1, .post-content h2, .post-content h3,
+.post-content h4, .post-content h5, .post-content h6 {
+  color: hsl(var(--bc));              /* 颜色：基础内容色 */
+  font-weight: 600;                   /* 字重：半粗体 */
+  margin-top: 2rem;                   /* 上边距 */
+  margin-bottom: 1rem;                /* 下边距 */
+  line-height: 1.3;                   /* 行高：紧密 */
+}
+
+/* 段落样式：p 元素 */
+.post-content p {
+  margin: 1.2rem 0;                  /* 上下边距 */
+  text-align: justify;                /* 两端对齐 */
+}
+
+/* 强调文本：strong 和 b 元素 */
+.post-content strong, .post-content b {
+  font-weight: 700;                   /* 字重：粗体 */
+  color: hsl(var(--bc));              /* 颜色：基础内容色 */
+}
+
+/* 斜体文本：em 和 i 元素 */
+.post-content em, .post-content i {
+  font-style: italic;                 /* 斜体 */
+  color: hsl(var(--bc) / 0.9);       /* 颜色：略透明的基础内容色 */
+}
+
+/* ========== 代码块样式 ========== */
+/* DaisyUI mockup-code 组件：代码块容器 */
+.post-content .mockup-code {
+  margin: 1.5rem 0;                  /* 上下边距 */
+  border-radius: 0.5rem;              /* 圆角 */
+  overflow-x: auto;                   /* 水平滚动 */
+  overflow-y: hidden;                 /* 隐藏垂直溢出 */
+  position: relative;                 /* 相对定位，方便放置语言徽章和复制按钮 */
+}
+
+/* 代码块工具栏容器 */
+.code-toolbar {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  z-index: 10;
+}
+
+/* 语言徽章样式 */
+.code-lang-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* mockup-code 内的 pre 元素：预格式化文本容器 */
+.post-content .mockup-code pre {
+  white-space: pre;                   /* 保持空白，不自动换行 */
+  word-wrap: normal;                  /* 不进行自动换行 */
+  overflow-wrap: normal;              /* 不进行溢出换行 */
+  line-height: 1.5;                   /* 行高：适中 */
+  margin: 0;                          /* 上下边距：0 */
+  padding-left: 0.5rem;               /* 左内边距：给代码内容留出空间 */
+}
+
+/* mockup-code 内的 code 元素：代码文本 */
+.post-content .mockup-code code {
+  white-space: pre;                   /* 保持空白，不自动换行 */
+  word-wrap: normal;                  /* 不进行自动换行 */
+  overflow-wrap: normal;              /* 不进行溢出换行 */
+  background: none;                   /* 移除背景 */
+  border: none;                       /* 移除边框 */
+  padding: 0;                         /* 移除内边距 */
+  font-size: 0.875rem;                /* 字体大小 */
+  line-height: 1.5;                   /* 行高：适中 */
+  margin: 0;                          /* 上下边距：0 */
+  display: inline-block;              /* 行内块元素 */
+  text-indent: 0;                     /* 重置文本缩进 */
+}
+
+/* 代码行前缀（行号）样式 */
+.post-content .mockup-code pre[data-prefix]::before {
+  display: inline-block;
+  text-align: right;
+  padding-right: 1rem;               /* 行号与代码之间的间距 */
+  min-width: 3rem;                   /* 行号最小宽度 */
+  margin-right: 0.5rem;              /* 行号右边距 */
+  user-select: none;                 /* 行号不可选中 */
+}
+
+/* 隐藏原始的语法高亮容器：避免样式冲突 */
+.post-content .highlight {
+  display: none;                      /* 完全隐藏 */
+}
+
+/* 行内代码样式：code 标签 */
+.post-content code {
+  background-color: hsl(var(--n) / 0.08);  /* 半透明中性色背景 */
+  color: hsl(var(--bc));                    /* 基础内容颜色 */
+  padding: 0.2rem 0.4rem;                   /* 内边距 */
+  border-radius: 0.25rem;                   /* 圆角 */
+  font-size: 0.875rem;                      /* 字体大小 14px */
+  border: 1px solid hsl(var(--b3));        /* 边框 */
+}
+
+/* 复制按钮样式 */
+.copy-code-btn {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.copy-code-btn:hover {
+  opacity: 1;
+}
+
+/* 代码折叠样式 */
+.code-line-collapsed {
+  display: none;
+}
+
+.code-expanded .code-line-collapsed {
+  display: block;
+}
+
+.code-expand-btn {
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.code-expand-btn:hover {
+  opacity: 1;
+}
+
+/* ========== 引用块样式 ========== */
+/* blockquote 元素：引用文本块 */
+.post-content blockquote {
+  border-left: 4px solid hsl(var(--p));    /* 左边框：主色调 */
+  background-color: hsl(var(--b2));        /* 背景：base-200 */
+  margin: 1.5rem 0;                        /* 上下边距 */
+  padding: 1rem 1.5rem;                    /* 内边距 */
+  border-radius: 0 0.5rem 0.5rem 0;        /* 右侧圆角 */
+  position: relative;                       /* 相对定位 */
+  font-style: italic;                       /* 斜体 */
+  color: hsl(var(--bc) / 0.9);            /* 颜色：略透明 */
+}
+
+/* 引用块内的段落：移除额外边距 */
+.post-content blockquote p {
+  margin: 0.5rem 0;                  /* 减少上下边距 */
+}
+
+/* 引用块最后一个段落：移除下边距 */
+.post-content blockquote p:last-child {
+  margin-bottom: 0;                  /* 移除下边距 */
+}
+
+/* ========== 列表样式 ========== */
+/* 无序列表：ul 元素 */
+.post-content ul {
+  margin: 1rem 0;                    /* 上下边距 */
+  padding-left: 2rem;                /* 左内边距 */
+  list-style-type: disc;              /* 列表标记：实心圆点 */
+}
+
+/* 有序列表：ol 元素 */
+.post-content ol {
+  margin: 1rem 0;                    /* 上下边距 */
+  padding-left: 2rem;                /* 左内边距 */
+  list-style-type: decimal;           /* 列表标记：数字 */
+}
+
+/* 列表项：li 元素 */
+.post-content li {
+  margin: 0.5rem 0;                  /* 上下边距 */
+  line-height: 1.6;                  /* 行高 */
+}
+
+/* 嵌套列表：缩进和不同标记 */
+.post-content ul ul {
+  list-style-type: circle;            /* 二级：空心圆 */
+  margin: 0.5rem 0;                  /* 减少边距 */
+}
+
+.post-content ul ul ul {
+  list-style-type: square;            /* 三级：方形 */
+}
+
+/* ========== 链接样式 ========== */
+/* 链接元素：a 标签的默认状态 */
+.post-content a {
+  color: hsl(var(--p));               /* 主色调 */
+  text-decoration: underline;         /* 下划线 */
+  text-decoration-thickness: 1px;     /* 下划线粗细 */
+  text-underline-offset: 2px;         /* 下划线偏移距离 */
+  transition: all 0.2s ease;          /* 平滑过渡效果 */
+}
+
+/* 链接悬停状态：鼠标悬停时的样式 */
+.post-content a:hover {
+  color: hsl(var(--pf));              /* 主色调焦点色 */
+  text-decoration-thickness: 2px;     /* 下划线变粗 */
+}
+
+/* ========== 表格样式 ========== */
+/* 表格外层滚动容器：支持水平滚动 */
+.post-content .table-container {
+  overflow-x: auto;                   /* 水平滚动 */
+  margin: 1.5rem 0;                  /* 上下边距 */
+  border-radius: 0.5rem;              /* 圆角 */
+  border: 2px solid hsl(var(--b3));  /* 整体边框 */
+  border-left: 4px solid hsl(var(--p)); /* 左边框加粗：主色调 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+/* 表格容器：table 元素 */
+.post-content table {
+  width: 100%;                        /* 全宽 */
+  min-width: 600px;                  /* 最小宽度：确保有足够空间 */
+  margin: 0;                          /* 移除边距，由外层容器控制 */
+  border-collapse: collapse;          /* 边框合并 */
+  background-color: hsl(var(--b2) / 0.3); /* 背景：半透明基础色 */
+}
+
+/* 表头单元格：th 元素 */
+.post-content th {
+  background-color: hsl(var(--b2));   /* 基础色背景 */
+  font-weight: 600;                   /* 半粗体 */
+  padding: 0.75rem 1rem;              /* 内边距 */
+  text-align: left;                   /* 左对齐 */
+  color: hsl(var(--bc));              /* 基础内容颜色 */
+  border-bottom: 1px solid hsl(var(--bc)); /* 下边框 */
+  border-right: 1px solid hsl(var(--bc));  /* 右边框 */
+}
+
+/* 表头最后一列：移除右边框 */
+.post-content th:last-child {
+  border-right: none;                 /* 移除右边框 */
+}
+
+/* 表格数据单元格：td 元素 */
+.post-content td {
+  padding: 0.75rem 1rem;              /* 内边距 */
+  color: hsl(var(--bc));              /* 基础内容颜色 */
+  border-bottom: 1px solid hsl(var(--bc)); /* 下边框 */
+  border-right: 1px solid hsl(var(--bc));  /* 右边框 */
+}
+
+/* 数据单元格最后一列：移除右边框 */
+.post-content td:last-child {
+  border-right: none;                 /* 移除右边框 */
+}
+
+/* 表格奇偶行样式：偶数行背景色 */
+.post-content tbody tr:nth-child(even) {
+  background-color: hsl(var(--b2) / 0.5); /* 半透明基础色背景 */
+}
+
+/* 表格行悬停效果：鼠标悬停时的背景色 */
+.post-content tbody tr:hover {
+  background-color: hsl(var(--b2));   /* 基础色背景 */
+}
+
+/* 表格最后一行：移除下边框 */
+.post-content tbody tr:last-child td {
+  border-bottom: none;                /* 移除下边框 */
+}
+
+/* ========== 图片样式 ========== */
+/* 图片元素：img 标签样式 */
+.post-content img {
+  max-width: 100%;                    /* 最大宽度：响应式 */
+  height: auto;                       /* 自动高度：保持比例 */
+  border-radius: 0.5rem;              /* 圆角 */
+  margin: 1.5rem 0;                  /* 上下边距 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+/* ========== 分割线样式 ========== */
+/* 分割线元素：hr 标签 */
+.post-content hr {
+  border: none;                       /* 移除默认边框 */
+  height: 1px;                        /* 高度 */
+  background-color: hsl(var(--b3));   /* 背景色：基础色 */
+  margin: 2rem 0;                     /* 上下边距 */
+}
+
+/* ========== 数学公式样式 ========== */
+/* MathJax 通用样式：数学公式容器（v2兼容） */
+.post-content .MathJax {
+  font-size: 1.1em !important;       /* 字体大小：略大于正文 */
+}
+
+/* MathJax v3 容器：行内数学公式 */
+.post-content mjx-container {
+  margin: 0.5rem 0;                  /* 上下边距 */
+}
+
+/* MathJax v3 块级容器：display="true" 属性的公式 */
+.post-content mjx-container[display="true"] {
+  margin: 1.5rem 0;                  /* 上下边距 */
+  text-align: center;                /* 居中对齐 */
+}
+
+/* 包含块级数学公式的段落：:has() 伪类选择器 */
+.post-content p:has(mjx-container[display="true"]) {
+  text-align: center;                /* 居中对齐 */
+  line-height: 1;                    /* 行高：紧密排列 */
+}
+
+/* 自定义数学显示容器：.math-display 类 */
+.math-display {
+  text-align: center;                /* 居中对齐 */
+  margin: 1.5rem 0;                 /* 上下边距 */
+}
+
+/* ========== 特殊元素样式修复 ========== */
+/* 标题中的行内代码：h1-h6 标题内的 code 元素 */
+.post-content h1 code, .post-content h2 code, .post-content h3 code, 
+.post-content h4 code, .post-content h5 code, .post-content h6 code {
+  font-size: 0.85em;                 /* 字体大小：相对于标题字体的85% */
+  background-color: hsl(var(--b2));  /* 背景色：基础色 */
+  padding: 0.2rem 0.4rem;            /* 内边距 */
+}

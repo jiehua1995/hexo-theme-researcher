@@ -106,7 +106,11 @@ ads:
     js: "//pl26983555.revenuecpmgate.com/db7d69311c4f7d098bf9a0684c80620e/invoke.js"
     div_id: "container-db7d69311c4f7d098bf9a0684c80620e"
 
-
+#--------------Code Block Configuration--------------#
+# Configure code block behavior in blog posts
+code_collapse:
+  enabled: true           # Enable/disable code folding feature
+  lines: 5                # Number of lines to show before collapsing (default: 5)
 
 #--------------DaisyUI Theme Configuration--------------#
 daisyui:

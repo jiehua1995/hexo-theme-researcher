@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [Unreleased] - Development
+
+### Added - 2025-11-09
+- **Code Block Enhancements**: Major improvements to code block functionality and appearance
+  - **Language Badge**: Display programming language type in the top-right corner of each code block using DaisyUI badge component
+  - **Copy Button**: One-click code copying functionality powered by ClipboardJS library (v2.0.11)
+    - Visual feedback with success (green checkmark) and error (red X) indicators
+    - Automatic fallback mechanism for better browser compatibility
+  - **Code Folding Feature**: Configurable code block collapsing functionality
+    - Automatically collapse code blocks exceeding a threshold (default: 5 lines)
+    - "Expand (N lines)" / "Collapse" button with smooth transitions
+    - Configurable via `_config.yml` with `code_collapse.enabled` and `code_collapse.lines` options
+  
+- **Modular JavaScript Architecture**: Separated post processing logic into dedicated file
+  - Created `source/js/post.js` for all post-related processing (math formulas, tables, code blocks)
+  - Improved code maintainability and reusability
+  - Reduced `post.ejs` size from ~470 lines to ~180 lines
+
+- **Dedicated Post Stylesheet**: Extracted inline styles to `source/css/post.css`
+  - Centralized all post content styling (typography, code blocks, tables, quotes, lists, images)
+  - Added code folding styles (`.code-line-collapsed`, `.code-expanded`, `.code-expand-btn`)
+  - Improved EJS template readability
+
+### Enhanced - 2025-11-09
+- **Code Block Styling**: Fixed code wrapping issues
+  - Changed from `white-space: pre-wrap` to `white-space: pre` to prevent automatic line wrapping
+  - Added proper horizontal scrolling for long code lines
+  - Ensured line numbers stay aligned and don't mix with code content
+
+- **Configuration System**: Extended theme configuration
+  - Added `code_collapse` section in `_config.yml` for customizing code folding behavior
+
+- **UI Consistency & Responsiveness**: Unified layout and alignment across all pages
+  - **Sidebar Navigation**: Fixed icon and text alignment in navigation buttons
+    - Implemented nested flex layout with fixed-width icon containers (`w-6 flex-shrink-0`)
+    - Consistent spacing between icons and text (`ml-8`, approximately 2rem/4 character widths)
+    - Smooth hover animations with scale effects on icons
+  - **Responsive Search Bars**: Unified search bar design across all listing pages (Publications, Notes, Projects, Talks)
+    - Mobile-first approach: vertical layout (`flex-col`) with full-width controls (`w-full`) on small screens
+    - Desktop optimization: horizontal layout (`sm:flex-row`) with appropriate fixed widths (`sm:w-40`, `sm:w-48`) and flexible search inputs (`sm:flex-1`)
+    - Consistent gap spacing and form control styling across all pages
+
 ## [0.1.5] - 2025-10-06
 
 ### Added
