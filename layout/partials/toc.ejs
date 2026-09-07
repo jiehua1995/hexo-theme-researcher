@@ -1,0 +1,24 @@
+<%
+// Reusable table-of-contents. Expects `tocItems` = [{ id, title, level? }].
+// Rendered as a fixed, vertically-centred "focus wheel": the active entry is
+// large & clear, the ones around it fade/shrink/blur, and hierarchy is shown
+// with a coloured dot + indent. JS (_rcInitToc) drives the states + centring.
+if (!tocItems || !tocItems.length) return;
+%>
+<nav class="rc-toc" aria-label="On this page">
+  <div class="rc-toc-head">
+    <i class="fa-solid fa-list-ul"></i>
+    <span>On this page</span>
+  </div>
+  <ul class="rc-toc-list">
+    <% tocItems.forEach(function(item) { %>
+      <% var lvl = item.level || 1; %>
+      <li class="rc-toc-item" data-level="<%= lvl %>" style="--rc-lvl: <%= lvl %>">
+        <a href="#<%= item.id %>" class="rc-toc-link" data-toc-target="<%= item.id %>" data-level="<%= lvl %>">
+          <span class="rc-toc-dot"></span>
+          <span class="rc-toc-label"><%= item.title %></span>
+        </a>
+      </li>
+    <% }); %>
+  </ul>
+</nav>

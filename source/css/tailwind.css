@@ -3,6 +3,10 @@
   themes: all;
 }
 
+/* Tailwind v4 auto-detection is unreliable here — scan the templates explicitly */
+@source "../../layout/**/*.ejs";
+@source "../js/**/*.js";
+
 /* Line clamping utility */
 .line-clamp-3 {
   display: -webkit-box;

@@ -1,94 +1,102 @@
-<div class="container mx-auto px-4 py-8 space-y-6">
-  <!-- Post Header Card -->
-  <div class="rounded-box card bg-base-100 shadow-lg text-base-content hover:shadow-xl transition-all duration-300 timeline-item">
+<%
+// build a flat TOC from the headings in the rendered article (they carry ids)
+function decodeEntities(s) {
+  return s
+    .replace(/&#x([a-f0-9]+);/gi, function (m, hex) { return String.fromCharCode(parseInt(hex, 16)); })
+    .replace(/&#(\d+);/g, function (m, dec) { return String.fromCharCode(parseInt(dec, 10)); })
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+function buildPostToc(html) {
+  var items = [];
+  var re = /<h([1-3])\s+id="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g;
+  var m;
+  while ((m = re.exec(html))) {
+    items.push({ id: m[2], level: parseInt(m[1], 10) || 1, title: decodeEntities(m[3].replace(/<[^>]+>/g, '').trim()) });
+  }
+  return items;
+}
+var postToc = buildPostToc(page.content);
+%>
+<div class="lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-12">
+<article class="mx-auto max-w-3xl rc-reveal w-full">
 
-    <div class="card-body">
-      <h1 class="text-4xl font-bold text-primary mb-4"><%= page.title %></h1>
-      
-      <div class="flex flex-wrap items-center gap-4 text-sm opacity-70 mb-4">
-        <div class="flex items-center gap-2">
-          <i class="fa-regular fa-calendar"></i>
-          <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
-        </div>
-
-        <div class="flex items-center gap-1">
-              <i class="fa-solid fa-clock"></i>
-              <span><%= Math.ceil(strip_html(page.content).length / 400) %> min read</span>
-        </div>
-        <!-- Categories and Tags -->
-          <div class="flex flex-wrap gap-2">
-            <% if (page.categories && page.categories.length > 0) { %>
-              <% page.categories.forEach(function(category) { %>
-                <a href="<%= url_for('/notes/') %>?category=<%= encodeURIComponent(category.name) %>" class="badge badge-primary hover:badge-primary-focus transition-colors">
-                  <%= category.name %>
-                </a>
-              <% }); %>
-            <% } %>
-            
-            <% if (page.tags && page.tags.length > 0) { %>
-              <% page.tags.forEach(function(tag) { %>
-                <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="badge badge-outline hover:badge-primary transition-colors">
-                  #<%= tag.name %>
-                </a>
-              <% }); %>
-            <% } %>
-          </div>
-      </div>
-    
+  <!-- Post Header -->
+  <header class="mb-12">
+    <div class="flex flex-wrap items-center gap-3 text-sm rc-muted mb-5">
+      <% if (page.categories && page.categories.length) { %>
+        <span class="rc-kicker"><%= page.categories.toArray()[0].name %></span>
+      <% } %>
+      <span class="flex items-center gap-2">
+        <i class="fa-regular fa-calendar"></i>
+        <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY-MM-DD') %></time>
+      </span>
+      <span class="flex items-center gap-2">
+        <i class="fa-solid fa-clock"></i>
+        <span><%= Math.ceil(strip_html(page.content).length / 400) %> min read</span>
+      </span>
     </div>
-  </div>
 
-  <!-- Post Content Card -->
-  <div class="card bg-base-100 hover:shadow-xl">
-    <div class="card-body">
-      <!-- Post Content -->
-      <div class="prose prose-lg max-w-none post-content">
-        <!-- 引入独立的样式文件 -->
-        <link rel="stylesheet" href="<%= url_for('/css/post.css') %>">
-        
-        <!-- Content will be processed here -->
-        <div id="processed-content"><%- page.content %></div>
-      </div>
+    <h1 class="text-3xl md:text-4xl font-bold rc-serif leading-tight tracking-tight"><%= page.title %></h1>
 
-      <!-- Tags Footer -->
-        <% if (page.tags && page.tags.length > 0) { %>
-          <footer class="mt-8 pt-6 border-t border-base-300">
-            <div class="flex flex-wrap gap-2 items-center">
-              <span class="text-sm font-medium opacity-70">Tags:</span>
-              <% page.tags.forEach(function(tag) { %>
-                <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="badge badge-ghost hover:badge-primary transition-colors">
-                  #<%= tag.name %>
-                </a>
-              <% }); %>
-            </div>
-          </footer>
+    <% if (page.categories && page.categories.length > 0 || page.tags && page.tags.length > 0) { %>
+      <div class="flex flex-wrap gap-2 mt-5">
+        <% if (page.categories && page.categories.length > 0) { %>
+          <% page.categories.forEach(function(category) { %>
+            <a href="<%= url_for('/notes/') %>?category=<%= encodeURIComponent(category.name) %>" class="rc-badge">
+              <%= category.name %>
+            </a>
+          <% }); %>
         <% } %>
+        <% if (page.tags && page.tags.length > 0) { %>
+          <% page.tags.forEach(function(tag) { %>
+            <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="rc-tag">
+              #<%= tag.name %>
+            </a>
+          <% }); %>
+        <% } %>
+      </div>
+    <% } %>
+  </header>
+
+  <!-- Post Content -->
+  <div class="post-content" id="processed-content">
+    <link rel="stylesheet" href="<%= url_for('/css/post.css') %>">
+    <%- page.content %>
+  </div>
+
+  <!-- Tags Footer -->
+  <% if (page.tags && page.tags.length > 0) { %>
+    <footer class="mt-12 pt-8 border-t border-base-300">
+      <div class="flex flex-wrap gap-2 items-center">
+        <span class="text-sm font-medium rc-muted">Tags:</span>
+        <% page.tags.forEach(function(tag) { %>
+          <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="rc-tag">
+            #<%= tag.name %>
+          </a>
+        <% }); %>
+      </div>
+    </footer>
+  <% } %>
+
+  <!-- Share + Navigation -->
+  <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="rc-card rc-card-body">
+      <%- partial('partials/sharepost') %>
     </div>
-  </div>
 
-  
-   
-  </div>
-
-  <!-- Post Footer -->
-<div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-  <div class="card bg-base-100 hover:shadow-xl">
-    <%- partial('partials/sharepost') %>
-  </div>
-  
-  <!-- Navigation Section -->
-  <div class="card bg-base-100 hover:shadow-xl">
-    <div class="card-body p-6">
-      <h3 class="card-title mb-4">Navigation</h3>
+    <div class="rc-card rc-card-body">
+      <h3 class="text-base font-semibold rc-serif mb-4">Navigation</h3>
       <div class="space-y-3">
-        <a href="<%= url_for('/notes/') %>" class="btn btn-sm btn btn-outline w-full justify-start">
+        <a href="<%= url_for('/notes/') %>" class="rc-btn rc-btn-outline w-full justify-start">
           <i class="fa-solid fa-folder-tree"></i>
           All Notes
         </a>
-        
         <% if (page.categories && page.categories.length > 0) { %>
-          <a href="<%= url_for('/notes/') %>?category=<%= page.categories.toArray()[0].name %>" class="btn btn-sm btn btn-outline w-full justify-start">
+          <a href="<%= url_for('/notes/') %>?category=<%= page.categories.toArray()[0].name %>" class="rc-btn rc-btn-outline w-full justify-start">
             <i class="fa-solid fa-layer-group"></i>
             <%= page.categories.toArray()[0].name %> Posts
           </a>
@@ -96,46 +104,46 @@
       </div>
     </div>
   </div>
-</div>
 
-    
-  <!-- Previous/Next Navigation Card -->
+  <!-- Previous/Next Navigation -->
   <% if (page.prev || page.next) { %>
-  <div class="card bg-base-100 hover:shadow-xl">
-    <div class="card-body">
-      <h3 class="card-title mb-4">More Posts</h3>
-      <nav class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <% if (page.prev) { %>
-          <a href="<%= url_for(page.prev.path) %>" class="btn btn-outline w-full justify-start hover:btn-primary transition-all duration-300">
-            <i class="fa-solid fa-left-long"></i>
-            <div class="flex-1 min-w-0 text-left ml-2">
-              <div class="text-xs opacity-60">Previous Post</div>
-              <div class="font-semibold truncate"><%= page.prev.title %></div>
+  <div class="mt-12">
+    <h3 class="text-base font-semibold rc-serif mb-4">More Posts</h3>
+    <nav class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <% if (page.prev) { %>
+        <a href="<%= url_for(page.prev.path) %>" class="rc-card rc-focus rc-card-body group">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-left-long rc-muted"></i>
+            <div class="flex-1 min-w-0">
+              <div class="text-xs rc-muted">Previous Post</div>
+              <div class="font-semibold truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_90%,transparent)] transition-colors"><%= page.prev.title %></div>
             </div>
-          </a>
-        <% } else { %>
-          <div></div>
-        <% } %>
-        
-        <% if (page.next) { %>
-          <a href="<%= url_for(page.next.path) %>" class="btn btn-outline w-full justify-end hover:btn-primary transition-all duration-300">
-            <div class="flex-1 min-w-0 text-right mr-2">
-              <div class="text-xs opacity-60">Next Post</div>
-              <div class="font-semibold truncate"><%= page.next.title %></div>
+          </div>
+        </a>
+      <% } %>
+      <% if (page.next) { %>
+        <a href="<%= url_for(page.next.path) %>" class="rc-card rc-focus rc-card-body group md:text-right">
+          <div class="flex items-center gap-3 md:justify-end">
+            <div class="flex-1 min-w-0 md:text-right">
+              <div class="text-xs rc-muted">Next Post</div>
+              <div class="font-semibold truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_90%,transparent)] transition-colors"><%= page.next.title %></div>
             </div>
-            <i class="fa-solid fa-right-long"></i>
-          </a>
-        <% } %>
-      </nav>
-    </div>
+            <i class="fa-solid fa-right-long rc-muted"></i>
+          </div>
+        </a>
+      <% } %>
+    </nav>
   </div>
   <% } %>
 
+</article>
+
+<% if (postToc.length) { %>
+<aside class="hidden lg:block">
+  <%- partial('partials/toc', { tocItems: postToc }) %>
+</aside>
+<% } %>
 </div>
-
-
-
-
 
 <!-- 传递主题配置到前端 -->
 <script>
@@ -147,29 +155,3 @@ window.themeConfig = {
 };
 </script>
 
-<!-- ClipboardJS 库 -->
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
-
-<!-- Post Content Processing Script -->
-<script src="<%= url_for('/js/post.js') %>"></script>
-
-<!-- MathJax Configuration -->
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    tags: 'ams'
-  },
-  options: {
-    ignoreHtmlClass: 'tex2jax_ignore',
-    processHtmlClass: 'tex2jax_process'
-  }
-};
-</script>
-
-<script type="text/javascript" id="MathJax-script" async
-src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>

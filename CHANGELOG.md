@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [0.2.0] - 2026-09-07
+
+### Added
+- **Design system & polish**: Introduced a token-based design layer (`design.css`) with `.rc-*` semantic tokens (accent, bg, ink, line, radius, duration, ease) for an "Apple-grade" refined look.
+- **Scroll-focus card effect**: Cards near the viewport centre scale up, brighten and gain an accent-tinted glow + deep shadow; cards at the edges shrink and dim. Driven every frame by scroll (smoothstep-eased), plus a subtle 3D `rotateX` tilt. No mouse-hover scale — scroll only.
+- **Light-mode blue theme**: Replaced the default purple accent with a calm professional blue (`oklch(0.55 0.17 252)`) so light mode no longer looks purple.
+- **Cookie consent banner**: Bottom floating, glassy consent dialog (`Accept` / `Reject`) required for EU/US visitors, persisted in `localStorage`.
+- **SPA partial navigation (Swup)**: Sidebar / top bar no longer re-render when switching pages — only the content container is swapped. Active menu state and reveal/focus animations re-bind automatically via a `MutationObserver`.
+- **Sticky "focus-wheel" table of contents**: A fixed, vertically-centred TOC on the right rail. The active heading is large & clear; neighbouring entries shrink/blur away. Hierarchy encoded via a coloured dot + indentation. Scroll-spy highlights the current section, works on the CV page (sections) and every article (h1–h3).
+- **Click-to-centre anchor scroll**: Clicking a TOC entry (or any in-page `#anchor`) smoothly scrolls so the heading lands about mid-screen instead of being tucked under the fixed top bar.
+- **Multilingual + multi-format test post**: Added `comprehensive-markdown-test.md` covering text formatting, headings, lists, quotes, tables, fenced code (Python / JS / SQL / C++ / Bash / JSON / YAML), inline & block math, footnotes and nine languages (简体/繁體/English/Deutsch/日本語/한국어/Français/Español/Português).
+
+### Fixed
+- **Blank page after navigation**: A `ReferenceError` (`__rcMotionWatcher` undeclared) aborted the `DOMContentLoaded` handler, so the `MutationObserver` never started and revealed content after a Swup swap stayed invisible. The watcher is now declared correctly and observes `document.body`, so no page is ever blank after navigating.
+- **Filters / search not working**: Listing pages (Publications / Projects / Notes) relied on inline `DOMContentLoaded` scripts, which never re-ran after a partial Swup swap. Filters were unified into a global, Swup-safe `__rcInitFilters()` that re-binds on every content swap (status / category / year / keyword search, with results count and empty state).
+- **Code block line spacing**: Tightened per-line padding so code no longer has huge gaps between lines.
+- **Card overlap**: Increased vertical spacing between the filter bar and the cards (and between timeline / grid cards) so scaled-up focused cards no longer overlap.
+- **TOC initial centring**: Removed a conflicting `sticky` wrapper so the focus-wheel TOC is truly vertically centred.
+
+### Updated
+- **Dependencies**: Tailwind CSS, `@tailwindcss/cli` → `4.3.3`, daisyUI → `5.7.28`; rebuilt `style.css`.
+
 ## [Unreleased] - Development
 
 ### Added - 2025-11-09

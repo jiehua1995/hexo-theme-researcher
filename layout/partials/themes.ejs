@@ -43,7 +43,7 @@
   const themesToShow = allThemes.filter(t => enabledThemes.includes(t.name));
 %>
 
-<select class="select select-bordered w-full max-w-xs" data-choose-theme>
+<select class="rc-select rc-select-sm" data-choose-theme>
   <% themesToShow.forEach(themeItem => { %>
     <option 
       value="<%= themeItem.name %>" 

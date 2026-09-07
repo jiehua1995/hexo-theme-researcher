@@ -1,75 +1,70 @@
-<div class="container mx-auto px-4">
-  <h1 class="text-4xl font-extrabold mb-8 text-base-content">Curriculum Vitae</h1>
+<%
+const cvToc = ([
+  { id: 'education', title: 'Education' },
+  { id: 'experience', title: 'Experience' },
+  { id: 'skills', title: 'Skills' },
+  { id: 'awards', title: 'Awards & Honors' },
+  { id: 'languages', title: 'Languages' },
+  { id: 'teaching', title: 'Teaching' }
+]).filter(function (item) { return theme.cv_sections && theme.cv_sections[item.id] !== false; });
+%>
+<div class="rc-section lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-12">
+  <div class="min-w-0">
+  <header class="flex flex-wrap items-end justify-between gap-4 mb-10">
+    <div>
+      <span class="rc-kicker">Curriculum Vitae</span>
+      <h1 class="rc-section-title">Experience &amp; background</h1>
+    </div>
+    <% if (theme.cv && theme.cv.download_link) { %>
+      <a href="<%= theme.cv.download_link %>" class="rc-btn rc-btn-accent" target="_blank" rel="noopener noreferrer" title="Download PDF" download>
+        <i class="fa-solid fa-file-arrow-down"></i>
+        Download PDF
+      </a>
+    <% } %>
+  </header>
 
   <!-- Jump to section -->
-  <p class="mb-2 text-base-content font-medium">Click a section below to jump to it:</p>
-  <nav class="flex flex-wrap gap-2 mb-6">
+  <nav class="flex flex-wrap gap-2 mb-12">
     <% if (theme.cv_sections && theme.cv_sections.education !== false) { %>
-      <a href="#education" class="btn btn-outline btn-secondary">Education</a>
+      <a href="#education" class="rc-btn rc-btn-outline rc-btn-sm">Education</a>
     <% } %>
     <% if (theme.cv_sections && theme.cv_sections.experience !== false) { %>
-      <a href="#experience" class="btn btn-outline btn-secondary">Experience</a>
+      <a href="#experience" class="rc-btn rc-btn-outline rc-btn-sm">Experience</a>
     <% } %>
     <% if (theme.cv_sections && theme.cv_sections.skills !== false) { %>
-      <a href="#skills" class="btn btn-outline btn-secondary">Skills</a>
+      <a href="#skills" class="rc-btn rc-btn-outline rc-btn-sm">Skills</a>
     <% } %>
     <% if (theme.cv_sections && theme.cv_sections.awards !== false) { %>
-      <a href="#awards" class="btn btn-outline btn-secondary">Awards</a>
+      <a href="#awards" class="rc-btn rc-btn-outline rc-btn-sm">Awards</a>
     <% } %>
     <% if (theme.cv_sections && theme.cv_sections.languages !== false) { %>
-      <a href="#languages" class="btn btn-outline btn-secondary">Languages</a>
+      <a href="#languages" class="rc-btn rc-btn-outline rc-btn-sm">Languages</a>
     <% } %>
     <% if (theme.cv_sections && theme.cv_sections.teaching !== false) { %>
-      <a href="#teaching" class="btn btn-outline btn-secondary">Teaching</a>
+      <a href="#teaching" class="rc-btn rc-btn-outline rc-btn-sm">Teaching</a>
     <% } %>
-
-
-
-
   </nav>
-
-  <!-- Download CV -->
-  <div class="text-right mb-8 flex justify-end items-center space-x-2">
-    <% if (theme.cv && theme.cv.download_link) { %>
-      <a href="<%= theme.cv.download_link %>" 
-         class="btn btn-primary glass-button inline-flex items-center space-x-2 px-4 py-2"
-         target="_blank" rel="noopener noreferrer" 
-         title="Download PDF" 
-         download>
-        <i class="fa-solid fa-file-arrow-down"></i>
-        <span>Download PDF</span>
-      </a>
-    <% } else { %>
-      <button onclick="alert('Sorry, CV PDF is currently unavailable')" 
-              class="btn btn-primary glass-button inline-flex items-center space-x-2 px-4 py-2" 
-              title="Download PDF" 
-              type="button">
-        <i class="fa-solid fa-file-arrow-down"></i>
-        <span>Download PDF</span>
-      </button>
-    <% } %>
-  </div>
-  
 
   <!-- Education -->
   <% if (theme.cv_sections && theme.cv_sections.education !== false) { %>
-  <section class="mb-8" id="education">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Education</h2>
-    <div class="grid gap-6">
+  <section class="mb-14" id="education">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="rc-kicker">01</span>
+      <h2 class="text-2xl font-semibold">Education</h2>
+    </div>
+    <div class="rc-timeline">
       <% site.data.cv.education.forEach(function(edu) { %>
-        <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
-          <div class="card-body">
-            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
-            <%= edu.degree %>
-            <% if (edu.period) { %>
-              <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap"><%= edu.period %></div>
-            <% } %>
-            </h2>
-
-            <div class="text-base-content opacity-80">
-              <p class="font-medium"><%= edu.institution %></p>
+        <div class="rc-timeline-item rc-reveal">
+          <span class="rc-timeline-dot"></span>
+          <div class="rc-card rc-focus">
+            <div class="rc-card-body">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-lg font-semibold"><%= edu.degree %></h3>
+                <% if (edu.period) { %><span class="rc-badge-soft shrink-0 mt-0.5"><%= edu.period %></span><% } %>
+              </div>
+              <p class="mt-1 text-sm font-medium text-base-content/80"><%= edu.institution %></p>
               <% if (edu.description) { %>
-                <p class="mt-2 opacity-90"><%= edu.description %></p>
+                <p class="mt-2 text-sm rc-muted"><%= edu.description %></p>
               <% } %>
             </div>
           </div>
@@ -81,25 +76,30 @@
 
   <!-- Professional Experience -->
   <% if (theme.cv_sections && theme.cv_sections.experience !== false) { %>
-  <section class="mb-8" id="experience">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Professional Experience</h2>
-    <div class="grid gap-6">
+  <section class="mb-14" id="experience">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="rc-kicker">02</span>
+      <h2 class="text-2xl font-semibold">Professional Experience</h2>
+    </div>
+    <div class="rc-timeline">
       <% site.data.cv.experience.forEach(function(exp) { %>
-        <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
-          <div class="card-body">
-            <h2 class="card-title text-xl font-bold">
-              <%= exp.position %>
-              <% if (exp.period) { %>
-                <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap"><%= exp.period %></div>
-              <% } %>
-            </h2>
-            <div class="text-base-content opacity-80">
-              <p class="font-medium"><%= exp.institution %></p>
-              <p class="mt-2 opacity-90"><%= exp.description %></p>
+        <div class="rc-timeline-item rc-reveal">
+          <span class="rc-timeline-dot"></span>
+          <div class="rc-card rc-focus">
+            <div class="rc-card-body">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-lg font-semibold"><%= exp.position %></h3>
+                <% if (exp.period) { %><span class="rc-badge-soft shrink-0 mt-0.5"><%= exp.period %></span><% } %>
+              </div>
+              <p class="mt-1 text-sm font-medium text-base-content/80"><%= exp.institution %></p>
+              <p class="mt-2 text-sm rc-muted"><%= exp.description %></p>
               <% if (exp.responsibilities) { %>
-                <ul class="list-disc list-inside mt-3 opacity-90">
+                <ul class="mt-3 space-y-1.5">
                   <% exp.responsibilities.forEach(function(resp) { %>
-                    <li><%= resp %></li>
+                    <li class="flex items-start gap-2 text-sm rc-muted">
+                      <svg class="mt-1 shrink-0 text-[color-mix(in_oklab,var(--rc-accent)_80%,transparent)]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                      <span><%= resp %></span>
+                    </li>
                   <% }); %>
                 </ul>
               <% } %>
@@ -113,23 +113,19 @@
 
   <!-- Skills -->
   <% if (theme.cv_sections && theme.cv_sections.skills !== false) { %>
-  <section class="mb-8" id="skills">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Skills</h2>
-    <div class="grid gap-6">
+  <section class="mb-14" id="skills">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="rc-kicker">03</span>
+      <h2 class="text-2xl font-semibold">Skills</h2>
+    </div>
+    <div class="grid gap-5 md:grid-cols-2">
       <% for (const [category, skills] of Object.entries(site.data.cv.skills)) { %>
-        <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
-          <div class="card-body">
-            <h2 class="card-title text-xl font-bold mb-4"><%= category %></h2>
-            <div class="flex flex-wrap gap-3">
-              <% skills.forEach(function(skill) { %>
-                <span class="badge badge-primary cursor-default">
-                  <%= skill %>
-                </span>
-                
-                
-                
-              <% }); %>
-            </div>
+        <div class="rc-card rc-focus rc-card-body">
+          <h3 class="text-base font-semibold mb-4"><%= category %></h3>
+          <div class="flex flex-wrap gap-2">
+            <% skills.forEach(function(skill) { %>
+              <span class="rc-tag"><%= skill %></span>
+            <% }); %>
           </div>
         </div>
       <% } %>
@@ -139,22 +135,24 @@
 
   <!-- Awards & Honors -->
   <% if (theme.cv_sections && theme.cv_sections.awards !== false) { %>
-  <section class="mb-8" id="awards">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Awards & Honors</h2>
-    <div class="grid gap-6">
+  <section class="mb-14" id="awards">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="rc-kicker">04</span>
+      <h2 class="text-2xl font-semibold">Awards &amp; Honors</h2>
+    </div>
+    <div class="rc-timeline">
       <% site.data.cv.awards.forEach(function(award) { %>
-        <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
-          <div class="card-body">
-            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
-              <%= award.title %>
-              <% if (award.date) { %>
-                <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap"><%= award.date %></div>
-              <% } %>
-            </h2>
-            <div class="text-base-content opacity-80">
-              <p class="font-medium"><%= award.issuer %></p>
+        <div class="rc-timeline-item rc-reveal">
+          <span class="rc-timeline-dot"></span>
+          <div class="rc-card rc-focus">
+            <div class="rc-card-body">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-lg font-semibold"><%= award.title %></h3>
+                <% if (award.date) { %><span class="rc-badge-soft shrink-0 mt-0.5"><%= award.date %></span><% } %>
+              </div>
+              <p class="mt-1 text-sm font-medium text-base-content/80"><%= award.issuer %></p>
               <% if (award.description) { %>
-                <p class="mt-2 opacity-90"><%= award.description %></p>
+                <p class="mt-2 text-sm rc-muted"><%= award.description %></p>
               <% } %>
             </div>
           </div>
@@ -166,49 +164,47 @@
 
   <!-- Languages -->
   <% if (theme.cv_sections && theme.cv_sections.languages !== false) { %>
-  <section class="mb-8" id="languages">
-  <h2 class="text-2xl font-bold mb-4 text-base-content">Languages</h2>
-  <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 p-6">
-    <div class="flex flex-wrap gap-3">
-      <% site.data.cv.languages.forEach(function(lang) { %>
-        <div class="px-4 py-4 bg-base-200 rounded-md shadow-sm text-sm flex items-center gap-2 whitespace-nowrap">
-          <span class="font-semibold"><%= lang.name %></span>
-          <span class="text-xs opacity-70">(<%= lang.level %>)</span>
-        </div>
-      <% }); %>
+  <section class="mb-14" id="languages">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="rc-kicker">05</span>
+      <h2 class="text-2xl font-semibold">Languages</h2>
     </div>
-  </div>
-</section>
-<% } %>
+    <div class="rc-card rc-focus rc-card-body">
+      <div class="flex flex-wrap gap-3">
+        <% site.data.cv.languages.forEach(function(lang) { %>
+          <div class="flex items-center gap-2 px-4 py-2.5 rounded-[var(--rc-radius-md)] bg-[color-mix(in_oklab,var(--rc-bg-softer)_62%,transparent)] text-sm">
+            <span class="font-semibold"><%= lang.name %></span>
+            <span class="text-xs rc-muted">(<%= lang.level %>)</span>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+  <% } %>
 
   <!-- Teaching -->
   <% if (theme.cv_sections && theme.cv_sections.teaching !== false && site.data.cv.teaching) { %>
-  <section class="mb-8" id="teaching">
-    <h2 class="text-2xl font-bold mb-4 text-base-content">Teaching Experience</h2>
-    <div class="grid gap-6">
+  <section class="mb-14" id="teaching">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="rc-kicker">06</span>
+      <h2 class="text-2xl font-semibold">Teaching Experience</h2>
+    </div>
+    <div class="rc-timeline">
       <% site.data.cv.teaching.forEach(function(course) { %>
-        <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
-          <div class="card-body">
-            <h2 class="card-title text-xl font-bold flex flex-wrap gap-2 items-start">
-              <%= course.course_name %>
-              <% if (course.period) { %>
-                <div class="badge badge-primary badge-sm lg:badge-md whitespace-nowrap"><%= course.period %></div>
-              <% } %>
-            </h2>
-            <div class="text-base-content opacity-80">
-              <p class="font-medium"><%= course.institution %></p>
-              <% if (course.role) { %>
-                <p class="text-sm opacity-70"><%= course.role %></p>
-              <% } %>
-              <% if (course.description) { %>
-                <p class="mt-2 opacity-90"><%= course.description %></p>
-              <% } %>
-              <% if (course.students) { %>
-                <p class="text-sm mt-2 opacity-70">Students: <%= course.students %></p>
-              <% } %>
-              <% if (course.evaluation) { %>
-                <p class="text-sm mt-1 opacity-70">Evaluation: <%= course.evaluation %></p>
-              <% } %>
+        <div class="rc-timeline-item rc-reveal">
+          <span class="rc-timeline-dot"></span>
+          <div class="rc-card rc-focus">
+            <div class="rc-card-body">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-lg font-semibold"><%= course.course_name %></h3>
+                <% if (course.period) { %><span class="rc-badge-soft shrink-0 mt-0.5"><%= course.period %></span><% } %>
+              </div>
+              <p class="mt-1 text-sm font-medium text-base-content/80"><%= course.institution %><% if (course.role) { %> — <%= course.role %><% } %></p>
+              <% if (course.description) { %><p class="mt-2 text-sm rc-muted"><%= course.description %></p><% } %>
+              <div class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-xs rc-muted">
+                <% if (course.students) { %><span>Students: <%= course.students %></span><% } %>
+                <% if (course.evaluation) { %><span>Evaluation: <%= course.evaluation %></span><% } %>
+              </div>
             </div>
           </div>
         </div>
@@ -217,4 +213,9 @@
   </section>
   <% } %>
 
+  </div><!-- /min-w-0 -->
+
+  <aside class="hidden lg:block">
+    <%- partial('partials/toc', { tocItems: cvToc }) %>
+  </aside>
 </div>

@@ -1,0 +1,24 @@
+<div class="rc-nav-widget">
+  <!-- Live clock (computer time) -->
+  <div class="rc-widget-clock" title="Local time">
+    <span class="rc-widget-time rc-time">--:--</span>
+    <span class="rc-widget-date rc-date">---</span>
+  </div>
+
+  <!-- Weather chip (click to set a city) -->
+  <div class="rc-weather-wrap">
+    <button class="rc-weather" type="button" title="Weather — click to set location">
+      <span class="rc-weather-icon rc-w-icon">🌤</span>
+      <span class="rc-weather-temp rc-w-temp">--°C</span>
+      <span class="rc-weather-city rc-w-city">--</span>
+    </button>
+
+    <div class="rc-widget-pop" hidden>
+      <input class="rc-input rc-city-input" placeholder="City (e.g. Berlin)" />
+      <div class="rc-widget-pop-actions">
+        <button class="rc-btn rc-btn-accent rc-btn-sm rc-city-go" type="button">Set</button>
+        <button class="rc-btn rc-btn-ghost rc-btn-sm rc-city-auto" type="button">Auto</button>
+      </div>
+    </div>
+  </div>
+</div>

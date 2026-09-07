@@ -1,49 +1,69 @@
-<!-- About Section -->
-<div class="container mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 text-base-content">About</h2>
+<%
+const aboutText = (theme.about || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+const featuredPubs = site.data.publications ? site.data.publications.filter(p => p.featured === 'enable').slice(0, 3) : [];
+const featuredProjects = site.data.projects ? site.data.projects.filter(p => p.featured === 'enable').slice(0, 3) : [];
+const recentPosts = site.posts.sort('date', -1).slice(0, 3);
+%>
 
-  <!-- Avatar -->
-  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer lg:hidden">
-    <div class="avatar mb-4">
-      <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
-        <img
-          src="<%= url_for(theme.avatar) %>"
-          alt="Profile"
-          class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
-        />
+<!-- ============ Hero ============ -->
+<section class="rc-hero rc-section">
+  <div class="rc-orb rc-orb-a"></div>
+  <div class="rc-orb rc-orb-b"></div>
+  <div class="relative grid lg:grid-cols-[1.15fr_auto] gap-12 items-center">
+    <div class="relative">
+      <span class="rc-hero-badge mb-6"><span class="pulse-dot"></span>Researcher · Academic Portfolio</span>
+      <h1 class="rc-hero-title rc-serif font-bold"><%= config.author %></h1>
+      <% if (config.subtitle) { %>
+        <p class="rc-serif mt-4 text-xl sm:text-2xl text-base-content/80"><%= config.subtitle %></p>
+      <% } %>
+      <% if (aboutText) { %>
+        <p class="mt-6 max-w-xl text-base-content/70 leading-relaxed text-[1.05rem]"><%= aboutText %></p>
+      <% } %>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="<%= url_for('/publications') %>" class="rc-btn rc-btn-accent">
+          <i class="fas fa-book-open"></i>Publications
+        </a>
+        <a href="<%= url_for('/cv') %>" class="rc-btn rc-btn-outline">
+          <i class="fas fa-id-card"></i>Curriculum Vitae
+        </a>
+        <a href="<%= url_for('/contact') %>" class="rc-btn rc-btn-ghost">
+          <i class="fas fa-envelope"></i>Contact
+        </a>
       </div>
     </div>
-    <h2 class="text-xl font-bold text-base-content"><%= config.author %></h2>
-    <p class="text-base-content opacity-80"><%= config.subtitle %></p>
-  </div>
 
-  <!--About-->
-  <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content">
-    <div class="card-body">
-      <div class="prose max-w-none text-base">
-        <%- theme.about %>
+    <div class="hidden lg:block">
+      <div style="animation: rc-float 7s ease-in-out infinite;">
+        <span class="rc-avatar-ring block" style="--rc-av-size: 14rem;">
+          <img src="<%= url_for(theme.avatar) %>" alt="<%= config.author %>" class="rc-avatar" />
+        </span>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Research Interests -->
+<div class="rc-section"><hr class="rc-divider" /></div>
+
+<!-- ============ Research Interests ============ -->
 <% if (site.data.cv && site.data.cv.research_interests) { %>
-<div class="container mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 text-base-content">Research Interests</h2>
-  
+<section class="rc-section rc-reveal">
+  <div class="rc-section-head">
+    <span class="rc-kicker">Focus Areas</span>
+    <h2 class="rc-section-title text-base-content">Research Interests</h2>
+  </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <% site.data.cv.research_interests.forEach(function(area) { %>
-      <div class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300">
-        <div class="card-body p-4">
-          <h3 class="card-title text-lg font-bold mb-3"><%= area.area %></h3>
+      <div class="rc-card rc-focus">
+        <div class="rc-card-body">
+          <h3 class="rc-serif text-lg font-bold"><%= area.area %></h3>
           <% if (area.description) { %>
-            <p class="text-sm opacity-80 mb-3"><%= area.description %></p>
+            <p class="rc-muted text-sm mt-2"><%= area.description %></p>
           <% } %>
           <% if (area.keywords && area.keywords.length > 0) { %>
-            <div class="flex flex-wrap gap-1">
+            <div class="flex flex-wrap gap-1.5 mt-4">
               <% area.keywords.forEach(function(keyword) { %>
-                <span class="badge badge-primary badge-sm"><%= keyword %></span>
+                <span class="rc-tag"><%= keyword %></span>
               <% }); %>
             </div>
           <% } %>
@@ -51,66 +71,57 @@
       </div>
     <% }); %>
   </div>
-</div>
+</section>
 <% } %>
 
-<!-- Recent Notes -->
-<div class="container mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 text-base-content">Recent Notes</h2>
-  
+<!-- ============ Recent Notes ============ -->
+<section class="rc-section rc-reveal">
+  <div class="rc-section-head">
+    <span class="rc-kicker">Journal</span>
+    <h2 class="rc-section-title text-base-content">Recent Notes</h2>
+  </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% site.posts.sort('date', -1).slice(0, 3).forEach(function(post) { %>
-      <article class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl hover:scale-105 transition-all duration-300 h-80 flex flex-col">
-        <div class="card-body p-6 flex flex-col h-full">
-          <!-- Header -->
+    <% recentPosts.forEach(function(post) { %>
+      <article class="rc-card rc-focus flex flex-col">
+        <div class="rc-card-body flex flex-col h-full">
           <div class="mb-4">
-            <h3 class="card-title text-lg font-bold leading-tight mb-2">
+            <div class="flex items-center justify-between gap-2">
+              <time class="text-xs rc-muted"><%= post.date.format('MMM DD, YYYY') %></time>
+              <% if (post.categories.length > 0) { %>
+                <span class="rc-badge rc-badge-neutral"><%= post.categories.toArray()[0].name %></span>
+              <% } %>
+            </div>
+            <h3 class="rc-serif text-lg font-bold leading-snug mt-2.5 mb-0">
               <a href="<%= url_for(post.path) %>" class="hover:text-primary no-underline transition-colors duration-200">
                 <%= post.title %>
               </a>
             </h3>
-            <div class="flex items-center justify-between">
-              <time class="text-sm opacity-70">
-                <%= post.date.format('MMM DD, YYYY') %>
-              </time>
-              <% if (post.categories.length > 0) { %>
-                <div class="badge badge-primary badge-sm">
-                  <%= post.categories.toArray()[0].name %>
-                </div>
-              <% } %>
-            </div>
           </div>
 
-          <!-- Excerpt -->
           <% if (post.excerpt) { %>
-            <div class="text-sm opacity-80 mb-4 flex-1 overflow-hidden">
-              <div class="line-clamp-4">
-                <%= post.excerpt.replace(/<[^>]*>/g, '').substring(0, 150) %>...
-              </div>
-            </div>
+            <p class="rc-muted text-sm flex-1 line-clamp-4">
+              <%= post.excerpt.replace(/<[^>]*>/g, '').substring(0, 190) %>…
+            </p>
           <% } else { %>
             <div class="flex-1"></div>
           <% } %>
 
-          <!-- Tags -->
           <% if (post.tags.length > 0) { %>
-            <div class="flex flex-wrap gap-1 mb-4">
+            <div class="flex flex-wrap gap-1.5 mt-4">
               <% post.tags.slice(0, 2).forEach(function(tag) { %>
-                <span class="badge badge-outline badge-xs">
-                  <%= tag.name %>
-                </span>
+                <span class="rc-tag"><%= tag.name %></span>
               <% }); %>
               <% if (post.tags.length > 2) { %>
-                <span class="badge badge-ghost badge-xs">+<%= post.tags.length - 2 %></span>
+                <span class="rc-tag rc-muted">+<%= post.tags.length - 2 %></span>
               <% } %>
             </div>
           <% } %>
 
-          <!-- Read More -->
-          <div class="card-actions justify-end mt-auto">
-            <a href="<%= url_for(post.path) %>" class="btn btn-primary btn-sm">
-              Read More
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="pt-4 mt-auto">
+            <a href="<%= url_for(post.path) %>" class="rc-btn-link">
+              Read more
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </a>
@@ -120,54 +131,44 @@
     <% }); %>
   </div>
 
-  <!-- View All -->
-  <div class="text-center mt-8">
-    <a href="<%= url_for('/notes') %>" class="btn btn-primary">View All Notes</a>
+  <div class="mt-8">
+    <a href="<%= url_for('/notes') %>" class="rc-btn rc-btn-ghost">View all notes<i class="fas fa-arrow-right text-sm"></i></a>
   </div>
-</div>
+</section>
 
-<!-- Featured Publications -->
-<div class="container mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 text-base-content">Featured Publications</h2>
+<!-- ============ Featured Publications ============ -->
+<section class="rc-section rc-reveal">
+  <div class="rc-section-head">
+    <span class="rc-kicker">Output</span>
+    <h2 class="rc-section-title text-base-content">Featured Publications</h2>
+  </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <%
-      const featuredPubs = site.data.publications.filter(p => p.featured === 'enable').slice(0, 3);
-      featuredPubs.forEach(function(pub) {
-    %>
-      <div class="card glass rounded-box shadow-md bg-base-100 text-base-content hover:shadow-lg transition-all duration-300">
-        <div class="card-body p-4">
-          <!-- Title + Type -->
-          <h3 class="card-title text-lg font-semibold flex items-center gap-2">
-            <span class="title"><%= pub.title %></span>
-            <% if (pub.type) { %>
-              <div class="badge badge-primary text-xs"><%= pub.type %></div>
-            <% } %>
-          </h3>
-
-          <!-- Authors / Venue / Year -->
-          <div class="opacity-80 text-sm mt-1">
-            <% if (pub.authors) { %>
-              <p class="authors font-medium"><%= pub.authors %></p>
-            <% } %>
-            <% if (pub.venue) { %>
-              <p class="italic text-sm mt-0.5"><%= pub.venue %></p>
-            <% } %>
-            <% if (pub.year) { %>
-              <p class="text-xs text-gray-500"><%= pub.year %></p>
-            <% } %>
+  <div class="space-y-4">
+    <% featuredPubs.forEach(function(pub) { %>
+      <div class="rc-card rc-focus">
+        <div class="rc-card-body">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <h3 class="rc-serif text-lg font-bold leading-snug"><%= pub.title %></h3>
+                <% if (pub.type) { %><span class="rc-badge"><%= pub.type %></span><% } %>
+              </div>
+              <% if (pub.authors) { %><p class="text-sm mt-1.5"><%= pub.authors %></p><% } %>
+              <% if (pub.venue) { %><p class="italic text-sm rc-muted mt-0.5"><%= pub.venue %></p><% } %>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <% if (pub.year) { %><span class="rc-badge rc-badge-neutral"><%= pub.year %></span><% } %>
+            </div>
           </div>
-
-          <!-- Buttons -->
-          <div class="card-actions justify-end mt-3 gap-2">
+          <div class="flex flex-wrap gap-2.5 mt-4">
             <% if (pub.doi) { %>
-              <a href="https://doi.org/<%= pub.doi %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
-                <i class="ai ai-doi mr-1"></i>DOI
+              <a href="https://doi.org/<%= pub.doi %>" class="rc-btn rc-btn-accent rc-btn-sm" target="_blank" rel="noopener noreferrer">
+                <i class="ai ai-doi"></i>DOI
               </a>
             <% } %>
             <% if (pub.pdf) { %>
-              <a href="<%= pub.pdf %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-file-pdf mr-1"></i>PDF
+              <a href="<%= pub.pdf %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-file-pdf"></i>PDF
               </a>
             <% } %>
           </div>
@@ -176,54 +177,44 @@
     <% }); %>
   </div>
 
-  <!-- View All -->
-  <div class="text-center mt-8">
-    <a href="<%= url_for('/publications') %>" class="btn btn-primary">View All Publications</a>
+  <div class="mt-8">
+    <a href="<%= url_for('/publications') %>" class="rc-btn rc-btn-ghost">View all publications<i class="fas fa-arrow-right text-sm"></i></a>
   </div>
-</div>
+</section>
 
+<!-- ============ Featured Projects ============ -->
+<% if (featuredProjects.length > 0) { %>
+<section class="rc-section rc-reveal">
+  <div class="rc-section-head">
+    <span class="rc-kicker">Work</span>
+    <h2 class="rc-section-title text-base-content">Featured Projects</h2>
+  </div>
 
-
-<!-- Featured Projects -->
-<div class="container mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 text-base-content">Featured Projects</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <%
-      const featuredProjects = site.data.projects.filter(p => p.featured === 'enable').slice(0, 3);
-      featuredProjects.forEach(function(project) {
-    %>
-      <div class="card glass rounded-box shadow-md bg-base-100 text-base-content hover:shadow-lg transition-all duration-300">
-        <div class="card-body p-4">
-          <h3 class="card-title text-lg font-semibold flex items-center gap-2">
-            <span class="title"><%= project.title %></span>
-            <% if (project.status) { %>
-              <div class="badge badge-primary text-xs"><%= project.status %></div>
-            <% } %>
-          </h3>
-          <div class="opacity-80 text-sm mt-1">
-            <% if (project.period) { %>
-              <p class="flex items-center text-sm mb-1">
-                <i class="far fa-calendar-alt mr-2"></i><%= project.period %>
-              </p>
-            <% } %>
-            <% if (project.role) { %>
-              <p class="flex items-center text-sm">
-                <i class="fas fa-user-tie mr-2"></i><%= project.role %>
-              </p>
-            <% } %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <% featuredProjects.forEach(function(project) { %>
+      <div class="rc-card rc-focus">
+        <div class="rc-card-body">
+          <div class="flex flex-wrap items-center gap-2">
+            <h3 class="rc-serif text-lg font-bold leading-snug"><%= project.title %></h3>
+            <% if (project.status) { %><span class="rc-badge rc-badge-neutral"><%= project.status %></span><% } %>
           </div>
-          <% if (project.description) { %>
-            <p class="mt-3 text-base-content opacity-90 text-sm"><%= project.description %></p>
+          <% if (project.period) { %>
+            <p class="flex items-center gap-2 text-sm rc-muted mt-2">
+              <i class="far fa-calendar-alt"></i><%= project.period %>
+            </p>
           <% } %>
-          <div class="card-actions justify-end mt-4 gap-2 flex-wrap">
+          <% if (project.description) { %>
+            <p class="mt-3 text-sm text-base-content/80"><%= project.description %></p>
+          <% } %>
+          <div class="flex flex-wrap gap-2.5 mt-5">
             <% if (project.website) { %>
-              <a href="<%= project.website %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-external-link-alt mr-1"></i>Website
+              <a href="<%= project.website %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt"></i>Website
               </a>
             <% } %>
             <% if (project.github) { %>
-              <a href="<%= project.github %>" class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-github mr-1"></i>Code
+              <a href="<%= project.github %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github"></i>Code
               </a>
             <% } %>
           </div>
@@ -231,7 +222,9 @@
       </div>
     <% }); %>
   </div>
-  <div class="text-center mt-8">
-    <a href="<%= url_for('/projects') %>" class="btn btn-primary">View All Projects</a>
+
+  <div class="mt-8">
+    <a href="<%= url_for('/projects') %>" class="rc-btn rc-btn-ghost">View all projects<i class="fas fa-arrow-right text-sm"></i></a>
   </div>
-</div>
+</section>
+<% } %>

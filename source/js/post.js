@@ -41,9 +41,13 @@ function copyToClipboard() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function __rcProcessPost() {
   const processedContent = document.getElementById('processed-content');
   if (!processedContent) return;
+  // idempotent: avoid double-processing the same element (needed because the
+  // MutationObserver may fire __rcProcessPost more than once per swap).
+  if (processedContent.getAttribute('data-rc-done')) return;
+  processedContent.setAttribute('data-rc-done', '1');
   
   let content = processedContent.innerHTML;
 
@@ -383,4 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   }, 50);
-});
+}
+window.__rcProcessPost = __rcProcessPost;
+document.addEventListener('DOMContentLoaded', __rcProcessPost);
