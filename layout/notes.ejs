@@ -47,9 +47,11 @@
       <input type="text" placeholder="Search notes..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
     </div>
 
+    <% if (!theme.features || theme.features.view_toggle !== false) { %>
     <div class="ml-auto">
       <%- partial('partials/viewtoggle') %>
     </div>
+    <% } %>
   </div>
 
   <!-- Tag cloud -->
@@ -61,17 +63,20 @@
     const tags = Object.keys(tagCounts).map(name => ({ name, count: tagCounts[name] })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
     const maxCount = tags.length ? tags[0].count : 1;
   %>
-  <% if (tags.length) { %>
+  <% if ((!theme.features || theme.features.tag_cloud !== false) && tags.length) { %>
   <div class="rc-tagcloud">
-    <div class="rc-filter-label mb-3">Filter by topic</div>
-    <div class="flex flex-wrap items-center gap-2">
+    <div class="flex items-center justify-between mb-3">
+      <div class="rc-filter-label">Filter by topic</div>
+      <button type="button" class="rc-tagcloud-clear" data-tag-clear hidden>Clear selection</button>
+    </div>
+    <div class="flex flex-wrap items-center gap-2" data-tagcloud>
       <% tags.forEach(tag => {
         const size = Math.max(0.8, Math.min(1.5, 0.8 + (tag.count / maxCount) * 0.7));
         const weight = tag.count === maxCount ? 700 : 520;
       %>
-        <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="rc-tagcloud-item" style="--rc-tc: <%= size %>; font-weight: <%= weight %>">
+        <button type="button" class="rc-tagcloud-item" data-tag="<%= tag.name %>" style="--rc-tc: <%= size %>; font-weight: <%= weight %>">
           #<%= tag.name %> <span class="rc-tagcloud-count"><%= tag.count %></span>
-        </a>
+        </button>
       <% }); %>
     </div>
   </div>
@@ -82,7 +87,7 @@
   </div>
 
   <!-- Notes grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="notesContainer" data-filter-list data-view data-view-key="rc-view-notes">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 rc-notes" id="notesContainer" data-filter-list data-view data-view-key="rc-view-notes">
     <% site.posts.sort('date', -1).forEach(function(post) { %>
       <div class="note-item rc-reveal" data-filter-item
            data-category="<%= post.categories.length > 0 ? post.categories.toArray().map(c => c.name).join(',') : '' %>"
@@ -92,7 +97,7 @@
            data-tags="<%= post.tags.length > 0 ? post.tags.toArray().map(t => t.name).join(',') : '' %>">
         <article class="rc-card rc-focus flex flex-col h-full">
           <div class="rc-card-body flex flex-col h-full">
-            <div class="mb-4">
+            <div class="mb-4 rc-note-head">
               <div class="flex items-center justify-between mb-2">
                 <time class="text-xs rc-muted font-medium"><%= post.date.format('MMM D, YYYY') %></time>
                 <% if (post.categories.length > 0) { %>
@@ -100,7 +105,7 @@
                 <% } %>
               </div>
               <h2 class="text-lg font-semibold leading-tight">
-                <a href="<%= url_for(post.path) %>" class="hover:text-[color-mix(in_oklab,var(--rc-accent)_80%,transparent)] transition-colors duration-200 no-underline">
+                <a href="<%= url_for(post.path) %>" class="rc-stretched hover:text-[color-mix(in_oklab,var(--rc-accent)_80%,transparent)] transition-colors duration-200 no-underline">
                   <%= post.title %>
                 </a>
               </h2>
@@ -116,7 +121,7 @@
               <div class="flex-1"></div>
             <% } %>
 
-            <div class="flex items-center justify-between mt-5">
+            <div class="flex items-center justify-between mt-5 rc-note-foot">
               <% if (post.tags.length > 0) { %>
                 <div class="flex flex-wrap gap-1.5">
                   <% post.tags.slice(0, 3).forEach(function(tag) { %>
@@ -134,6 +139,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
             </div>
+            <%- partial('partials/expandtoggle') %>
           </div>
         </article>
       </div>

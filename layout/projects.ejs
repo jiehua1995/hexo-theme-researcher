@@ -38,9 +38,11 @@
       <input type="text" placeholder="Search projects..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
     </div>
 
+    <% if (!theme.features || theme.features.view_toggle !== false) { %>
     <div class="ml-auto">
       <%- partial('partials/viewtoggle') %>
     </div>
+    <% } %>
   </div>
 
   <!-- Projects timeline -->
@@ -129,6 +131,7 @@
                 <% } %>
               </div>
             <% } %>
+          <%- partial('partials/expandtoggle') %>
           </div>
         </article>
       </div>

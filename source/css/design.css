@@ -164,7 +164,11 @@ h1, h2, h3, h4, .rc-serif {
   transition:
     box-shadow var(--rc-dur) var(--rc-ease),
     border-color var(--rc-dur) var(--rc-ease);
-  overflow: hidden;
+  /* overflow: visible so the citation-badge popovers (Altmetric / Dimensions)
+     can extend past the card boundary — the popup content must sit on top, not
+     be clipped by the card's rounded corners. Decorative ::before/::after
+     overlays still clip themselves via their own border-radius. */
+  overflow: visible;
 }
 .rc-card-soft {
   background: color-mix(in oklab, var(--rc-bg-soft) 55%, var(--rc-bg));
@@ -181,6 +185,30 @@ h1, h2, h3, h4, .rc-serif {
 }
 .rc-card-body {
   padding: 1.5rem;
+}
+
+/* Hover emphasis: a card the cursor is over pops with a stronger accent border,
+   a deeper soft shadow and a brighter lighting sweep on the glass surface. This
+   is a light/shadow change only — it deliberately does NOT touch `transform`, so
+   it never fights the scroll-driven focus scaling. */
+.rc-card:hover {
+  border-color: color-mix(in oklab, var(--rc-accent) 44%, var(--rc-line));
+  box-shadow:
+    var(--rc-shadow-md),
+    0 14px 34px -14px color-mix(in oklab, var(--rc-accent) 26%, transparent);
+}
+/* Brighten the top-down light sweep on hover (overrides the scroll-driven
+   opacity only while the card is hovered). */
+.rc-focus:hover::before {
+  opacity: 1;
+}
+/* Whole-card stretched link (e.g. Notes): the title link's ::after covers the
+   card, so the card is one clickable object. Interactive children sit above. */
+.rc-card a.rc-stretched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 /* --------------------------------------------------------------------------
@@ -303,6 +331,50 @@ h1, h2, h3, h4, .rc-serif {
 .rc-tag:hover {
   color: var(--rc-accent);
   background: color-mix(in oklab, var(--rc-accent) 10%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   6b. Contact / get-in-touch row
+   A simple, readable row of contact details separated by subtle dots. Larger
+   type than the tag chips so the address/email read as real contact info.
+-------------------------------------------------------------------------- */
+.rc-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0;
+  row-gap: 0.9rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.rc-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 1.6rem 0 1.2rem;
+  position: relative;
+  color: color-mix(in oklab, var(--rc-ink) 82%, transparent);
+  transition: color var(--rc-dur) var(--rc-ease);
+}
+.rc-contact-item > i {
+  font-size: 1rem;
+  color: var(--rc-accent);
+}
+.rc-contact-item > span {
+  white-space: nowrap;
+}
+a.rc-contact-item:hover { color: var(--rc-accent); }
+/* separator dot between items (not before the first) */
+.rc-contact-item:not(:first-child)::before {
+  content: "·";
+  position: absolute;
+  right: 0.6rem;
+  color: color-mix(in oklab, var(--rc-ink) 30%, transparent);
+}
+@media (max-width: 640px) {
+  .rc-contact-item { padding: 0 0 0 1.2rem; }
+  .rc-contact-item:not(:first-child)::before { display: none; }
+  .rc-contact-row { gap: 0.5rem 1.4rem; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1205,21 +1277,42 @@ html.js .rc-reveal.is-visible {
   border-color: color-mix(in oklab, oklch(0.72 0.13 40) 34%, transparent);
 }
 
-/* Altmetric + Dimensions citation badges (rendered by their embed scripts) */
+/* Altmetric + Dimensions citation badges (rendered by their embed scripts),
+   tucked into the card's top-right corner in their smallest form */
 .rc-cite-badges {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 3;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin: 0.25rem 0 1rem;
-  min-height: 1.4rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  margin: 0;
+  min-height: 0;
 }
-.rc-cite-badges .altmetric-embed,
 .rc-cite-badges .__dimensions_badge_embed__,
 .rc-cite-badges .__dimensions_Badge {
   display: inline-flex;
   align-items: center;
 }
+/* Let the Altmetric donut render at its natural size (the embed sets its own
+   width/height). We only neutralise the line-height so the badge isn't padded
+   by the card's text baseline, and we never force a display that would shrink
+   the circular donut. */
+.rc-cite-badges .altmetric-embed {
+  line-height: 0;
+  font-size: 0;
+}
+/* When the user hovers the badges, lift the WHOLE card above its neighbours so
+   the open popover is never covered by the sibling card below it. `:has()` is
+   supported in all modern evergreen browsers. */
+.rc-card:has(.rc-cite-badges:hover) {
+  z-index: 100;
+}
+/* The Dimensions + Altmetric badges are shown/hidden per-card via
+   .rc-card[data-expanded] (see below) so an expanded compact card still reveals
+   the full badge set, while a collapsed one shows only the Dimensions badge. */
 
 /* --------------------------------------------------------------------------
    20. Detail / Compact view toggle (Publications, Projects, Talks)
@@ -1278,11 +1371,19 @@ html.js .rc-reveal.is-visible {
 .rc-list--compact > * { margin-top: 0 !important; }
 .rc-list--compact .rc-card { height: 100%; border-radius: var(--rc-radius-md); }
 .rc-list--compact .rc-card .rc-card-body { padding: 1.1rem 1.25rem; }
-.rc-list--compact .rc-detail-only { display: none !important; }
 .rc-list--compact .rc-meta-line { margin-bottom: 0; }
 .rc-list--compact .rc-meta-line [data-release] {
   color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
 }
+/* Per-card expansion is the single source of truth for whether the deep detail
+   rows are shown — a card in ANY mode (detail or compact) can be individually
+   expanded (data-expanded="true") or collapsed (data-expanded="false"):
+   - collapsed → only the title + own badge + key meta + Dimensions badge
+   - expanded   → authors, abstract, tags, links and the Altmetric badge appear
+   Cards without the attribute show their detail (the default). */
+.rc-card[data-expanded="false"] .rc-detail-only { display: none !important; }
+.rc-card[data-expanded="false"] .rc-note-foot { display: none !important; }
+.rc-card[data-expanded="false"] .rc-cite-badges .altmetric-embed { display: none !important; }
 
 /* --------------------------------------------------------------------------
    22. Tag cloud (Notes) — weighted pills; clicking filters the notes list
@@ -1298,6 +1399,7 @@ html.js .rc-reveal.is-visible {
   display: inline-flex;
   align-items: baseline;
   gap: 0.3rem;
+  font-family: inherit;
   font-size: calc(0.8rem * var(--rc-tc, 1));
   line-height: 1;
   padding: 0.42rem 0.78rem;
@@ -1305,11 +1407,13 @@ html.js .rc-reveal.is-visible {
   border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
   background: color-mix(in oklab, var(--rc-bg) 70%, transparent);
   color: color-mix(in oklab, var(--rc-ink) 70%, transparent);
+  cursor: pointer;
   text-decoration: none;
   transition:
     color var(--rc-dur) var(--rc-ease),
     background var(--rc-dur) var(--rc-ease),
     border-color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease),
     transform var(--rc-dur) var(--rc-ease);
 }
 .rc-tagcloud-item:hover {
@@ -1323,3 +1427,117 @@ html.js .rc-reveal.is-visible {
   font-weight: 640;
   color: color-mix(in oklab, var(--rc-ink) 45%, transparent);
 }
+/* selected tag — accent colour so the user can see what is being filtered */
+.rc-tagcloud-item.is-active {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 16%, transparent);
+  border-color: color-mix(in oklab, var(--rc-accent) 45%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 12%, transparent);
+}
+.rc-tagcloud-clear {
+  font-size: 0.72rem;
+  font-weight: 620;
+  color: color-mix(in oklab, var(--rc-accent) 90%, transparent);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.2rem 0.3rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   23. Notes — icon-grid (compact) vs flowing-card (detail) views.
+   Like a file explorer: "网状" = dense tile grid, "详情" = flowing cards.
+   -------------------------------------------------------------------------- */
+.rc-notes.rc-list--compact {
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.9rem;
+}
+.rc-notes.rc-list--compact .rc-card {
+  min-height: 9rem;
+  border-radius: var(--rc-radius-md);
+}
+.rc-notes.rc-list--compact .rc-card .rc-card-body {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.rc-notes.rc-list--compact .rc-note-head {
+  margin-bottom: 0;
+  width: 100%;
+}
+.rc-notes.rc-list--compact .rc-note-head .flex {
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.rc-notes.rc-list--compact .rc-card h2 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+/* An expanded note tile grows to show its excerpt/footer and returns to a
+   left-aligned detail card (rather than the centred compact tile). */
+.rc-notes.rc-list--compact .rc-card[data-expanded="true"] {
+  min-height: 0;
+}
+.rc-notes.rc-list--compact .rc-card[data-expanded="true"] .rc-card-body {
+  justify-content: flex-start;
+  text-align: left;
+  padding: 1.2rem 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   24. Ambient background canvas (falling science glyphs). Behind the content.
+   -------------------------------------------------------------------------- */
+#rc-bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+/* reveal animation disabled via config → sections always fully visible */
+html[data-no-reveal] .rc-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   25. Per-card expand/collapse (compact list view)
+   Each compact card carries a small chevron (bottom-right). Clicking it reveals
+   the full detail content in place; clicking again folds it back to a row.
+   -------------------------------------------------------------------------- */
+.rc-expand {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  z-index: 4;
+  /* visible in EVERY mode — the chevron expands a collapsed card and folds an
+     expanded card back, regardless of the list's Detail/Compact state */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: var(--rc-radius-sm);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 70%, var(--rc-bg));
+  color: color-mix(in oklab, var(--rc-ink) 60%, transparent);
+  cursor: pointer;
+  transition:
+    color var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease),
+    border-color var(--rc-dur) var(--rc-ease);
+}
+.rc-expand:hover {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+  border-color: color-mix(in oklab, var(--rc-accent) 35%, transparent);
+}
+/* an expanded card re-shows the full detail again (in place) */
+.rc-list--compact .rc-card[data-expanded="true"] { min-height: 0; }
+.rc-list--compact .rc-card[data-expanded="true"] .rc-card-body { padding: 1.4rem; }
+.rc-card[data-expanded="true"] .rc-meta-line { margin-bottom: 1rem; }

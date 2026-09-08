@@ -147,7 +147,7 @@ var postToc = buildPostToc(page.content);
 
 </article>
 
-<% if (postToc.length) { %>
+<% if ((!theme.features || theme.features.post_toc !== false) && postToc.length) { %>
 <aside class="hidden lg:block">
   <%- partial('partials/toc', { tocItems: postToc }) %>
 </aside>

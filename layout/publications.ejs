@@ -38,9 +38,11 @@
       <input type="text" placeholder="Search publications..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
     </div>
 
+    <% if (!theme.features || theme.features.view_toggle !== false) { %>
     <div class="ml-auto">
       <%- partial('partials/viewtoggle') %>
     </div>
+    <% } %>
   </div>
 
   <!-- Publications list -->
@@ -54,13 +56,16 @@
            data-text="<%= ((pub.authors || '') + ' ' + (pub.venue || '') + ' ' + (pub.abstract || '')).toLowerCase() %>">
         <article class="rc-card rc-focus">
           <div class="rc-card-body p-6">
-            <div class="flex items-start justify-between gap-4 mb-3">
-              <h2 class="text-xl font-semibold leading-tight flex-1"><%= pub.title %></h2>
-              <% if (pub.type) { %>
-                <% var typeBadge = { 'Journal': 'rc-badge--journal', 'Conference': 'rc-badge--conference', 'Workshop': 'rc-badge--workshop' }[pub.type] || 'rc-badge-neutral'; %>
-                <% var typeIcon = { 'Journal': 'fa-book-open', 'Conference': 'fa-microphone-lines', 'Workshop': 'fa-screwdriver-wrench' }[pub.type] || 'fa-file'; %>
-                <span class="rc-badge <%= typeBadge %> shrink-0 mt-1"><i class="fa-solid <%= typeIcon %>"></i> <%= pub.type %></span>
-              <% } %>
+
+            <% if ((!theme.features || theme.features.citation_badges !== false) && pub.doi) { %>
+              <div class="rc-cite-badges">
+                <span class="__dimensions_badge_embed__" data-doi="<%= pub.doi %>" data-style="small_circle"></span>
+                <div class="altmetric-embed" data-badge-type="donut" data-badge-popover="left" data-doi="<%= pub.doi %>" data-hide-no-mentions="true"></div>
+              </div>
+            <% } %>
+
+            <div class="flex items-start gap-4 mb-3">
+              <h2 class="text-xl font-semibold leading-tight flex-1 pr-24"><%= pub.title %></h2>
             </div>
 
             <% if (pub.authors) { %>
@@ -68,6 +73,14 @@
             <% } %>
 
             <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4 rc-meta-line">
+              <% if (pub.type) { %>
+                <% var typeBadge = { 'Journal': 'rc-badge--journal', 'Conference': 'rc-badge--conference', 'Workshop': 'rc-badge--workshop' }[pub.type] || 'rc-badge-neutral'; %>
+                <% var typeIcon = { 'Journal': 'fa-book-open', 'Conference': 'fa-microphone-lines', 'Workshop': 'fa-screwdriver-wrench' }[pub.type] || 'fa-file'; %>
+                <%# The type badge stays visible in Compact (it's the card's own
+                    "left" badge — e.g. Journal). Only the deeper detail rows are
+                    hidden in Compact via .rc-detail-only. %>
+                <span class="rc-badge <%= typeBadge %>"><i class="fa-solid <%= typeIcon %>"></i> <%= pub.type %></span>
+              <% } %>
               <% if (pub.venue) { %>
                 <span class="flex items-center gap-1.5">
                   <i class="fa-solid fa-building w-4 h-4"></i>
@@ -87,13 +100,6 @@
                 </span>
               <% } %>
             </div>
-
-            <% if (pub.doi) { %>
-              <div class="rc-cite-badges rc-detail-only">
-                <span class="__dimensions_badge_embed__" data-doi="<%= pub.doi %>"></span>
-                <div class="altmetric-embed" data-badge-type="donut" data-doi="<%= pub.doi %>" data-hide-no-mentions="true"></div>
-              </div>
-            <% } %>
 
             <% if (pub.tags && pub.tags.length) { %>
               <div class="flex flex-wrap gap-2 mb-4 rc-detail-only">
@@ -129,6 +135,7 @@
                 </a>
               <% } %>
             </div>
+            <%- partial('partials/expandtoggle') %>
           </div>
         </article>
       </div>

@@ -26,9 +26,6 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
         <a href="<%= url_for('/cv') %>" class="rc-btn rc-btn-outline">
           <i class="fas fa-id-card"></i>Curriculum Vitae
         </a>
-        <a href="<%= url_for('/contact') %>" class="rc-btn rc-btn-ghost">
-          <i class="fas fa-envelope"></i>Contact
-        </a>
       </div>
     </div>
 
@@ -228,3 +225,43 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
   </div>
 </section>
 <% } %>
+
+<!-- ============ Contact / Get in touch ============ -->
+<section class="rc-section rc-reveal">
+  <div class="rc-section-head">
+    <span class="rc-kicker">Reach out</span>
+    <h2 class="rc-section-title text-base-content">Get in touch</h2>
+    <p class="rc-muted mt-3 max-w-2xl">For collaborations, paper reviews or research inquiries — I'm always happy to talk science.</p>
+  </div>
+
+  <div class="rc-card rc-card-soft">
+    <div class="rc-card-body">
+      <div class="rc-contact-row">
+        <% if (theme.contact.email) { %>
+          <a href="mailto:<%= theme.contact.email %>" class="rc-contact-item">
+            <i class="fas fa-envelope"></i><span><%= theme.contact.email %></span>
+          </a>
+        <% } %>
+        <% if (theme.contact.address || theme.contact.office) { %>
+          <% if (theme.contact.google_map) { %>
+            <a href="<%= theme.contact.google_map %>" target="_blank" rel="noopener noreferrer" class="rc-contact-item">
+              <i class="fas fa-map-marker-alt"></i><span><%= theme.contact.office || theme.contact.address %></span>
+            </a>
+          <% } else { %>
+            <span class="rc-contact-item"><i class="fas fa-map-marker-alt"></i><span><%= theme.contact.office || theme.contact.address %></span></span>
+          <% } %>
+        <% } %>
+        <% if (theme.contact.office_hours) { %>
+          <span class="rc-contact-item">
+            <i class="fas fa-clock"></i><span><%= theme.contact.office_hours %></span>
+          </span>
+        <% } %>
+        <% if (theme.contact.phone) { %>
+          <a href="tel:<%= theme.contact.phone %>" class="rc-contact-item">
+            <i class="fas fa-phone"></i><span><%= theme.contact.phone %></span>
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>

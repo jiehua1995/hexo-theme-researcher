@@ -12,9 +12,15 @@ A modern, responsive, and professional academic portfolio theme for researchers.
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/jiehua1995/hexo-theme-researcher)
 
 
-### If you find this project useful, a ⭐️ would be greatly appreciated!
+### Demo
 
-![Theme Preview](./source/images/preview.png)
+Responsive preview of the homepage across **desktop · tablet · mobile**:
+
+![Devices](./demo/devices.png)
+
+A looping walkthrough of the homepage (scroll-focus card effect + falling background animation):
+
+![Demo](./demo/demo-home.gif)
 
 ## Design Philosophy
 
@@ -30,15 +36,22 @@ The Researcher theme is designed with the following principles in mind:
 
 - 📱 **Fully responsive design** - Mobile-first approach with optimal viewing on all devices
 - 🎨 **30+ DaisyUI themes** - Light, dark, cupcake, bumblebee, wireframe and more
+- 🔄 **Detail / Compact view toggle** - Publications, Projects, Talks & Notes switch views (persisted per page); switching resets every card to that mode's default
+- 🔽 **Per-card expand / collapse** - Every card has a chevron that works in both Detail & Compact — expand a collapsed card to see the full detail or fold one back to a row
 - 🏠 **Enhanced homepage** - Recent Notes, Featured Publications & Projects in 3-column layouts
-- 📝 **Blog/Notes system** - Real-time search, filtering, and clean typography
-- 📚 **Publications management** - Academic showcase with DOI, PDF links, and badges
+- 📝 **Blog/Notes system** - Real-time search, filtering, an interactive tag cloud, and clean typography
+- 🔍 **Site-wide search** - Real-time search across all content (requires `hexo-generator-search`)
+- 📚 **Publications management** - Academic showcase with DOI, PDF links, and citation badges
+- 🔬 **Citation badges** - Dimensions + Altmetric badges in the card corner; in Compact only the Dimensions badge shows (with the article's own type badge); popovers never clipped
 - 📊 **Project showcase** - Status tracking, GitHub integration, and collaboration details
 - 📄 **Professional CV page** - Downloadable resume with modular sections
 - 🎤 **Talks & presentations** - Conference and seminar showcase
 - 💻 **Enhanced code display** - Syntax highlighting with line numbers and copy functionality
-- 🔍 **Site-wide search** - Real-time search across all content (requires `hexo-generator-search`)
+- 🔀 **SPA partial navigation (Swup)** - Sidebar & top bar persist while only the content swaps
+- ⚡ **Ambient background animation** - Falling "science" glyphs drift down the page like snow (configurable)
+- 🧭 **Focus-wheel table of contents** - Sticky, click-to-centre TOC for articles and the CV page
 - 🔗 **Academic profiles** - Google Scholar, ORCID, ResearchGate, GitHub, LinkedIn
+- ⚙️ **Feature switches** - Turn every visual/functional enhancement on/off from `_config.yml`
 - ⚡ **Performance optimized** - Fast loading with modern web technologies
 
 ## Usage
@@ -120,7 +133,6 @@ hexo new page projects
 hexo new page talks
 hexo new page cv
 hexo new page notes
-hexo new page contact
 ```
 
 After creating each page, you **must** set the correct layout in the front-matter of each page's markdown file:
@@ -170,14 +182,7 @@ layout: notes
 ---
 ```
 
-**Contact page** (`source/contact/index.md`):
-```yaml
----
-title: Contact
-date: 2024-01-01
-layout: contact
----
-```
+> The Contact page is no longer a separate page — contact links (email, address, academic profiles) are shown in a simple link row at the bottom of the homepage.
 
 **Important Notes**
 
@@ -211,6 +216,35 @@ hexo new post "Your Post Title"
 - `projects.yml`: Research projects
 - `talks.yml`: Presentations and talks
 - `cv.yml`: Your CV/resume information
+
+## Configuration reference
+
+The theme is configured by copying the theme's `_config.yml` into the site root as `_config.hexo-theme-researcher.yml`. Key switches:
+
+### `motion` — ambient effects
+```yaml
+motion:
+  background_animation:   # falling "science" glyphs
+    enabled: true         # false → no falling background glyphs
+    opacity: 0.12         # 0 (barely visible) – 0.3 (more visible)
+    count: 30             # number of floating glyphs
+    speed: 1.0            # fall speed multiplier
+    size: 20              # base glyph size in px
+    icons: ["⚛", "⚗", "⚙", "✚", "✦", "◆", "◉", "◈", "✳", "∑", "π", "∞", "∆", "∴", "λ", "Ω", "⊕", "⊳", "▣", "✽", "⟐", "⁂"] # monochrome glyphs, tinted with the theme accent
+  scroll_focus:
+    enabled: true         # cards near the viewport centre grow + glow
+  reveal:
+    enabled: true         # sections fade/slide in as they enter the viewport
+```
+
+### `features` — page feature switches
+```yaml
+features:
+  citation_badges: true   # Dimensions + Altmetric citation badges on publications
+  tag_cloud: true         # interactive tag cloud on the Notes page
+  view_toggle: true       # Detail / Compact view switcher on list pages
+  post_toc: true          # "On this page" table of contents on blog posts
+```
 
 ## License
 

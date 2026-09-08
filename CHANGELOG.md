@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [0.3.0] - 2026-09-08
+
+### Added
+- **Detail / Compact view toggle**: Publications, Projects, Talks and Notes switch between a rich `Detail` view and a dense `Compact` view, persisted per page in `localStorage` (survives navigation and reload). Switching a view **resets every card** to that mode's default state.
+- **Per-card expand / collapse in every mode**: Each card carries a chevron that works in BOTH Detail and Compact — clicking expands a collapsed card to reveal the full detail, or folds an expanded card back to a compact row. Per-card state survives list re-initialisation.
+- **Ambient background animation**: Falling "science" glyphs (🧪 🧬 ⚗️ 🔬 …) drift down the page like snow on a fixed `<canvas>` behind the content. Respects `prefers-reduced-motion` and can be switched off in config.
+- **Configurable feature switches**: A new `features:` block in `_config.yml` (`citation_badges`, `tag_cloud`, `view_toggle`, `post_toc`) and a `motion:` block (`background_animation`, `scroll_focus`, `reveal`) let users turn every visual/functional enhancement on or off with clear inline comments.
+- **Interactive tag cloud on Notes**: Multi-select / de-select tags to filter the notes grid live (no reload), with URL syncing (`?tag=…`), a "Clear selection" button, and visual `is-active` highlight.
+
+### Fixed
+- **Tag link highlight / cancel**: Arriving at `/notes/?tag=X` from a post now highlights exactly the matching tag pill (case-sensitive) and applies the filter, so it can be cancelled by clicking the pill or "Clear selection". The URL→selection re-sync runs on every init to survive a Swup swap.
+- **Citation badge clipping**: Card `overflow` is now `visible` and the hovered card is lifted above its neighbours, so the Dimensions / Altmetric popovers are never cut off or hidden behind the next card.
+- **Content-area centering**: The `#swup` box had both `w-full` and a 320px sidebar margin, overflowing the viewport to the right and leaving a large blank gap to the left of the content. Removed `w-full` so every page (Publications/Projects/Notes/CV, not just posts) is centred in its own area next to the sidebar.
+
+### Updated
+- **Citation badges**: In Compact a card shows only the Dimensions badge (its own type/status badge sits on the left); the Altmetric donut is hidden until the card is expanded or you switch to Detail. Badge popovers (Dimensions & Altmetric) always stack above everything.
+- **Contact consolidated**: The standalone Contact page is removed; contact links (email, address, academic profiles) now live in a simple link row on the homepage, under Featured Projects.
+- **Card hover emphasis**: Hovering a card now brightens the light sweep and deepens the border + shadow (light/shadow only — no scale, so it never fights the scroll-focus effect).
+- **Whole-card click**: Notes cards are now one clickable object via a stretched title link (the whole card navigates to the post).
+- **Footer pinning**: The body is now a flex column so the footer always sits at the very bottom — no more blank space below it.
+- **Background glyphs**: Falling "science" glyphs are now monochrome and tinted with the theme accent (so they follow light/dark + accent), with more variety and a denser default count.
+- **Altmetric donut**: Reverted to the standard `data-badge-type="donut"` + `data-badge-popover="left"` markup so it renders at its natural, larger size.
+- **Bumped version to 0.3.0**, rebuilt `style.css` (Tailwind 4.3.3 / daisyUI 5.7.28).
+
 ## [0.2.0] - 2026-09-07
 
 ### Added

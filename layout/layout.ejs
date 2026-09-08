@@ -3,7 +3,7 @@
 <head>
   <%- partial('partials/header') %>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen flex flex-col">
 
   <!-- Sidebar for Desktop (own full-height column, left) -->
   <aside class="rc-sidebar hidden lg:flex fixed left-0 top-0 h-screen w-80 z-40 flex-col overflow-y-auto">
@@ -48,7 +48,7 @@
   </div>
 
   <!-- Content area for Desktop (whole-body partial swapping via Swup) -->
-  <div id="swup" class="lg:ml-80 pt-20 px-4 lg:px-10 pb-8">
+  <div id="swup" class="lg:ml-80 pt-20 px-4 lg:px-10 pb-8 flex-1 min-h-0">
     <%- body %>
   </div>
 
@@ -238,23 +238,44 @@
           var countEl = page.querySelector('[data-filter-count]');
           var emptyEl = page.querySelector('[data-filter-empty]');
           var catParam = new URLSearchParams(location.search).get('category');
-          var tagParam = new URLSearchParams(location.search).get('tag');
           if (catParam && controls.category) controls.category.value = catParam;
 
           function normalizeList(v) {
             return (v || '').toLowerCase().split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          }
+          // Split a comma-separated attribute WITHOUT lower-casing — used for tag
+          // names, which are case-sensitive (a tag named "Testing" is distinct
+          // from "testing"). Categories are matched case-insensitively via
+          // normalizeList() above.
+          function splitList(v) {
+            return (v || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          }
+          // Tags the user has toggled in the interactive tag cloud. The tag cloud
+          // is the single source of truth for tag filtering, so the exact tag
+          // names (preserving case) are returned here — this is what makes a
+          // `?tag=X` arrival both highlight the pill AND apply the filter in one
+          // consistent place.
+          function selectedTags() {
+            var out = [];
+            Array.prototype.forEach.call(page.querySelectorAll('[data-tagcloud] .rc-tagcloud-item.is-active'), function (b) {
+              var t = b.getAttribute('data-tag');
+              if (t && out.indexOf(t) < 0) out.push(t);
+            });
+            return out;
           }
           function apply() {
             var cat = (controls.category && controls.category.value) || '';
             var year = (controls.year && controls.year.value) || '';
             var status = (controls.status && controls.status.value) || '';
             var q = (controls.search ? controls.search.value : '').toLowerCase().trim();
+            var selTags = selectedTags();
             var shown = 0;
             items.forEach(function (item) {
               var okSt = !status || (item.getAttribute('data-status') || '') === status;
               var okCat = !cat || normalizeList(item.getAttribute('data-category')).indexOf(cat.toLowerCase()) > -1;
               var okYear = !year || (item.getAttribute('data-year') || '') === year;
-              var okTag = !tagParam || normalizeList(item.getAttribute('data-tags')).indexOf(tagParam.toLowerCase()) > -1;
+              var itemTags = splitList(item.getAttribute('data-tags'));
+              var okTag = !selTags.length || itemTags.some(function (t) { return selTags.indexOf(t) > -1; });
               var text = [
                 item.getAttribute('data-title'), item.getAttribute('data-text'),
                 item.getAttribute('data-tags'), item.getAttribute('data-category'),
@@ -267,6 +288,7 @@
             });
             if (countEl) countEl.textContent = shown === items.length ? ('Showing all ' + items.length) : ('Found ' + shown);
             if (emptyEl) emptyEl.classList.toggle('hidden', shown > 0);
+            window.__rcFilterApply = apply; // let the tag cloud re-run the same filter
           }
           if (controls.status) controls.status.addEventListener('change', apply);
           if (controls.category) controls.category.addEventListener('change', apply);
@@ -279,20 +301,47 @@
       });
     }
 
+    // Set a card's expanded state and sync its chevron. This is the single
+    // source of truth for detail visibility (see .rc-card[data-expanded] CSS).
+    // A collapsed card shows only the title + own badge + key meta + Dimensions
+    // badge; an expanded card reveals the full detail + Altmetric badge too.
+    function __rcSetCardExpanded(card, expanded) {
+      expanded = !!expanded;
+      card.setAttribute('data-expanded', expanded ? 'true' : 'false');
+      var btn = card.querySelector('.rc-expand');
+      if (btn) {
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        var icon = btn.querySelector('i');
+        if (icon) icon.className = expanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
+      }
+    }
+
     // Detail / Compact view switching on list pages (Publications, Projects,
-    // Talks). Reads the last choice from localStorage and applies `.rc-list--compact`
-    // to the matching `[data-view]` container, so it survives a Swup swap too.
+    // Talks, Notes). Reads the last choice from localStorage and applies
+    // `.rc-list--compact` to the matching `[data-view]` container, so it survives
+    // a Swup swap too. Switching mode RESETS every card to that mode's default
+    // state (Compact → all collapsed, Detail → all expanded).
     function __rcInitViews() {
+      var f = (window.themeConfig && window.themeConfig.features) || {};
+      if (f.view_toggle === false) return;
       var page = document.getElementById('swup') || document;
       Array.prototype.forEach.call(page.querySelectorAll('[data-view]'), function (list) {
         var toggle = page.querySelector('[data-view-toggle]');
         var key = list.getAttribute('data-view-key') || 'rc-view';
+        var cards = Array.prototype.slice.call(list.querySelectorAll('.rc-card'));
         var saved = null;
         try { saved = window.localStorage.getItem(key); } catch (e) {}
-        function apply(mode) {
+        function apply(mode, force) {
           mode = mode === 'compact' ? 'compact' : 'detail';
           list.setAttribute('data-view', mode);
           list.classList.toggle('rc-list--compact', mode === 'compact');
+          // force=true (an explicit toggle click) resets EVERY card to the mode's
+          // default. On a re-init we only set the default for cards that have
+          // never been touched, preserving any per-card expand/collapse the user
+          // made (otherwise the MutationObserver would undo a manual expand).
+          cards.forEach(function (c) {
+            if (force || !c.hasAttribute('data-expanded')) __rcSetCardExpanded(c, mode === 'detail');
+          });
           if (toggle) {
             Array.prototype.forEach.call(toggle.querySelectorAll('[data-view-mode]'), function (btn) {
               var active = btn.getAttribute('data-view-mode') === mode;
@@ -305,10 +354,10 @@
         if (toggle && !toggle.getAttribute('data-v-inited')) {
           toggle.setAttribute('data-v-inited', '1');
           Array.prototype.forEach.call(toggle.querySelectorAll('[data-view-mode]'), function (btn) {
-            btn.addEventListener('click', function () { apply(btn.getAttribute('data-view-mode')); });
+            btn.addEventListener('click', function () { apply(btn.getAttribute('data-view-mode'), true); });
           });
         }
-        apply(saved || 'detail');
+        apply(saved || 'detail', false);
       });
     }
 
@@ -316,15 +365,150 @@
     // loaded globally and self-initialise on first load; after a Swup swap the
     // container elements are new, so we ask each library to re-scan the DOM.
     function __rcInitBadges() {
+      var f = (window.themeConfig && window.themeConfig.features) || {};
+      if (f.citation_badges === false) return;
       if (window.__dimensions_embed && window.__dimensions_embed.addBadges) {
         try { window.__dimensions_embed.addBadges(); } catch (e) {}
       }
       if (typeof window._altmetric_embed_init === 'function') {
         try { window._altmetric_embed_init(); } catch (e) {}
       }
+      // Hide any badge that has no data. The Dimensions embed fetches metrics
+      // asynchronously and shows a "?" placeholder when a DOI has no records, so
+      // poll for a short while and drop the empty badges the user asked to hide.
+      var checks = 0;
+      var timer = setInterval(function () {
+        checks++;
+        var anyHidden = false;
+        Array.prototype.forEach.call(document.querySelectorAll('.__dimensions_badge_embed__'), function (el) {
+          if (el.style.display === 'none') return;
+          var link = el.querySelector('a.__dimensions_Link');
+          var label = link ? (link.getAttribute('aria-label') || '') : '';
+          var m = label.match(/(\d+)\s*total citations/i);
+          var hasData = !!m && Number(m[1]) > 0;
+          if (link && !hasData) { el.style.display = 'none'; anyHidden = true; }
+          // no anchor yet means the fetch is still in-flight → wait another tick
+        });
+        // Hide a whole row only when BOTH badges are empty: the Dimensions one is
+        // hidden above AND the Altmetric one rendered nothing (no mentions). Re-show
+        // if content later arrives, so we never hide a badge that was just slow.
+        if (checks >= 2) {
+          Array.prototype.forEach.call(document.querySelectorAll('.rc-cite-badges'), function (row) {
+            var anyVisible = false;
+            Array.prototype.forEach.call(row.children, function (c) {
+              if (c.style.display === 'none') return;
+              if (c.classList.contains('altmetric-embed')) {
+                if (c.childElementCount > 0) anyVisible = true;
+              } else {
+                anyVisible = true;
+              }
+            });
+            if (!anyVisible) { row.style.display = 'none'; anyHidden = true; }
+            else if (row.style.display === 'none') { row.style.display = ''; }
+          });
+        }
+        if (checks >= 12 || !anyHidden) clearInterval(timer);
+      }, 700);
+    }
+
+    // Per-card expand/collapse. Each card carries a chevron (visible in EVERY
+    // mode); clicking toggles the card's `data-expanded` so the full detail
+    // content appears or folds back in place.
+    function __rcInitExpand() {
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('.rc-expand'), function (btn) {
+        if (btn.getAttribute('data-ex-inited')) return;
+        btn.setAttribute('data-ex-inited', '1');
+        var card = btn.closest('.rc-card');
+        if (!card) return;
+        btn.addEventListener('click', function () {
+          __rcSetCardExpanded(card, card.getAttribute('data-expanded') !== 'true');
+        });
+      });
+    }
+
+    // Interactive tag cloud (Notes): buttons toggle selection and re-run the SAME
+    // page filter (no reload), so the notes grid updates live. Selection colour
+    // is class-driven (.is-active); a "Clear selection" button appears when needed.
+    function __rcInitTagCloud() {
+      var f = (window.themeConfig && window.themeConfig.features) || {};
+      if (f.tag_cloud === false) return;
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('[data-tagcloud]'), function (cloud) {
+        var clearBtn = page.querySelector('[data-tag-clear]');
+        function selectedNames() {
+          return Array.prototype.map.call(cloud.querySelectorAll('.rc-tagcloud-item.is-active'), function (b) {
+            return b.getAttribute('data-tag');
+          }).filter(Boolean);
+        }
+        function refreshClear() {
+          var any = cloud.querySelectorAll('.rc-tagcloud-item.is-active').length > 0;
+          if (clearBtn) clearBtn.hidden = !any;
+        }
+        function refresh() {
+          if (window.__rcFilterApply) { try { window.__rcFilterApply(); } catch (e) {} }
+        }
+        // keep the URL in sync so the current tags can be shared / bookmarked
+        function syncUrl() {
+          try {
+            var names = selectedNames();
+            var sp = new URLSearchParams(location.search);
+            if (names.length) sp.set('tag', names.join(','));
+            else sp.delete('tag');
+            var qs = sp.toString();
+            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+          } catch (e) {}
+        }
+        // Rebuild the selection from the current `?tag=…` URL params. Runs on
+        // EVERY init (not just the first), so even if Swup updates the history
+        // a little after the DOM swap, the next re-init re-highlights the pill.
+        // Tags are matched by exact name (case-sensitive) — "Testing" and
+        // "testing" are distinct tags, so only the one the user picked lights up.
+        function syncFromUrl() {
+          var initial = new URLSearchParams(location.search).get('tag');
+          Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (b) {
+            b.classList.remove('is-active');
+          });
+          if (initial) {
+            initial.split(',').forEach(function (t) {
+              t = t.trim();
+              if (!t) return;
+              Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (btn) {
+                if (btn.getAttribute('data-tag') === t) btn.classList.add('is-active');
+              });
+            });
+          }
+          refreshClear();
+        }
+        syncFromUrl();
+        if (!cloud.getAttribute('data-tc-inited')) {
+          cloud.setAttribute('data-tc-inited', '1');
+          Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (btn) {
+            btn.addEventListener('click', function () {
+              btn.classList.toggle('is-active');
+              refreshClear();
+              syncUrl();
+              refresh();
+            });
+          });
+          if (clearBtn && !clearBtn.getAttribute('data-tc-inited')) {
+            clearBtn.setAttribute('data-tc-inited', '1');
+            clearBtn.addEventListener('click', function () {
+              Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (b) { b.classList.remove('is-active'); });
+              refreshClear();
+              syncUrl();
+              refresh();
+            });
+          }
+        }
+      });
     }
 
     function __rcInitMotion() {
+      var mcfg = (window.themeConfig && window.themeConfig.motion) || {};
+      var revealOn = !mcfg.reveal || mcfg.reveal.enabled !== false;
+      var focusOn = !mcfg.scroll_focus || mcfg.scroll_focus.enabled !== false;
+
       // Reveal: fade every section in. All `.rc-reveal` are marked visible so
       // content can never be stuck hidden (no blank page), no matter how the
       // page was reached — direct load, Swup swap or back/forward cache. The
@@ -332,12 +516,18 @@
       Array.prototype.forEach.call(document.querySelectorAll('.rc-reveal'), function (el) {
         if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
       });
+      // disable the reveal animation entirely when the config switch is off
+      if (!revealOn) document.documentElement.setAttribute('data-no-reveal', '1');
 
       // Scroll-focus: cards near the viewport centre grow + glow, edges shrink
       // out. Reads the CURRENT focus elements each run so it survives swaps.
-      __rcInitMotion.focusEls = Array.prototype.slice.call(document.querySelectorAll('.rc-focus'));
       var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (__rcInitMotion.focusEls.length && 'IntersectionObserver' in window && !reduced) {
+      if (focusOn) {
+        __rcInitMotion.focusEls = Array.prototype.slice.call(document.querySelectorAll('.rc-focus'));
+      } else {
+        __rcInitMotion.focusEls = [];
+      }
+      if (focusOn && __rcInitMotion.focusEls.length && 'IntersectionObserver' in window && !reduced) {
         if (!__rcInitMotion.bound) {
           __rcInitMotion.bound = true;
           __rcInitMotion.vh = window.innerHeight || 800;
@@ -378,8 +568,10 @@
       __rcInitMotion();
       __rcSetActive();
       __rcInitToc();
-      __rcInitFilters();
       __rcInitViews();
+      __rcInitTagCloud(); // before filters, so a ?tag= pre-selection is seen by the filter
+      __rcInitFilters();
+      __rcInitExpand();
       __rcInitBadges();
 
       // Re-run motion after ANY swap of the #swup content. Swup's own
@@ -394,8 +586,10 @@
             __rcInitMotion();
             __rcSetActive();
             __rcInitToc();
-            __rcInitFilters();
             __rcInitViews();
+            __rcInitTagCloud();
+            __rcInitFilters();
+            __rcInitExpand();
             __rcInitBadges();
             // Re-run the post content pipeline (math/code/table conversion) so a
             // Swup-swapped article renders formulas without a manual refresh.
@@ -582,15 +776,42 @@
       code_collapse: {
         enabled: <%= (theme.code_collapse && theme.code_collapse.enabled) ? 'true' : 'false' %>,
         lines: <%= (theme.code_collapse && theme.code_collapse.lines) ? theme.code_collapse.lines : 5 %>
+      },
+      motion: {
+        background_animation: {
+          enabled: <%= (theme.motion && theme.motion.background_animation && theme.motion.background_animation.enabled !== false) ? 'true' : 'false' %>,
+          opacity: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.opacity === 'number') ? theme.motion.background_animation.opacity : 0.1 %>,
+          count: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.count === 'number') ? theme.motion.background_animation.count : 18 %>,
+          speed: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.speed === 'number') ? theme.motion.background_animation.speed : 1 %>,
+          size: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.size === 'number') ? theme.motion.background_animation.size : 22 %>,
+          icons: <%= JSON.stringify((theme.motion && theme.motion.background_animation && theme.motion.background_animation.icons) || ['🧪', '🧬', '🔬', '⚗️', '💡']) %>
+        },
+        scroll_focus: {
+          enabled: <%= (theme.motion && theme.motion.scroll_focus && theme.motion.scroll_focus.enabled !== false) ? 'true' : 'false' %>
+        },
+        reveal: {
+          enabled: <%= (theme.motion && theme.motion.reveal && theme.motion.reveal.enabled !== false) ? 'true' : 'false' %>
+        }
+      },
+      features: {
+        citation_badges: <%= (theme.features && theme.features.citation_badges !== false) ? 'true' : 'false' %>,
+        tag_cloud: <%= (theme.features && theme.features.tag_cloud !== false) ? 'true' : 'false' %>,
+        view_toggle: <%= (theme.features && theme.features.view_toggle !== false) ? 'true' : 'false' %>,
+        post_toc: <%= (theme.features && theme.features.post_toc !== false) ? 'true' : 'false' %>
       }
     };
   </script>
 
-  <!-- Altmetric + Dimensions citation badges. Loaded globally so they are
-       available on any page; __rcInitBadges() re-scans after a Swup swap so
-       newly-arrived publication cards render their badges. -->
+  <!-- Altmetric + Dimensions citation badges. Loaded globally (when enabled) so
+       they are available on any page; __rcInitBadges() re-scans after a Swup
+       swap so newly-arrived publication cards render their badges. -->
+  <% if (!theme.features || theme.features.citation_badges !== false) { %>
   <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
   <script async src="https://integration-dimensions-badge.digital-science.com/static/com/badge.js" charset="utf-8"></script>
+  <% } %>
+
+  <!-- Ambient background animation (falling science glyphs); self-gates on config. -->
+  <script src="<%= url_for('/js/background.js') %>"></script>
 
   <!-- Loaded globally so the post content pipeline (math/code/tables) can be
        re-run after a Swup navigation; post.js guards itself on non-post pages. -->
