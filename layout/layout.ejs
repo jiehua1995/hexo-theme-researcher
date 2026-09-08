@@ -312,6 +312,18 @@
       });
     }
 
+    // Re-scan for Altmetric / Dimensions citation badges. Their embed scripts are
+    // loaded globally and self-initialise on first load; after a Swup swap the
+    // container elements are new, so we ask each library to re-scan the DOM.
+    function __rcInitBadges() {
+      if (window.__dimensions_embed && window.__dimensions_embed.addBadges) {
+        try { window.__dimensions_embed.addBadges(); } catch (e) {}
+      }
+      if (typeof window._altmetric_embed_init === 'function') {
+        try { window._altmetric_embed_init(); } catch (e) {}
+      }
+    }
+
     function __rcInitMotion() {
       // Reveal: fade every section in. All `.rc-reveal` are marked visible so
       // content can never be stuck hidden (no blank page), no matter how the
@@ -368,6 +380,7 @@
       __rcInitToc();
       __rcInitFilters();
       __rcInitViews();
+      __rcInitBadges();
 
       // Re-run motion after ANY swap of the #swup content. Swup's own
       // content:replace event is not reliably fired across Swup versions, so we
@@ -383,6 +396,7 @@
             __rcInitToc();
             __rcInitFilters();
             __rcInitViews();
+            __rcInitBadges();
             // Re-run the post content pipeline (math/code/table conversion) so a
             // Swup-swapped article renders formulas without a manual refresh.
             if (window.__rcProcessPost) { try { window.__rcProcessPost(); } catch (e) {} }
@@ -559,6 +573,24 @@
       } catch (e) { /* if Swup fails, normal navigation still works */ }
     });
   </script>
+
+  <!-- Global theme config (code collapse, …). Defined OUTSIDE the #swup container
+       so it survives a Swup navigation — the per-page inline <script> inside a
+       Swup container is NOT re-executed, which had silently disabled code folding. -->
+  <script>
+    window.themeConfig = {
+      code_collapse: {
+        enabled: <%= (theme.code_collapse && theme.code_collapse.enabled) ? 'true' : 'false' %>,
+        lines: <%= (theme.code_collapse && theme.code_collapse.lines) ? theme.code_collapse.lines : 5 %>
+      }
+    };
+  </script>
+
+  <!-- Altmetric + Dimensions citation badges. Loaded globally so they are
+       available on any page; __rcInitBadges() re-scans after a Swup swap so
+       newly-arrived publication cards render their badges. -->
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://integration-dimensions-badge.digital-science.com/static/com/badge.js" charset="utf-8"></script>
 
   <!-- Loaded globally so the post content pipeline (math/code/tables) can be
        re-run after a Swup navigation; post.js guards itself on non-post pages. -->

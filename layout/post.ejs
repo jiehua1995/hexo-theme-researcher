@@ -17,6 +17,15 @@ function buildPostToc(html) {
   while ((m = re.exec(html))) {
     items.push({ id: m[2], level: parseInt(m[1], 10) || 1, title: decodeEntities(m[3].replace(/<[^>]+>/g, '').trim()) });
   }
+  if (!items.length) return items;
+  // Render a single flat level. We prefer ## (h2) because the article title is
+  // almost always a lone # (h1) that the theme already renders separately; only
+  // fall back to h1/h3 when no h2 section headings exist. This keeps the TOC
+  // clean (no deep nesting) and avoids the flicker a nested TOC caused.
+  var levels = {};
+  items.forEach(function (i) { levels[i.level] = true; });
+  var target = levels[2] ? 2 : Math.min.apply(null, items.map(function (i) { return i.level; }));
+  items = items.filter(function (i) { return i.level === target; });
   return items;
 }
 var postToc = buildPostToc(page.content);

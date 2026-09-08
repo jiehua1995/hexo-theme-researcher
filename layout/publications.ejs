@@ -88,6 +88,13 @@
               <% } %>
             </div>
 
+            <% if (pub.doi) { %>
+              <div class="rc-cite-badges rc-detail-only">
+                <span class="__dimensions_badge_embed__" data-doi="<%= pub.doi %>"></span>
+                <div class="altmetric-embed" data-badge-type="donut" data-doi="<%= pub.doi %>" data-hide-no-mentions="true"></div>
+              </div>
+            <% } %>
+
             <% if (pub.tags && pub.tags.length) { %>
               <div class="flex flex-wrap gap-2 mb-4 rc-detail-only">
                 <% pub.tags.forEach(tag => { %>

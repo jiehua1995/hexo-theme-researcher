@@ -46,14 +46,43 @@
       <label class="rc-filter-label" for="searchInput">Search</label>
       <input type="text" placeholder="Search notes..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
     </div>
+
+    <div class="ml-auto">
+      <%- partial('partials/viewtoggle') %>
+    </div>
   </div>
+
+  <!-- Tag cloud -->
+  <%
+    const tagCounts = {};
+    site.posts.forEach(p => {
+      p.tags.toArray().forEach(t => { tagCounts[t.name] = (tagCounts[t.name] || 0) + 1; });
+    });
+    const tags = Object.keys(tagCounts).map(name => ({ name, count: tagCounts[name] })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+    const maxCount = tags.length ? tags[0].count : 1;
+  %>
+  <% if (tags.length) { %>
+  <div class="rc-tagcloud">
+    <div class="rc-filter-label mb-3">Filter by topic</div>
+    <div class="flex flex-wrap items-center gap-2">
+      <% tags.forEach(tag => {
+        const size = Math.max(0.8, Math.min(1.5, 0.8 + (tag.count / maxCount) * 0.7));
+        const weight = tag.count === maxCount ? 700 : 520;
+      %>
+        <a href="<%= url_for('/notes/') %>?tag=<%= encodeURIComponent(tag.name) %>" class="rc-tagcloud-item" style="--rc-tc: <%= size %>; font-weight: <%= weight %>">
+          #<%= tag.name %> <span class="rc-tagcloud-count"><%= tag.count %></span>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+  <% } %>
 
   <div class="text-sm rc-muted mt-4 mb-10">
     <span id="resultsCount" data-filter-count>Showing all <%= site.posts.length %> notes</span>
   </div>
 
   <!-- Notes grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="notesContainer" data-filter-list>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="notesContainer" data-filter-list data-view data-view-key="rc-view-notes">
     <% site.posts.sort('date', -1).forEach(function(post) { %>
       <div class="note-item rc-reveal" data-filter-item
            data-category="<%= post.categories.length > 0 ? post.categories.toArray().map(c => c.name).join(',') : '' %>"
@@ -78,7 +107,7 @@
             </div>
 
             <% if (post.excerpt) { %>
-              <div class="text-sm rc-muted flex-1 overflow-hidden">
+              <div class="text-sm rc-muted flex-1 overflow-hidden rc-detail-only">
                 <div class="line-clamp-4">
                   <%= post.excerpt.replace(/<[^>]*>/g, '').substring(0, 150) %>…
                 </div>
