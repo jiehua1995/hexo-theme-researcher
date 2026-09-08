@@ -279,6 +279,39 @@
       });
     }
 
+    // Detail / Compact view switching on list pages (Publications, Projects,
+    // Talks). Reads the last choice from localStorage and applies `.rc-list--compact`
+    // to the matching `[data-view]` container, so it survives a Swup swap too.
+    function __rcInitViews() {
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('[data-view]'), function (list) {
+        var toggle = page.querySelector('[data-view-toggle]');
+        var key = list.getAttribute('data-view-key') || 'rc-view';
+        var saved = null;
+        try { saved = window.localStorage.getItem(key); } catch (e) {}
+        function apply(mode) {
+          mode = mode === 'compact' ? 'compact' : 'detail';
+          list.setAttribute('data-view', mode);
+          list.classList.toggle('rc-list--compact', mode === 'compact');
+          if (toggle) {
+            Array.prototype.forEach.call(toggle.querySelectorAll('[data-view-mode]'), function (btn) {
+              var active = btn.getAttribute('data-view-mode') === mode;
+              btn.classList.toggle('is-active', active);
+              btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+          }
+          try { window.localStorage.setItem(key, mode); } catch (e) {}
+        }
+        if (toggle && !toggle.getAttribute('data-v-inited')) {
+          toggle.setAttribute('data-v-inited', '1');
+          Array.prototype.forEach.call(toggle.querySelectorAll('[data-view-mode]'), function (btn) {
+            btn.addEventListener('click', function () { apply(btn.getAttribute('data-view-mode')); });
+          });
+        }
+        apply(saved || 'detail');
+      });
+    }
+
     function __rcInitMotion() {
       // Reveal: fade every section in. All `.rc-reveal` are marked visible so
       // content can never be stuck hidden (no blank page), no matter how the
@@ -334,6 +367,7 @@
       __rcSetActive();
       __rcInitToc();
       __rcInitFilters();
+      __rcInitViews();
 
       // Re-run motion after ANY swap of the #swup content. Swup's own
       // content:replace event is not reliably fired across Swup versions, so we
@@ -348,6 +382,7 @@
             __rcSetActive();
             __rcInitToc();
             __rcInitFilters();
+            __rcInitViews();
             // Re-run the post content pipeline (math/code/table conversion) so a
             // Swup-swapped article renders formulas without a manual refresh.
             if (window.__rcProcessPost) { try { window.__rcProcessPost(); } catch (e) {} }

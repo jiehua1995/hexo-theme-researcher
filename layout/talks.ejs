@@ -6,10 +6,10 @@
   </header>
 
   <!-- Filters -->
-  <div class="rc-filter">
+  <div class="rc-filter" data-filter>
     <div class="rc-filter-field">
       <label class="rc-filter-label" for="typeFilter">Type</label>
-      <select class="rc-select w-full" id="typeFilter" name="typeFilter">
+      <select class="rc-select w-full" id="typeFilter" name="typeFilter" data-filter-type="category">
         <option value="">All Types</option>
         <%
           const types = [...new Set(site.data.talks.map(t => t.type).filter(t => t))].sort();
@@ -22,7 +22,7 @@
 
     <div class="rc-filter-field">
       <label class="rc-filter-label" for="yearFilter">Year</label>
-      <select class="rc-select w-full" id="yearFilter" name="yearFilter">
+      <select class="rc-select w-full" id="yearFilter" name="yearFilter" data-filter-type="year">
         <option value="">All Years</option>
         <%
           const years = [...new Set(site.data.talks.map(t => t.year))].sort((a, b) => b - a);
@@ -35,29 +35,35 @@
 
     <div class="rc-filter-field grow">
       <label class="rc-filter-label" for="searchInput">Search</label>
-      <input type="text" placeholder="Search talks..." class="rc-input w-full" id="searchInput" />
+      <input type="text" placeholder="Search talks..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
+    </div>
+
+    <div class="ml-auto">
+      <%- partial('partials/viewtoggle') %>
     </div>
   </div>
 
   <!-- Talks list -->
-  <div class="rc-timeline" id="talksList">
+  <div class="rc-timeline" id="talksList" data-filter-list data-view data-view-key="rc-view-talks">
     <% site.data.talks.forEach(function(talk) { %>
-      <div class="rc-timeline-item rc-reveal talk-item"
-           data-type="<%= talk.type ? talk.type.toLowerCase() : '' %>"
+      <div class="rc-timeline-item rc-reveal talk-item" data-filter-item
+           data-category="<%= talk.type ? talk.type.toLowerCase() : '' %>"
            data-year="<%= talk.year %>"
+           data-tags=""
            data-title="<%= (talk.title || '').toLowerCase() %>"
-           data-venue="<%= (talk.venue || '').toLowerCase() %>">
+           data-text="<%= ((talk.venue || '') + ' ' + (talk.location || '') + ' ' + (talk.description || '')).toLowerCase() %>">
         <span class="rc-timeline-dot"></span>
         <article class="rc-card rc-focus">
           <div class="rc-card-body">
             <div class="flex items-start justify-between gap-4 mb-3">
               <h2 class="text-xl font-semibold leading-tight flex-1"><%= talk.title %></h2>
               <% if (talk.type) { %>
-                <span class="rc-badge shrink-0 mt-1"><%= talk.type.charAt(0).toUpperCase() + talk.type.slice(1) %></span>
+                <% var talkIcon = { 'conference': 'fa-microphone-lines', 'seminar': 'fa-person-chalkboard', 'workshop': 'fa-screwdriver-wrench', 'invited': 'fa-star' }[talk.type.toLowerCase()] || 'fa-comment-dots'; %>
+                <span class="rc-badge shrink-0 mt-1"><i class="fa-solid <%= talkIcon %>"></i> <%= talk.type.charAt(0).toUpperCase() + talk.type.slice(1) %></span>
               <% } %>
             </div>
 
-            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4">
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4 rc-meta-line">
               <% if (talk.venue) { %>
                 <span class="flex items-center gap-1.5"><i class="fa-solid fa-building w-4 h-4"></i><%= talk.venue %></span>
               <% } %>
@@ -70,11 +76,11 @@
             </div>
 
             <% if (talk.description) { %>
-              <p class="text-sm leading-relaxed text-base-content/80 mb-4"><%= talk.description %></p>
+              <p class="text-sm leading-relaxed text-base-content/80 mb-4 rc-detail-only"><%= talk.description %></p>
             <% } %>
 
             <% if (talk.slides || talk.video || talk.paper) { %>
-              <div class="flex flex-wrap gap-2">
+              <div class="flex flex-wrap gap-2 rc-detail-only">
                 <% if (talk.slides) { %>
                   <a href="<%= talk.slides %>" target="_blank" rel="noopener noreferrer" class="rc-btn rc-btn-outline rc-btn-sm">
                     <i class="fa-solid fa-person-chalkboard"></i> Slides
@@ -98,33 +104,3 @@
     <% }); %>
   </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const typeFilter = document.getElementById('typeFilter');
-  const yearFilter = document.getElementById('yearFilter');
-  const searchInput = document.getElementById('searchInput');
-  const items = document.querySelectorAll('.talk-item');
-
-  function filter() {
-    const typeVal = typeFilter.value.toLowerCase();
-    const yearVal = yearFilter.value;
-    const q = searchInput.value.toLowerCase().trim();
-
-    items.forEach(item => {
-      const okType = !typeVal || item.dataset.type === typeVal;
-      const okYear = !yearVal || item.dataset.year === yearVal;
-      const okSearch = !q ||
-        (item.dataset.title || '').includes(q) ||
-        (item.dataset.venue || '').includes(q);
-      item.style.display = (okType && okYear && okSearch) ? '' : 'none';
-    });
-  }
-
-  typeFilter.addEventListener('change', filter);
-  yearFilter.addEventListener('change', filter);
-  searchInput.addEventListener('input', filter);
-
-  filter();
-});
-</script>

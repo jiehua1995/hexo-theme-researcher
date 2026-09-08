@@ -37,10 +37,14 @@
       <label class="rc-filter-label" for="searchInput">Search</label>
       <input type="text" placeholder="Search publications..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
     </div>
+
+    <div class="ml-auto">
+      <%- partial('partials/viewtoggle') %>
+    </div>
   </div>
 
   <!-- Publications list -->
-  <div id="publicationsList" class="space-y-7" data-filter-list>
+  <div id="publicationsList" class="space-y-7" data-filter-list data-view data-view-key="rc-view-publications">
     <% site.data.publications.forEach(function(pub) { %>
       <div class="publication-item rc-reveal" data-filter-item
            data-year="<%= pub.year %>"
@@ -53,15 +57,17 @@
             <div class="flex items-start justify-between gap-4 mb-3">
               <h2 class="text-xl font-semibold leading-tight flex-1"><%= pub.title %></h2>
               <% if (pub.type) { %>
-                <span class="rc-badge shrink-0 mt-1"><%= pub.type %></span>
+                <% var typeBadge = { 'Journal': 'rc-badge--journal', 'Conference': 'rc-badge--conference', 'Workshop': 'rc-badge--workshop' }[pub.type] || 'rc-badge-neutral'; %>
+                <% var typeIcon = { 'Journal': 'fa-book-open', 'Conference': 'fa-microphone-lines', 'Workshop': 'fa-screwdriver-wrench' }[pub.type] || 'fa-file'; %>
+                <span class="rc-badge <%= typeBadge %> shrink-0 mt-1"><i class="fa-solid <%= typeIcon %>"></i> <%= pub.type %></span>
               <% } %>
             </div>
 
             <% if (pub.authors) { %>
-              <p class="text-sm font-medium text-base-content/90 mb-3"><%= pub.authors %></p>
+              <p class="text-sm font-medium text-base-content/90 mb-3 rc-detail-only"><%= pub.authors %></p>
             <% } %>
 
-            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4">
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4 rc-meta-line">
               <% if (pub.venue) { %>
                 <span class="flex items-center gap-1.5">
                   <i class="fa-solid fa-building w-4 h-4"></i>
@@ -69,13 +75,13 @@
                 </span>
               <% } %>
               <% if (pub.year) { %>
-                <span class="flex items-center gap-1.5">
+                <span class="flex items-center gap-1.5" data-release>
                   <i class="fa-solid fa-calendar-week w-4 h-4"></i>
                   <%= pub.year %>
                 </span>
               <% } %>
               <% if (pub.category) { %>
-                <span class="flex items-center gap-1.5">
+                <span class="flex items-center gap-1.5 rc-detail-only">
                   <i class="fa-solid fa-layer-group w-4 h-4"></i>
                   <%= pub.category %>
                 </span>
@@ -83,7 +89,7 @@
             </div>
 
             <% if (pub.tags && pub.tags.length) { %>
-              <div class="flex flex-wrap gap-2 mb-4">
+              <div class="flex flex-wrap gap-2 mb-4 rc-detail-only">
                 <% pub.tags.forEach(tag => { %>
                   <span class="rc-tag"><%= tag %></span>
                 <% }); %>
@@ -91,10 +97,10 @@
             <% } %>
 
             <% if (pub.abstract) { %>
-              <p class="text-sm leading-relaxed text-base-content/80 mb-5"><%= pub.abstract %></p>
+              <p class="text-sm leading-relaxed text-base-content/80 mb-5 rc-detail-only"><%= pub.abstract %></p>
             <% } %>
 
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 rc-detail-only">
               <% if (pub.doi) { %>
                 <a href="https://doi.org/<%= pub.doi %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer" title="DOI">
                   <i class="fa-solid fa-link w-4 h-4"></i> DOI

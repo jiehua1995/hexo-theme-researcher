@@ -951,32 +951,41 @@ html.js .rc-reveal.is-visible {
   opacity: var(--fo, 1);
   transform-origin: center center;
   will-change: transform, opacity;
-  /* transform + opacity are driven every frame and are compositor-friendly.
-     The accent border is state-driven (below), so we never repaint a border
-     on every scroll frame — that was a source of scroll jank. */
-  transition: border-color var(--rc-dur) var(--rc-ease);
+  /* transform + opacity are driven every frame (compositor-friendly). The border
+     + drop shadow are state-driven so we never repaint per frame (scroll jank). */
+  transition:
+    border-color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease);
   border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);
+  box-shadow: var(--rc-shadow-sm);
+  /* Frosted-glass surface: a translucent fill + a faint cool gradient lets the
+     ambient page wash glow through — the Apple-style "glass" read. */
+  background:
+    linear-gradient(180deg, color-mix(in oklab, oklch(1 0 0) 10%, transparent), transparent 44%),
+    color-mix(in oklab, var(--rc-bg) 84%, var(--rc-bg-soft));
 }
-/* soft accent glow lives on a layered pseudo-element and is faded via opacity —
-   opacity is compositor-friendly, so scrolling never repaints the glow per frame */
-.rc-focus::after {
+/* the light source sits directly ABOVE the card: a crisp specular rim + a soft
+   sheen pooled at the top of the glass surface. Opacity follows --fc, which is
+   compositor-friendly — the light never repaints while you scroll. */
+.rc-focus::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: -1;
-  opacity: calc(var(--fc, 0) * 0.9);
+  z-index: 2;
+  opacity: calc(0.35 + var(--fc, 0) * 0.65);
   transition: none;
-  box-shadow:
-    0 1px 2px oklch(0 0 0 / 0.06),
-    0 18px 40px -16px color-mix(in oklab, var(--rc-accent) 48%, transparent);
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.55) 0%, oklch(1 0 0 / 0.08) 16%, transparent 38%);
 }
-/* the card that currently owns the viewport centre grows to full emphasis:
-   accent border + glow, and it layers above its neighbours */
+/* the card that owns the viewport centre lifts off the page: accent border +
+   a soft accent-tinted bloom (3D depth). Layers above its neighbours. */
 .rc-focus[data-focus="center"] {
   z-index: 5;
   border-color: color-mix(in oklab, var(--rc-accent) 45%, var(--rc-line));
+  box-shadow:
+    var(--rc-shadow-md),
+    0 22px 48px -18px color-mix(in oklab, var(--rc-accent) 26%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1150,4 +1159,87 @@ html.js .rc-reveal.is-visible {
   background: var(--rc-accent);
   box-shadow: 0 0 8px color-mix(in oklab, var(--rc-accent) 75%, transparent);
   transform: scale(1.35);
+}
+
+/* --------------------------------------------------------------------------
+   19. Publication/venue badge — colour-coded by type (Journal / Conference /
+   Workshop). Kept accent-aware so they read well in both light & dark themes.
+   -------------------------------------------------------------------------- */
+.rc-badge--journal {
+  background: color-mix(in oklab, oklch(0.58 0.14 150) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.47 0.13 150) 55%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.58 0.14 150) 32%, transparent);
+}
+.rc-badge--conference {
+  background: color-mix(in oklab, oklch(0.55 0.18 295) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.5 0.17 295) 50%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.55 0.18 295) 32%, transparent);
+}
+.rc-badge--workshop {
+  background: color-mix(in oklab, oklch(0.72 0.14 80) 18%, transparent);
+  color: color-mix(in oklab, oklch(0.56 0.13 80) 45%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.72 0.14 80) 36%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   20. Detail / Compact view toggle (Publications, Projects, Talks)
+   -------------------------------------------------------------------------- */
+.rc-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--rc-radius-md);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 55%, var(--rc-bg));
+}
+.rc-view-toggle button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.44rem 0.8rem;
+  border: 0;
+  border-radius: calc(var(--rc-radius-sm) - 2px);
+  background: transparent;
+  color: color-mix(in oklab, var(--rc-ink) 62%, transparent);
+  font-family: var(--rc-font-sans);
+  font-size: 0.8rem;
+  font-weight: 560;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--rc-dur) var(--rc-ease), color var(--rc-dur) var(--rc-ease);
+}
+.rc-view-toggle button:hover { color: var(--rc-ink); }
+.rc-view-toggle button.is-active {
+  background: var(--rc-bg);
+  color: var(--rc-accent);
+  box-shadow: var(--rc-shadow-xs);
+}
+.rc-view-toggle i { font-size: 0.78rem; color: inherit; }
+
+/* --------------------------------------------------------------------------
+   21. Compact (dense) list view
+   The list container switches to a dense grid, the timeline rail/dots collapse,
+   and any element marked .rc-detail-only is hidden — leaving just the title,
+   key metadata and a venue/type badge for fast scanning.
+   -------------------------------------------------------------------------- */
+.rc-list--compact {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(min(26rem, 100%), 1fr));
+  gap: 1rem;
+}
+.rc-list--compact.rc-timeline::before { display: none; }
+.rc-list--compact .rc-timeline-dot { display: none; }
+.rc-list--compact .rc-timeline-item {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.rc-list--compact > * { margin-top: 0 !important; }
+.rc-list--compact .rc-card { height: 100%; border-radius: var(--rc-radius-md); }
+.rc-list--compact .rc-card .rc-card-body { padding: 1.1rem 1.25rem; }
+.rc-list--compact .rc-detail-only { display: none !important; }
+.rc-list--compact .rc-meta-line { margin-bottom: 0; }
+.rc-list--compact .rc-meta-line [data-release] {
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
 }

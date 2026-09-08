@@ -37,10 +37,14 @@
       <label class="rc-filter-label" for="searchInput">Search</label>
       <input type="text" placeholder="Search projects..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
     </div>
+
+    <div class="ml-auto">
+      <%- partial('partials/viewtoggle') %>
+    </div>
   </div>
 
   <!-- Projects timeline -->
-  <div class="rc-timeline" id="projectsList" data-filter-list>
+  <div class="rc-timeline" id="projectsList" data-filter-list data-view data-view-key="rc-view-projects">
     <% site.data.projects.forEach(project => { %>
       <div class="rc-timeline-item rc-reveal project-item" data-filter-item
            data-status="<%= project.status || '' %>"
@@ -59,7 +63,7 @@
               <% } %>
             </div>
 
-            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4">
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4 rc-meta-line">
               <% if (project.period) { %>
                 <span class="flex items-center gap-1.5">
                   <i class="fa-solid fa-calendar-days w-4 h-4"></i>
@@ -75,7 +79,7 @@
             </div>
 
             <% if (project.tags && project.tags.length) { %>
-              <div class="flex flex-wrap gap-2 mb-4">
+              <div class="flex flex-wrap gap-2 mb-4 rc-detail-only">
                 <% project.tags.forEach(tag => { %>
                   <span class="rc-tag"><%= tag %></span>
                 <% }); %>
@@ -83,11 +87,11 @@
             <% } %>
 
             <% if (project.description) { %>
-              <p class="text-sm leading-relaxed text-base-content/80 mb-4"><%= project.description %></p>
+              <p class="text-sm leading-relaxed text-base-content/80 mb-4 rc-detail-only"><%= project.description %></p>
             <% } %>
 
             <% if (project.collaborators && project.collaborators.length) { %>
-              <div class="mb-4 text-sm">
+              <div class="mb-4 text-sm rc-detail-only">
                 <span class="font-semibold text-base-content/80">Collaborators:</span>
                 <% project.collaborators.forEach((collab, idx) => { %>
                   <a href="<%= collab.link || '#' %>" target="_blank" rel="noopener noreferrer" class="rc-tag no-underline">
@@ -98,7 +102,7 @@
             <% } %>
 
             <% if (project.publications && project.publications.length) { %>
-              <div class="mb-4 space-y-1.5">
+              <div class="mb-4 space-y-1.5 rc-detail-only">
                 <% project.publications.forEach(pub => { %>
                   <a href="<%= pub.link %>" target="_blank" rel="noopener noreferrer" class="flex items-start gap-2 text-sm rc-btn-link no-underline">
                     <i class="fa-solid fa-newspaper mt-0.5"></i>
@@ -109,7 +113,7 @@
             <% } %>
 
             <% if (project.website || project.github) { %>
-              <div class="flex flex-wrap gap-2 mt-4">
+              <div class="flex flex-wrap gap-2 mt-4 rc-detail-only">
                 <% if (project.website) { %>
                   <a href="<%= project.website %>" target="_blank" rel="noopener noreferrer" class="rc-btn rc-btn-outline rc-btn-sm">
                     <i class="fa-solid fa-link"></i> Link
