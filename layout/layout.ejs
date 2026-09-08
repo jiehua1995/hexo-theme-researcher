@@ -138,17 +138,22 @@
       __rcInitToc.list = __rcInitToc.links.length ? __rcInitToc.links[0].closest('.rc-toc-list') : null;
       __rcInitToc.container = __rcInitToc.links.length ? __rcInitToc.links[0].closest('.rc-toc') : null;
       __rcInitToc.lastActive = -1;
+      __rcInitToc.shift = 0; // reset the centring offset — a stale value from a previous
+                             // (longer) list would corrupt the first frame after a Swup swap
       if (!__rcInitToc.bound) {
         __rcInitToc.bound = true;
 
         function updateToc() {
           var links = __rcInitToc.links || [];
           if (!links.length) return;
-          // the entry whose section is currently near the top of the viewport
+          // Track the SECTION currently occupying the MIDDLE of the viewport --
+          // i.e. the deepest entry whose heading has scrolled past the vertical
+          // centre line. This feels more natural than tracking the top.
+          var mid = window.innerHeight * 0.5;
           var activeIndex = 0;
           links.forEach(function (link, i) {
             var t = document.getElementById(link.getAttribute('data-toc-target'));
-            if (t && t.getBoundingClientRect().top <= 150) activeIndex = i;
+            if (t && t.getBoundingClientRect().top <= mid) activeIndex = i;
           });
           // emphasis (colour + font-size) is class-driven; only swap it when the
           // active section actually changes so we don't churn layout every frame
@@ -158,7 +163,10 @@
               link.classList.toggle('is-active', i === activeIndex);
             });
           }
-          // centre the active entry inside the focus window (screen centre)
+          // Centre the active entry inside the focus window (screen centre), but
+          // clamp the shift so the list always fills its window (never shows an
+          // empty gap). Otherwise a short list (e.g. CV) drifts oddly and a long
+          // list jumps at the top/bottom ends — which reads as "not smooth".
           var list = __rcInitToc.list;
           var container = __rcInitToc.container;
           var activeEl = links[activeIndex];
@@ -166,12 +174,18 @@
             var item = activeEl.closest('.rc-toc-item') || activeEl;
             var cRect = container.getBoundingClientRect();
             var cCenter = cRect.top + cRect.height * 0.5;
-            var prev = parseFloat(list.getAttribute('data-shift')) || 0;
+            var prev = __rcInitToc.shift || 0;
+            var lRect = list.getBoundingClientRect();
+            var listTop = lRect.top - prev;         // natural (unshifted) bounds
+            var listBottom = lRect.bottom - prev;
             var itemRect = item.getBoundingClientRect();
-            var natural = itemRect.top + itemRect.height * 0.5 - prev; // centre ignoring current shift
-            var shift = cCenter - natural;
+            var itemCenter = itemRect.top + itemRect.height * 0.5 - prev;
+            var target = cCenter - itemCenter;
+            var minShift = cRect.bottom - listBottom; // largest up-shift (no bottom gap)
+            var maxShift = cRect.top - listTop;       // largest down-shift (no top gap)
+            var shift = Math.max(minShift, Math.min(maxShift, target));
             list.style.transform = 'translateY(' + shift + 'px)';
-            list.setAttribute('data-shift', shift);
+            __rcInitToc.shift = shift;
           }
         }
 

@@ -20,11 +20,11 @@
   --rc-radius-sm: 0.625rem;
   --rc-radius-pill: 999px;
 
-  /* Shadows (soft, layered) */
-  --rc-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03);
-  --rc-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
-  --rc-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.05), 0 14px 30px -10px rgba(0, 0, 0, 0.12);
-  --rc-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.05), 0 28px 55px -18px rgba(0, 0, 0, 0.18);
+  /* Shadows (soft, layered) — modern OKLCH alpha form, theme-independent */
+  --rc-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
+  --rc-shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 4px 10px -2px oklch(0 0 0 / 0.05);
+  --rc-shadow-md: 0 2px 4px oklch(0 0 0 / 0.05), 0 14px 30px -10px oklch(0 0 0 / 0.12);
+  --rc-shadow-lg: 0 4px 8px oklch(0 0 0 / 0.05), 0 28px 55px -18px oklch(0 0 0 / 0.18);
 
   /* Motion */
   --rc-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -37,20 +37,20 @@
 
 /* Semantic aliases to make intent readable inside this file */
 :root {
-  --rc-bg: var(--color-base-100, #fff);
-  --rc-bg-soft: var(--color-base-200, #f6f6f7);
-  --rc-bg-softer: var(--color-base-300, #ececee);
-  --rc-ink: var(--color-base-content, #20232a);
-  --rc-accent: var(--color-primary, #4f46e5);
-  --rc-accent-ink: var(--color-primary-content, #fff);
-  --rc-line: var(--color-base-300, #e7e7ea);
+  --rc-bg: var(--color-base-100, oklch(1 0 0));
+  --rc-bg-soft: var(--color-base-200, oklch(0.985 0.002 260));
+  --rc-bg-softer: var(--color-base-300, oklch(0.94 0.004 260));
+  --rc-ink: var(--color-base-content, oklch(0.2 0.012 266));
+  --rc-accent: var(--color-primary, oklch(0.55 0.17 252));
+  --rc-accent-ink: var(--color-primary-content, oklch(1 0 0));
+  --rc-line: var(--color-base-300, oklch(0.92 0.006 260));
 }
 
 /* Light theme: the default DaisyUI `light` primary is a violet/purple — swap it
    for a calm, professional blue so the accent, hero wash and glows feel refined. */
 html[data-theme="light"] {
   --rc-accent: oklch(0.55 0.17 252);
-  --rc-accent-ink: #ffffff;
+  --rc-accent-ink: oklch(1 0 0);
   --rc-line: oklch(0.92 0.012 252);
 }
 
@@ -317,7 +317,7 @@ h1, h2, h3, h4, .rc-serif {
   box-shadow:
     0 0 0 3px var(--rc-bg),
     0 0 0 6px color-mix(in oklab, var(--rc-accent) 22%, transparent),
-    0 18px 34px -14px rgba(0, 0, 0, 0.28);
+    0 18px 34px -14px oklch(0 0 0 / 0.28);
   transition: transform var(--rc-dur) var(--rc-ease);
 }
 .rc-avatar:hover {
@@ -453,11 +453,14 @@ h1, h2, h3, h4, .rc-serif {
    9. Navbar (sticky, blurred)
    -------------------------------------------------------------------------- */
 .rc-nav {
-  background: color-mix(in oklab, var(--rc-bg) 82%, transparent);
-  backdrop-filter: blur(16px) saturate(1.6);
-  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  /* A cheaper backdrop blur (16px→12px) + a more opaque fill dramatically cuts
+     per-frame compositing cost behind the sticky bar — a common scroll-stutter
+     cause on glassy UIs — while keeping the frosted look legible. */
+  background: color-mix(in oklab, var(--rc-bg) 88%, transparent);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
   border-bottom: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02), 0 10px 28px -20px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.02), 0 10px 28px -20px oklch(0 0 0 / 0.22);
 }
 .rc-nav-title {
   font-family: var(--rc-font-serif);
@@ -948,16 +951,32 @@ html.js .rc-reveal.is-visible {
   opacity: var(--fo, 1);
   transform-origin: center center;
   will-change: transform, opacity;
-  /* no transform/opacity transition — those are driven every frame */
-  transition: none;
-  border-color: color-mix(in oklab, var(--rc-accent) calc(34% * var(--fc)), var(--rc-line));
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 calc(16px * var(--fc)) calc(30px * var(--fc)) calc(-16px)
-      color-mix(in oklab, var(--rc-accent) calc(24% * var(--fc)), transparent);
+  /* transform + opacity are driven every frame and are compositor-friendly.
+     The accent border is state-driven (below), so we never repaint a border
+     on every scroll frame — that was a source of scroll jank. */
+  transition: border-color var(--rc-dur) var(--rc-ease);
+  border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);
 }
+/* soft accent glow lives on a layered pseudo-element and is faded via opacity —
+   opacity is compositor-friendly, so scrolling never repaints the glow per frame */
+.rc-focus::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  opacity: calc(var(--fc, 0) * 0.9);
+  transition: none;
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.06),
+    0 18px 40px -16px color-mix(in oklab, var(--rc-accent) 48%, transparent);
+}
+/* the card that currently owns the viewport centre grows to full emphasis:
+   accent border + glow, and it layers above its neighbours */
 .rc-focus[data-focus="center"] {
   z-index: 5;
+  border-color: color-mix(in oklab, var(--rc-accent) 45%, var(--rc-line));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1082,37 +1101,39 @@ html.js .rc-reveal.is-visible {
   padding: 0;
   display: flex;
   flex-direction: column;
-  transition: transform 0.45s var(--rc-ease);
+  /* no transform transition here — JS centres the active entry every frame,
+     so a transition would constantly "chase" the target and look laggy */
 }
 .rc-toc-item {
-  padding-left: calc((var(--rc-lvl, 1) - 1) * 0.65rem);
+  padding-left: calc((var(--rc-lvl, 1) - 1) * 0.7rem);
 }
 .rc-toc-link {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.4rem 0;
+  gap: 0.6rem;
+  padding: 0.42rem 0.62rem;
+  border-radius: 0.55rem;
   font-size: 0.86rem;
-  line-height: 1.3;
+  line-height: 1.32;
   color: color-mix(in oklab, var(--rc-ink) 62%, transparent);
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  opacity: 0.75;
   transition:
     color 0.4s var(--rc-ease),
-    font-size 0.4s var(--rc-ease),
-    opacity 0.4s var(--rc-ease);
+    background-color 0.4s var(--rc-ease),
+    font-size 0.4s var(--rc-ease);
 }
 .rc-toc-link:hover {
   color: var(--rc-accent);
+  background-color: color-mix(in oklab, var(--rc-accent) 6%, transparent);
 }
 .rc-toc-link.is-active {
   color: var(--rc-accent);
   font-weight: 650;
-  font-size: 0.96rem;
-  opacity: 1;
+  font-size: 0.95rem;
+  background-color: color-mix(in oklab, var(--rc-accent) 8%, transparent);
 }
 .rc-toc-dot {
   flex-shrink: 0;
@@ -1120,14 +1141,13 @@ html.js .rc-reveal.is-visible {
   height: 6px;
   border-radius: 999px;
   background: color-mix(in oklab, var(--rc-accent) 40%, var(--rc-line));
-  transition: background 0.4s var(--rc-ease), box-shadow 0.4s var(--rc-ease), width 0.4s var(--rc-ease), height 0.4s var(--rc-ease);
+  transition: background 0.4s var(--rc-ease), box-shadow 0.4s var(--rc-ease), transform 0.4s var(--rc-ease);
 }
 .rc-toc-item[data-level="1"] .rc-toc-dot { background: var(--rc-accent); opacity: 1; }
 .rc-toc-item[data-level="2"] .rc-toc-dot { opacity: 0.7; }
 .rc-toc-item[data-level="3"] .rc-toc-dot { opacity: 0.45; }
 .rc-toc-link.is-active .rc-toc-dot {
   background: var(--rc-accent);
-  box-shadow: 0 0 8px color-mix(in oklab, var(--rc-accent) 70%, transparent);
-  width: 8px;
-  height: 8px;
+  box-shadow: 0 0 8px color-mix(in oklab, var(--rc-accent) 75%, transparent);
+  transform: scale(1.35);
 }
