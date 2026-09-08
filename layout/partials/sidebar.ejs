@@ -1,64 +1,64 @@
-<a href="<%= url_for('/') %>" class="block no-underline hover:bg-base-100 transition rounded-box">
-  <div class="p-4 text-center border-base-300 flex flex-col items-center cursor-pointer hidden lg:flex">
-    <div class="avatar mb-4">
-      <div class="w-24 rounded-full ring ring-primary ring-offset-base-100">
-        <img
-  src="<%= url_for(theme.avatar) %>"
-  alt="Profile"
-  class="transition-transform duration-500 hover:rotate-210 cursor-pointer rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 w-24"
-/>
-
-      </div>
-    </div>
-    <h2 class="text-xl font-bold text-base-content"><%= config.author %></h2>
-    <p class="text-base-content opacity-80"><%= config.subtitle %></p>
+<div class="flex flex-col h-full">
+  <!-- Profile -->
+  <div class="p-6 pb-5">
+    <a href="<%= url_for('/') %>" class="flex items-center gap-4 no-underline group">
+      <span class="rc-avatar-ring" style="--rc-av-size: 4.25rem;">
+        <img src="<%= url_for(theme.avatar) %>" alt="Profile" class="rc-avatar" />
+      </span>
+      <span class="min-w-0">
+        <span class="block rc-serif text-lg font-bold text-base-content truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_80%,transparent)] transition-colors"><%= config.author %></span>
+        <% if (config.subtitle) { %>
+          <span class="block text-sm rc-muted truncate"><%= config.subtitle %></span>
+        <% } %>
+      </span>
+    </a>
   </div>
-</a>
 
+  <!-- Menu -->
+  <nav class="px-4 py-3 space-y-0.5 flex-grow overflow-y-auto">
+    <% if (theme.menu && Array.isArray(theme.menu)) { %>
+      <% theme.menu.forEach(function(item) { %>
+        <a href="<%= url_for(item.url) %>" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="<%= item.icon %>"></i></span>
+          <span class="rc-sidebar-text"><%= item.name %></span>
+        </a>
+      <% }); %>
+    <% } %>
+  </nav>
 
-<nav class="p-4 space-y-2 flex-grow">
-  <% if (theme.menu && Array.isArray(theme.menu)) { %>
-    <% theme.menu.forEach(function(item) { %>
-      <a href="<%= url_for(item.url) %>" class="btn btn-ghost w-full justify-start text-base-content hover:text-primary hover:bg-primary/10 transition-all duration-200 flex items-center group">
-        <i class="<%= item.icon %> mr-3 text-lg group-hover:scale-110 transition-transform"></i>
-        <%= item.name %>
-      </a>
-    <% }); %>
-  <% } %>
-</nav>
-
-
-<div class="p-4 border-t border-base-300">
-  <div class="flex justify-center items-center gap-4">
-    <% if (theme.academic_profiles.google_scholar) { %>
-      <a href="<%= theme.academic_profiles.google_scholar %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="Google Scholar">
-        <i class="fa-brands fa-google-scholar text-2xl block"></i>
-      </a>
-    <% } %>
-    <% if (theme.academic_profiles.orcid) { %>
-      <a href="<%= theme.academic_profiles.orcid %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="ORCID">
-        <i class="fa-brands fa-orcid text-2xl block"></i>
-      </a>
-    <% } %>
-    <% if (theme.academic_profiles.researchgate) { %>
-      <a href="<%= theme.academic_profiles.researchgate %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="ResearchGate">
-        <i class="fa-brands fa-researchgate text-2xl block"></i>
-      </a>
-    <% } %>
-    <% if (theme.academic_profiles.github) { %>
-      <a href="<%= theme.academic_profiles.github %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="GitHub">
-        <i class="fa-brands fa-github text-2xl block"></i>
-      </a>
-    <% } %>
-    <% if (theme.academic_profiles.linkedin) { %>
-      <a href="<%= theme.academic_profiles.linkedin %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-        <i class="fa-brands fa-linkedin text-2xl block"></i>
-      </a>
-    <% } %>
-    <% if (theme.academic_profiles.twitter) { %>
-      <a href="<%= theme.academic_profiles.twitter %>" class="text-base-content hover:text-primary hover:scale-110 transition-all duration-200 flex-shrink-0" target="_blank" rel="noopener noreferrer" title="Twitter">
-        <i class="fa-brands fa-twitter text-2xl block"></i>
-      </a>
-    <% } %>
+  <!-- Social -->
+  <div class="p-5 mt-auto border-t" style="border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);">
+    <div class="flex justify-center items-center gap-2">
+      <% if (theme.academic_profiles.google_scholar) { %>
+        <a href="<%= theme.academic_profiles.google_scholar %>" class="rc-social" target="_blank" rel="noopener noreferrer" title="Google Scholar">
+          <i class="fa-brands fa-google-scholar text-xl block"></i>
+        </a>
+      <% } %>
+      <% if (theme.academic_profiles.orcid) { %>
+        <a href="<%= theme.academic_profiles.orcid %>" class="rc-social" target="_blank" rel="noopener noreferrer" title="ORCID">
+          <i class="fa-brands fa-orcid text-xl block"></i>
+        </a>
+      <% } %>
+      <% if (theme.academic_profiles.researchgate) { %>
+        <a href="<%= theme.academic_profiles.researchgate %>" class="rc-social" target="_blank" rel="noopener noreferrer" title="ResearchGate">
+          <i class="fa-brands fa-researchgate text-xl block"></i>
+        </a>
+      <% } %>
+      <% if (theme.academic_profiles.github) { %>
+        <a href="<%= theme.academic_profiles.github %>" class="rc-social" target="_blank" rel="noopener noreferrer" title="GitHub">
+          <i class="fa-brands fa-github text-xl block"></i>
+        </a>
+      <% } %>
+      <% if (theme.academic_profiles.linkedin) { %>
+        <a href="<%= theme.academic_profiles.linkedin %>" class="rc-social" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+          <i class="fa-brands fa-linkedin text-xl block"></i>
+        </a>
+      <% } %>
+      <% if (theme.academic_profiles.twitter) { %>
+        <a href="<%= theme.academic_profiles.twitter %>" class="rc-social" target="_blank" rel="noopener noreferrer" title="Twitter">
+          <i class="fa-brands fa-twitter text-xl block"></i>
+        </a>
+      <% } %>
+    </div>
   </div>
 </div>

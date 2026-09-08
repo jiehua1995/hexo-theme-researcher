@@ -1,3 +1,4 @@
+<script>document.documentElement.classList.add('js');</script>
 <!-- Meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +17,6 @@ const pageUrl = (page && page.path) ? config.url + url_for(page.path) : config.u
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="<%- url_for('images/favicon.ico') %>">
 
-
 <!-- Open Graph tags -->
 <meta property="og:title" content="<%= pageTitle %>">
 <meta property="og:description" content="<%= pageDescription %>">
@@ -28,37 +28,20 @@ const pageUrl = (page && page.path) ? config.url + url_for(page.path) : config.u
 <meta name="twitter:title" content="<%= pageTitle %>">
 <meta name="twitter:description" content="<%= pageDescription %>">
 
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;540;560;600;620;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
 <!-- Academicons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
-<!-- Tailwind CSS -->
+<!-- Tailwind CSS + Design System -->
 <link rel="stylesheet" href="<%- url_for('/css/style.css') %>">
+<link rel="stylesheet" href="<%- url_for('/css/design.css') %>">
 
 <!-- Theme Change Script -->
 <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
-
-<!-- Altmetric Badge -->
-<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
-
-<!-- Dimensions Badge -->
-<script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
-
-<!-- Google Adsense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= theme.google_adsense %>" crossorigin="anonymous"></script>
-
-<!-- Umami -->
-<script defer src="https://cloud.umami.is/script.js" data-website-id="<%= theme.umami_id %>"></script>
-
-<!-- Baidu Tongji -->
- <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?<%= theme.baidu_tongji %>";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
 
 <!-- Typed -->
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>

@@ -28,9 +28,6 @@ menu:
   - name: Notes
     url: /notes/
     icon: fa-solid fa-sticky-note
-  - name: Contact
-    url: /contact/
-    icon: fa-solid fa-envelope
 
 #--------------PDF CV Download--------------#
 # Provide a link to download your CV or put the pdf file in the 'source/files' folder of your Hexo site and use a relative path.
@@ -106,7 +103,61 @@ ads:
     js: "//pl26983555.revenuecpmgate.com/db7d69311c4f7d098bf9a0684c80620e/invoke.js"
     div_id: "container-db7d69311c4f7d098bf9a0684c80620e"
 
+#--------------Code Block Configuration--------------#
+# Configure code block behavior in blog posts
+code_collapse:
+  enabled: true           # Enable/disable code folding feature
+  lines: 5                # Number of lines to show before collapsing (default: 5)
 
+#--------------Motion & Background Animation--------------#
+# Ambient visual effects. Every one of these can be switched off here.
+motion:
+  # Falling "science" glyphs that drift down the page like snow.
+  background_animation:
+    enabled: true          # false → no falling background glyphs
+    opacity: 0.12          # 0 (barely visible) – 0.3 (more visible). Keep low for readability
+    count: 30              # number of floating glyphs (more = busier / heavier)
+    speed: 1.0             # fall speed multiplier (1 = normal, 2 = double)
+    size: 20               # base glyph size in px
+    # Monochrome science glyphs drawn on the canvas and tinted with the theme's
+    # accent colour (so they follow light/dark + the chosen accent). Keep the
+    # plain codepoints (no emoji variation selector) so they stay recolorable.
+    icons:
+      - "⚛"
+      - "⚗"
+      - "⚙"
+      - "✚"
+      - "✦"
+      - "◆"
+      - "◉"
+      - "◈"
+      - "✳"
+      - "∑"
+      - "π"
+      - "∞"
+      - "∆"
+      - "∴"
+      - "λ"
+      - "Ω"
+      - "⊕"
+      - "⊳"
+      - "▣"
+      - "✽"
+      - "⟐"
+      - "⁂"
+  # Cards near the viewport centre scale up + gain a soft accent glow (depth effect)
+  scroll_focus:
+    enabled: true
+  # Sections fade/slide in as they enter the viewport
+  reveal:
+    enabled: true
+
+#--------------Page Feature Switches--------------#
+features:
+  citation_badges: true    # Dimensions + Altmetric citation badges on publications
+  tag_cloud: true          # Interactive tag cloud on the Notes page
+  view_toggle: true        # Detail / Compact view switcher on list pages
+  post_toc: true           # "On this page" table of contents on blog posts
 
 #--------------DaisyUI Theme Configuration--------------#
 daisyui:

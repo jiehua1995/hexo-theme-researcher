@@ -1,197 +1,140 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-8 text-base-content">Research Projects</h1>
+<div class="rc-section">
+  <header class="rc-section-head">
+    <span class="rc-kicker">Research Projects</span>
+    <h1 class="rc-section-title">Ongoing &amp; past work</h1>
+    <p class="rc-muted mt-3 max-w-2xl">A selection of research initiatives and software. Filter by status, category or keyword.</p>
+  </header>
 
   <!-- Filters -->
-  <div class="glass-card p-4 mb-8">
-    <div class="flex flex-wrap gap-4">
-      <!-- Status Filter -->
-      <div class="form-control">
-        <select class="select select-bordered" id="statusFilter">
-          <option value="">All Statuses</option>
-          <% 
-            const statuses = [...new Set(site.data.projects.map(p => p.status).filter(Boolean))];
-            statuses.forEach(status => {
-          %>
-            <option value="<%= status %>"><%= status %></option>
-          <% }); %>
-        </select>
-      </div>
-
-      <!-- Category Filter -->
-      <div class="form-control">
-        <select class="select select-bordered" id="categoryFilter">
-          <option value="">All Categories</option>
-          <% 
-            const categories = [...new Set(site.data.projects.map(p => p.category).filter(Boolean))];
-            categories.forEach(category => {
-          %>
-            <option value="<%= category %>"><%= category %></option>
-          <% }); %>
-        </select>
-      </div>
-
-      <!-- Search -->
-      <div class="form-control flex-1">
-        <input type="text" placeholder="Search projects..." class="input input-bordered" id="searchInput" />
-      </div>
+  <div class="rc-filter" data-filter>
+    <div class="rc-filter-field">
+      <label class="rc-filter-label" for="statusFilter">Status</label>
+      <select class="rc-select w-full" id="statusFilter" data-filter-type="status">
+        <option value="">All Statuses</option>
+        <%
+          const statuses = [...new Set(site.data.projects.map(p => p.status).filter(Boolean))];
+          statuses.forEach(status => {
+        %>
+          <option value="<%= status %>"><%= status %></option>
+        <% }); %>
+      </select>
     </div>
+
+    <div class="rc-filter-field">
+      <label class="rc-filter-label" for="categoryFilter">Category</label>
+      <select class="rc-select w-full" id="categoryFilter" data-filter-type="category">
+        <option value="">All Categories</option>
+        <%
+          const categories = [...new Set(site.data.projects.map(p => p.category).filter(Boolean))];
+          categories.forEach(category => {
+        %>
+          <option value="<%= category %>"><%= category %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="rc-filter-field grow">
+      <label class="rc-filter-label" for="searchInput">Search</label>
+      <input type="text" placeholder="Search projects..." class="rc-input w-full" id="searchInput" data-filter-type="search" />
+    </div>
+
+    <% if (!theme.features || theme.features.view_toggle !== false) { %>
+    <div class="ml-auto">
+      <%- partial('partials/viewtoggle') %>
+    </div>
+    <% } %>
   </div>
 
-  <!-- Projects List -->
-  <div id="projectsList" class="space-y-6">
+  <!-- Projects timeline -->
+  <div class="rc-timeline" id="projectsList" data-filter-list data-view data-view-key="rc-view-projects">
     <% site.data.projects.forEach(project => { %>
-      <div 
-        class="card glass rounded-box shadow-lg bg-base-100 text-base-content hover:shadow-xl transition-all duration-300 timeline-item"
-        data-status="<%= project.status || '' %>"
-        data-category="<%= project.category || '' %>"
-        data-title="<%= (project.title || '').toLowerCase() %>"
-        data-description="<%= (project.description || '').toLowerCase() %>"
-      >
-        <div class="card-body relative">
-          <!-- Status Badge - Right Top Corner -->
-          <% if (project.status) { 
-            const statusClass = project.status === 'current' 
-              ? 'badge-primary' 
-              : (project.status === 'completed' 
-                ? 'badge-secondary' 
-                : 'badge-neutral');
-            %>
-            <div class="absolute top-4 right-4 z-10">
-              <div class="badge <%= statusClass %> badge-lg font-semibold"><%= project.status %></div>
+      <div class="rc-timeline-item rc-reveal project-item" data-filter-item
+           data-status="<%= project.status || '' %>"
+           data-category="<%= project.category || '' %>"
+           data-tags="<%= project.tags ? project.tags.join(',') : '' %>"
+           data-title="<%= (project.title || '').toLowerCase() %>"
+           data-text="<%= (project.description || '').toLowerCase() %>">
+        <span class="rc-timeline-dot"></span>
+        <article class="rc-card rc-focus">
+          <div class="rc-card-body">
+            <div class="flex items-start justify-between gap-4 mb-3">
+              <h2 class="text-xl font-semibold leading-tight flex-1"><%= project.title %></h2>
+              <% if (project.status) { %>
+                <% var statusMeta = {
+                     'current':   { cls: 'rc-badge--current',   icon: 'fa-circle-bolt' },
+                     'completed': { cls: 'rc-badge--completed', icon: 'fa-circle-check' }
+                   }[String(project.status).toLowerCase()] || { cls: 'rc-badge-neutral', icon: 'fa-circle' }; %>
+                <span class="rc-badge <%= statusMeta.cls %> shrink-0 mt-1"><i class="fa-solid <%= statusMeta.icon %>"></i> <%= project.status %></span>
+              <% } %>
             </div>
-          <% } %>
-          
-          <!-- Title -->
-          <h2 class="card-title text-xl font-bold mb-3 pr-20">
-            <%= project.title %>
-          </h2>
 
-          <!-- Metadata Row -->
-          <div class="flex flex-wrap items-center gap-4 mb-4 text-sm">
-            <% if (project.period) { %>
-              <div class="flex items-center gap-2 text-base-content/70">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span><%= project.period %></span>
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm rc-muted mb-4 rc-meta-line">
+              <% if (project.period) { %>
+                <span class="flex items-center gap-1.5">
+                  <i class="fa-solid fa-calendar-days w-4 h-4"></i>
+                  <%= project.period %>
+                </span>
+              <% } %>
+              <% if (project.category) { %>
+                <span class="flex items-center gap-1.5">
+                  <i class="fa-solid fa-layer-group w-4 h-4"></i>
+                  <%= project.category %>
+                </span>
+              <% } %>
+            </div>
+
+            <% if (project.tags && project.tags.length) { %>
+              <div class="flex flex-wrap gap-2 mb-4 rc-detail-only">
+                <% project.tags.forEach(tag => { %>
+                  <span class="rc-tag"><%= tag %></span>
+                <% }); %>
               </div>
             <% } %>
-            <% if (project.category) { %>
-              <div class="flex items-center gap-2 text-base-content/70">
-                <i class="fa-solid fa-layer-group"></i>
-                <span class="font-medium"><%= project.category %></span>
+
+            <% if (project.description) { %>
+              <p class="text-sm leading-relaxed text-base-content/80 mb-4 rc-detail-only"><%= project.description %></p>
+            <% } %>
+
+            <% if (project.collaborators && project.collaborators.length) { %>
+              <div class="mb-4 text-sm rc-detail-only">
+                <span class="font-semibold text-base-content/80">Collaborators:</span>
+                <% project.collaborators.forEach((collab, idx) => { %>
+                  <a href="<%= collab.link || '#' %>" target="_blank" rel="noopener noreferrer" class="rc-tag no-underline">
+                    <%= collab.name %><% if (collab.role) { %> (<%= collab.role %>)<% } %>
+                  </a>
+                <% }); %>
               </div>
             <% } %>
+
+            <% if (project.publications && project.publications.length) { %>
+              <div class="mb-4 space-y-1.5 rc-detail-only">
+                <% project.publications.forEach(pub => { %>
+                  <a href="<%= pub.link %>" target="_blank" rel="noopener noreferrer" class="flex items-start gap-2 text-sm rc-btn-link no-underline">
+                    <i class="fa-solid fa-newspaper mt-0.5"></i>
+                    <span><%= pub.title %></span>
+                  </a>
+                <% }); %>
+              </div>
+            <% } %>
+
+            <% if (project.website || project.github) { %>
+              <div class="flex flex-wrap gap-2 mt-4 rc-detail-only">
+                <% if (project.website) { %>
+                  <a href="<%= project.website %>" target="_blank" rel="noopener noreferrer" class="rc-btn rc-btn-outline rc-btn-sm">
+                    <i class="fa-solid fa-link"></i> Link
+                  </a>
+                <% } %>
+                <% if (project.github) { %>
+                  <a href="<%= project.github %>" target="_blank" rel="noopener noreferrer" class="rc-btn rc-btn-outline rc-btn-sm">
+                    <i class="fa-brands fa-github"></i> GitHub
+                  </a>
+                <% } %>
+              </div>
+            <% } %>
+          <%- partial('partials/expandtoggle') %>
           </div>
-
-          <!-- Tags -->
-          <% if (project.tags && project.tags.length) { %>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <% project.tags.forEach(tag => { %>
-                <div class="badge badge-outline badge-sm hover:badge-primary transition-colors"><%= tag %></div>
-              <% }); %>
-            </div>
-          <% } %>
-
-          <% if (project.description) { %>
-            <p class="text-base-content opacity-90 mb-4"><%= project.description %></p>
-          <% } %>
-
-          
-          <% if (project.collaborators && project.collaborators.length) { %>
-            <div class="mb-4 text-sm flex-wrap">
-              <span class="font-semibold">Collaborators: </span>
-              <% project.collaborators.forEach((collab, idx) => { %>
-                <a 
-                  href="<%= collab.link || '#' %>" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="link link-info no-underline"
-                >
-                  <%= collab.name %><% if (collab.role) { %> (<%= collab.role %>)<% } %>
-                </a><%= idx < project.collaborators.length - 1 ? ', ' : '' %>
-              <% }); %>
-            </div>
-          <% } %>
-          
-
-          <% if (project.publications && project.publications.length) { %>
-            <div class="flex flex-wrap gap-2 max-w-full">
-              <% project.publications.forEach(pub => { %>
-                <a 
-                  href="<%= pub.link %>" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="px-3 py-2 rounded-md text-sm max-w-sm break-words whitespace-normal text-left hover:bg-base-200 transition"
-                >
-                  <i class="fa-solid fa-newspaper"></i>
-                   <%= pub.title %>
-                </a>
-              <% }); %>
-            </div>
-          <% } %>
-
-          <!-- Project Links -->
-          <% if (project.website || project.github) { %>
-            <div class="flex flex-wrap gap-2 mt-4">
-              <% if (project.website) { %>
-                <a 
-                  href="<%= project.website %>" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="btn btn-sm btn-outline"
-                >
-                  <i class="fa-solid fa-link mr-0"></i>
-                  Link
-                </a>
-              <% } %>
-              <% if (project.github) { %>
-                <a 
-                  href="<%= project.github %>" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="btn btn-sm btn-outline"
-                >
-                  <i class="fa-brands fa-github w-4 h-4 mr-0"></i>
-                  GitHub
-                </a>
-              <% } %>
-            </div>
-          <% } %>
-          
-        </div>
+        </article>
       </div>
     <% }); %>
   </div>
 </div>
-
-<script>
-  const statusFilter = document.getElementById('statusFilter');
-  const categoryFilter = document.getElementById('categoryFilter');
-  const searchInput = document.getElementById('searchInput');
-  const projectsList = document.getElementById('projectsList');
-
-  function filterProjects() {
-    const status = statusFilter.value;
-    const category = categoryFilter.value;
-    const search = searchInput.value.toLowerCase();
-
-    const items = projectsList.getElementsByClassName('timeline-item');
-    Array.from(items).forEach(item => {
-      const itemStatus = item.dataset.status;
-      const itemCategory = item.dataset.category;
-      const itemTitle = item.dataset.title;
-      const itemDescription = item.dataset.description;
-
-      const statusMatch = !status || itemStatus === status;
-      const categoryMatch = !category || itemCategory === category;
-      const searchMatch = !search || 
-        itemTitle.includes(search) || 
-        itemDescription.includes(search);
-
-      item.style.display = statusMatch && categoryMatch && searchMatch ? 'block' : 'none';
-    });
-  }
-
-  statusFilter.addEventListener('change', filterProjects);
-  categoryFilter.addEventListener('change', filterProjects);
-  searchInput.addEventListener('input', filterProjects);
-</script>

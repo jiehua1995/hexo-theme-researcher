@@ -7,6 +7,94 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [0.3.0] - 2026-09-08
+
+### Added
+- **Detail / Compact view toggle**: Publications, Projects, Talks and Notes switch between a rich `Detail` view and a dense `Compact` view, persisted per page in `localStorage` (survives navigation and reload). Switching a view **resets every card** to that mode's default state.
+- **Per-card expand / collapse in every mode**: Each card carries a chevron that works in BOTH Detail and Compact — clicking expands a collapsed card to reveal the full detail, or folds an expanded card back to a compact row. Per-card state survives list re-initialisation.
+- **Ambient background animation**: Falling "science" glyphs (🧪 🧬 ⚗️ 🔬 …) drift down the page like snow on a fixed `<canvas>` behind the content. Respects `prefers-reduced-motion` and can be switched off in config.
+- **Configurable feature switches**: A new `features:` block in `_config.yml` (`citation_badges`, `tag_cloud`, `view_toggle`, `post_toc`) and a `motion:` block (`background_animation`, `scroll_focus`, `reveal`) let users turn every visual/functional enhancement on or off with clear inline comments.
+- **Interactive tag cloud on Notes**: Multi-select / de-select tags to filter the notes grid live (no reload), with URL syncing (`?tag=…`), a "Clear selection" button, and visual `is-active` highlight.
+
+### Fixed
+- **Tag link highlight / cancel**: Arriving at `/notes/?tag=X` from a post now highlights exactly the matching tag pill (case-sensitive) and applies the filter, so it can be cancelled by clicking the pill or "Clear selection". The URL→selection re-sync runs on every init to survive a Swup swap.
+- **Citation badge clipping**: Card `overflow` is now `visible` and the hovered card is lifted above its neighbours, so the Dimensions / Altmetric popovers are never cut off or hidden behind the next card.
+- **Content-area centering**: The `#swup` box had both `w-full` and a 320px sidebar margin, overflowing the viewport to the right and leaving a large blank gap to the left of the content. Removed `w-full` so every page (Publications/Projects/Notes/CV, not just posts) is centred in its own area next to the sidebar.
+
+### Updated
+- **Citation badges**: In Compact a card shows only the Dimensions badge (its own type/status badge sits on the left); the Altmetric donut is hidden until the card is expanded or you switch to Detail. Badge popovers (Dimensions & Altmetric) always stack above everything.
+- **Contact consolidated**: The standalone Contact page is removed; contact links (email, address, academic profiles) now live in a simple link row on the homepage, under Featured Projects.
+- **Card hover emphasis**: Hovering a card now brightens the light sweep and deepens the border + shadow (light/shadow only — no scale, so it never fights the scroll-focus effect).
+- **Whole-card click**: Notes cards are now one clickable object via a stretched title link (the whole card navigates to the post).
+- **Footer pinning**: The body is now a flex column so the footer always sits at the very bottom — no more blank space below it.
+- **Background glyphs**: Falling "science" glyphs are now monochrome and tinted with the theme accent (so they follow light/dark + accent), with more variety and a denser default count.
+- **Altmetric donut**: Reverted to the standard `data-badge-type="donut"` + `data-badge-popover="left"` markup so it renders at its natural, larger size.
+- **Bumped version to 0.3.0**, rebuilt `style.css` (Tailwind 4.3.3 / daisyUI 5.7.28).
+
+## [0.2.0] - 2026-09-07
+
+### Added
+- **Design system & polish**: Introduced a token-based design layer (`design.css`) with `.rc-*` semantic tokens (accent, bg, ink, line, radius, duration, ease) for an "Apple-grade" refined look.
+- **Scroll-focus card effect**: Cards near the viewport centre scale up, brighten and gain an accent-tinted glow + deep shadow; cards at the edges shrink and dim. Driven every frame by scroll (smoothstep-eased), plus a subtle 3D `rotateX` tilt. No mouse-hover scale — scroll only.
+- **Light-mode blue theme**: Replaced the default purple accent with a calm professional blue (`oklch(0.55 0.17 252)`) so light mode no longer looks purple.
+- **Cookie consent banner**: Bottom floating, glassy consent dialog (`Accept` / `Reject`) required for EU/US visitors, persisted in `localStorage`.
+- **SPA partial navigation (Swup)**: Sidebar / top bar no longer re-render when switching pages — only the content container is swapped. Active menu state and reveal/focus animations re-bind automatically via a `MutationObserver`.
+- **Sticky "focus-wheel" table of contents**: A fixed, vertically-centred TOC on the right rail. The active heading is large & clear; neighbouring entries shrink/blur away. Hierarchy encoded via a coloured dot + indentation. Scroll-spy highlights the current section, works on the CV page (sections) and every article (h1–h3).
+- **Click-to-centre anchor scroll**: Clicking a TOC entry (or any in-page `#anchor`) smoothly scrolls so the heading lands about mid-screen instead of being tucked under the fixed top bar.
+- **Multilingual + multi-format test post**: Added `comprehensive-markdown-test.md` covering text formatting, headings, lists, quotes, tables, fenced code (Python / JS / SQL / C++ / Bash / JSON / YAML), inline & block math, footnotes and nine languages (简体/繁體/English/Deutsch/日本語/한국어/Français/Español/Português).
+
+### Fixed
+- **Blank page after navigation**: A `ReferenceError` (`__rcMotionWatcher` undeclared) aborted the `DOMContentLoaded` handler, so the `MutationObserver` never started and revealed content after a Swup swap stayed invisible. The watcher is now declared correctly and observes `document.body`, so no page is ever blank after navigating.
+- **Filters / search not working**: Listing pages (Publications / Projects / Notes) relied on inline `DOMContentLoaded` scripts, which never re-ran after a partial Swup swap. Filters were unified into a global, Swup-safe `__rcInitFilters()` that re-binds on every content swap (status / category / year / keyword search, with results count and empty state).
+- **Code block line spacing**: Tightened per-line padding so code no longer has huge gaps between lines.
+- **Card overlap**: Increased vertical spacing between the filter bar and the cards (and between timeline / grid cards) so scaled-up focused cards no longer overlap.
+- **TOC initial centring**: Removed a conflicting `sticky` wrapper so the focus-wheel TOC is truly vertically centred.
+
+### Updated
+- **Dependencies**: Tailwind CSS, `@tailwindcss/cli` → `4.3.3`, daisyUI → `5.7.28`; rebuilt `style.css`.
+
+## [Unreleased] - Development
+
+### Added - 2025-11-09
+- **Code Block Enhancements**: Major improvements to code block functionality and appearance
+  - **Language Badge**: Display programming language type in the top-right corner of each code block using DaisyUI badge component
+  - **Copy Button**: One-click code copying functionality powered by ClipboardJS library (v2.0.11)
+    - Visual feedback with success (green checkmark) and error (red X) indicators
+    - Automatic fallback mechanism for better browser compatibility
+  - **Code Folding Feature**: Configurable code block collapsing functionality
+    - Automatically collapse code blocks exceeding a threshold (default: 5 lines)
+    - "Expand (N lines)" / "Collapse" button with smooth transitions
+    - Configurable via `_config.yml` with `code_collapse.enabled` and `code_collapse.lines` options
+  
+- **Modular JavaScript Architecture**: Separated post processing logic into dedicated file
+  - Created `source/js/post.js` for all post-related processing (math formulas, tables, code blocks)
+  - Improved code maintainability and reusability
+  - Reduced `post.ejs` size from ~470 lines to ~180 lines
+
+- **Dedicated Post Stylesheet**: Extracted inline styles to `source/css/post.css`
+  - Centralized all post content styling (typography, code blocks, tables, quotes, lists, images)
+  - Added code folding styles (`.code-line-collapsed`, `.code-expanded`, `.code-expand-btn`)
+  - Improved EJS template readability
+
+### Enhanced - 2025-11-09
+- **Code Block Styling**: Fixed code wrapping issues
+  - Changed from `white-space: pre-wrap` to `white-space: pre` to prevent automatic line wrapping
+  - Added proper horizontal scrolling for long code lines
+  - Ensured line numbers stay aligned and don't mix with code content
+
+- **Configuration System**: Extended theme configuration
+  - Added `code_collapse` section in `_config.yml` for customizing code folding behavior
+
+- **UI Consistency & Responsiveness**: Unified layout and alignment across all pages
+  - **Sidebar Navigation**: Fixed icon and text alignment in navigation buttons
+    - Implemented nested flex layout with fixed-width icon containers (`w-6 flex-shrink-0`)
+    - Consistent spacing between icons and text (`ml-8`, approximately 2rem/4 character widths)
+    - Smooth hover animations with scale effects on icons
+  - **Responsive Search Bars**: Unified search bar design across all listing pages (Publications, Notes, Projects, Talks)
+    - Mobile-first approach: vertical layout (`flex-col`) with full-width controls (`w-full`) on small screens
+    - Desktop optimization: horizontal layout (`sm:flex-row`) with appropriate fixed widths (`sm:w-40`, `sm:w-48`) and flexible search inputs (`sm:flex-1`)
+    - Consistent gap spacing and form control styling across all pages
+
 ## [0.1.5] - 2025-10-06
 
 ### Added
