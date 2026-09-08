@@ -1,0 +1,283 @@
+/* ========================================================================== */
+/*                          Post Content Styles                               */
+/*     Rewritten for DaisyUI 5 color tokens (--color-*).                      */
+/*     Also fixes the broken DaisyUI-4 variable references (--p/--bc/--b2).   */
+/* ========================================================================== */
+
+/* ========== 基础排版样式 ========== */
+.post-content {
+  line-height: 1.85;
+  color: var(--color-base-content);
+}
+
+/* 标题 */
+.post-content h1, .post-content h2, .post-content h3,
+.post-content h4, .post-content h5, .post-content h6 {
+  font-family: var(--rc-font-serif, Georgia, serif);
+  color: var(--color-base-content);
+  font-weight: 620;
+  letter-spacing: -0.018em;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+
+/* 段落 */
+.post-content p {
+  margin: 1.25rem 0;
+  text-align: justify;
+}
+
+/* 强调文本 */
+.post-content strong, .post-content b {
+  font-weight: 700;
+  color: var(--color-base-content);
+}
+
+/* 斜体 */
+.post-content em, .post-content i {
+  font-style: italic;
+  color: color-mix(in oklab, var(--color-base-content) 82%, transparent);
+}
+
+/* ========== 代码块（mockup-code，由 post.js 生成） ========== */
+.post-content .mockup-code {
+  margin: 1.6rem 0;
+  border-radius: var(--rc-radius-md, 0.875rem);
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  border: 1px solid color-mix(in oklab, var(--color-base-300) 70%, transparent);
+  background: color-mix(in oklab, var(--color-base-200) 55%, var(--color-base-100));
+}
+
+/* 工具栏：语言徽章 + 复制按钮 */
+.code-toolbar {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.6rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  z-index: 10;
+}
+
+.code-lang-badge {
+  font-family: var(--rc-font-sans, sans-serif);
+  font-size: 0.66rem;
+  font-weight: 640;
+  letter-spacing: 0.08em;
+  padding: 0.32rem 0.62rem;
+  border-radius: var(--rc-radius-pill, 999px);
+  text-transform: uppercase;
+  user-select: none;
+  color: color-mix(in oklab, var(--color-primary) 92%, black 8%);
+  background: color-mix(in oklab, var(--color-primary) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 18%, transparent);
+}
+
+.copy-code-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--rc-radius-sm, 0.625rem);
+  border: 1px solid transparent;
+  color: color-mix(in oklab, var(--color-base-content) 62%, transparent);
+  background: transparent;
+  cursor: pointer;
+  transition: color var(--rc-dur, 0.45s) var(--rc-ease, ease), background var(--rc-dur, 0.45s) var(--rc-ease, ease);
+}
+.copy-code-btn:hover {
+  color: var(--color-base-content);
+  background: color-mix(in oklab, var(--color-base-content) 8%, transparent);
+}
+
+/* mockup-code 内 pre/code */
+.post-content .mockup-code pre {
+  white-space: pre;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  line-height: 1.62;
+  margin: 0;
+  padding: 0.15rem 1rem 0.15rem 0.75rem;
+  font-family: var(--rc-font-mono, ui-monospace, monospace);
+}
+.post-content .mockup-code pre code {
+  white-space: pre;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.855rem;
+  line-height: 1.62;
+  margin: 0;
+  display: inline-block;
+  text-indent: 0;
+  color: var(--color-base-content);
+}
+
+/* 行号 */
+.post-content .mockup-code pre[data-prefix]::before {
+  display: inline-block;
+  text-align: right;
+  padding-right: 1rem;
+  min-width: 3rem;
+  margin-right: 0.5rem;
+  user-select: none;
+  color: color-mix(in oklab, var(--color-base-content) 34%, transparent);
+}
+
+/* 隐藏原始 highlight 容器 */
+.post-content .highlight {
+  display: none;
+}
+
+/* 行内代码 */
+.post-content code {
+  font-family: var(--rc-font-mono, ui-monospace, monospace);
+  background-color: color-mix(in oklab, var(--color-base-content) 8%, transparent);
+  color: color-mix(in oklab, var(--color-primary) 90%, black 8%);
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--rc-radius-sm, 0.625rem);
+  font-size: 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--color-base-300) 80%, transparent);
+}
+
+/* 代码折叠 */
+.code-line-collapsed { display: none; }
+.code-expanded .code-line-collapsed { display: block; }
+
+.code-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  border-radius: var(--rc-radius-sm, 0.625rem);
+  border: 1px dashed color-mix(in oklab, var(--color-base-300) 90%, transparent);
+  background: transparent;
+  color: color-mix(in oklab, var(--color-base-content) 62%, transparent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--rc-dur, 0.45s) var(--rc-ease, ease), background var(--rc-dur, 0.45s) var(--rc-ease, ease);
+}
+.code-expand-btn:hover {
+  color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 6%, transparent);
+}
+
+/* ========== 引用块 ========== */
+.post-content blockquote {
+  border-left: 2px solid var(--color-primary);
+  background: color-mix(in oklab, var(--color-base-200) 50%, var(--color-base-100));
+  margin: 1.6rem 0;
+  padding: 1.1rem 1.5rem;
+  border-radius: 0 var(--rc-radius-md, 0.875rem) var(--rc-radius-md, 0.875rem) 0;
+  position: relative;
+  font-style: italic;
+  color: color-mix(in oklab, var(--color-base-content) 82%, transparent);
+}
+.post-content blockquote p { margin: 0.55rem 0; }
+.post-content blockquote p:first-child { margin-top: 0; }
+.post-content blockquote p:last-child { margin-bottom: 0; }
+
+/* ========== 列表 ========== */
+.post-content ul {
+  margin: 1rem 0;
+  padding-left: 1.6rem;
+  list-style-type: disc;
+}
+.post-content ol {
+  margin: 1rem 0;
+  padding-left: 1.6rem;
+  list-style-type: decimal;
+}
+.post-content li { margin: 0.5rem 0; line-height: 1.7; }
+.post-content ul ul { list-style-type: circle; margin: 0.5rem 0; }
+.post-content ul ul ul { list-style-type: square; }
+
+/* ========== 链接 ========== */
+.post-content a {
+  color: color-mix(in oklab, var(--color-primary) 90%, black 6%);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 30%, transparent);
+  transition: border-color var(--rc-dur, 0.45s) var(--rc-ease, ease);
+}
+.post-content a:hover {
+  border-color: var(--color-primary);
+}
+
+/* ========== 表格 ========== */
+.post-content .table-container {
+  overflow-x: auto;
+  margin: 1.6rem 0;
+  border-radius: var(--rc-radius-md, 0.875rem);
+  border: 1px solid color-mix(in oklab, var(--color-base-300) 70%, transparent);
+}
+.post-content table {
+  width: 100%;
+  min-width: 600px;
+  margin: 0;
+  border-collapse: collapse;
+  background-color: color-mix(in oklab, var(--color-base-200) 40%, var(--color-base-100));
+  font-size: 0.92rem;
+}
+.post-content th {
+  background-color: var(--color-base-200);
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  color: var(--color-base-content);
+  border-bottom: 1px solid color-mix(in oklab, var(--color-base-300) 90%, transparent);
+  border-right: 1px solid color-mix(in oklab, var(--color-base-300) 70%, transparent);
+}
+.post-content th:last-child { border-right: none; }
+.post-content td {
+  padding: 0.75rem 1rem;
+  color: var(--color-base-content);
+  border-bottom: 1px solid color-mix(in oklab, var(--color-base-300) 60%, transparent);
+  border-right: 1px solid color-mix(in oklab, var(--color-base-300) 60%, transparent);
+}
+.post-content td:last-child { border-right: none; }
+.post-content tbody tr:nth-child(even) { background-color: color-mix(in oklab, var(--color-base-200) 55%, var(--color-base-100)); }
+.post-content tbody tr:hover { background-color: color-mix(in oklab, var(--color-base-300) 55%, var(--color-base-100)); }
+.post-content tbody tr:last-child td { border-bottom: none; }
+
+/* ========== 图片 ========== */
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--rc-radius-md, 0.875rem);
+  margin: 1.6rem 0;
+  box-shadow: var(--rc-shadow-sm, 0 1px 2px oklch(0 0 0 / 0.05));
+}
+
+/* ========== 分割线 ========== */
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-base-300) 90%, transparent), transparent);
+  margin: 2.25rem 0;
+}
+
+/* ========== 数学公式 ========== */
+.post-content .MathJax { font-size: 1.1em !important; }
+.post-content mjx-container { margin: 0.5rem 0; }
+.post-content mjx-container[display="true"] { margin: 1.6rem 0; text-align: center; }
+.post-content p:has(mjx-container[display="true"]) { text-align: center; line-height: 1; }
+.math-display { text-align: center; margin: 1.6rem 0; }
+
+/* ========== 标题中的行内代码 ========== */
+.post-content h1 code, .post-content h2 code, .post-content h3 code,
+.post-content h4 code, .post-content h5 code, .post-content h6 code {
+  font-size: 0.85em;
+  background-color: var(--color-base-200);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--rc-radius-sm, 0.625rem);
+}

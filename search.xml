@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Comprehensive Markdown Test - 多语言格式测试</title>
+      <link href="/2026/09/07/comprehensive-markdown-test/"/>
+      <url>/2026/09/07/comprehensive-markdown-test/</url>
+      
+        <content type="html"><![CDATA[<p><strong>本页用于测试主题对 Markdown 各种格式的渲染效果</strong>。内容覆盖文本格式、列表、引用、代码块（多种语言）、表格、数学公式、链接、脚注、图片等。</p><h2 id="Text-Formatting-文本格式"><a href="#Text-Formatting-文本格式" class="headerlink" title="Text Formatting - 文本格式"></a>Text Formatting - 文本格式</h2><p><strong>Bold Text</strong> · <em>Italic Text</em> · <em><strong>Bold and Italic</strong></em> · <del>Strikethrough</del></p><p><code>Inline code</code> · <kbd>Ctrl</kbd> + <kbd>C</kbd> · <mark>Highlighted</mark></p><blockquote><p>This is a blockquote.<br>这是中文引用。</p><p>多段引用：第二段内容。</p></blockquote><h2 id="Headings-标题层级"><a href="#Headings-标题层级" class="headerlink" title="Headings - 标题层级"></a>Headings - 标题层级</h2><h1 id="H1-Heading"><a href="#H1-Heading" class="headerlink" title="H1 Heading"></a>H1 Heading</h1><h2 id="H2-Heading"><a href="#H2-Heading" class="headerlink" title="H2 Heading"></a>H2 Heading</h2><h3 id="H3-Heading"><a href="#H3-Heading" class="headerlink" title="H3 Heading"></a>H3 Heading</h3><h4 id="H4-Heading"><a href="#H4-Heading" class="headerlink" title="H4 Heading"></a>H4 Heading</h4><h5 id="H5-Heading"><a href="#H5-Heading" class="headerlink" title="H5 Heading"></a>H5 Heading</h5><h6 id="H6-Heading"><a href="#H6-Heading" class="headerlink" title="H6 Heading"></a>H6 Heading</h6><h2 id="Lists-列表"><a href="#Lists-列表" class="headerlink" title="Lists - 列表"></a>Lists - 列表</h2><h3 id="Unordered"><a href="#Unordered" class="headerlink" title="Unordered"></a>Unordered</h3><ul><li>Machine Learning</li><li>Data Science<ul><li>Deep Learning</li><li>Neural Networks<ul><li>Computer Vision</li></ul></li></ul></li></ul><h3 id="Ordered"><a href="#Ordered" class="headerlink" title="Ordered"></a>Ordered</h3><ol><li>First step</li><li>Second step<ol><li>Nested A</li><li>Nested B</li></ol></li><li>Third step</li></ol><h3 id="Task-List"><a href="#Task-List" class="headerlink" title="Task List"></a>Task List</h3><ul><li><input checked="" disabled="" type="checkbox"> Extract entities</li><li><input checked="" disabled="" type="checkbox"> Set up evaluation</li><li><input disabled="" type="checkbox"> Publish results</li></ul><h2 id="Code-代码块"><a href="#Code-代码块" class="headerlink" title="Code - 代码块"></a>Code - 代码块</h2><h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">preprocess_data</span>(<span class="params">df</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Preprocess the dataset&quot;&quot;&quot;</span></span><br><span class="line">    df_cleaned = df.dropna()</span><br><span class="line">    <span class="keyword">return</span> df_cleaned</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MultilingualClassifier</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, n_estimators=<span class="number">100</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.model = <span class="variable language_">self</span>._build_model(n_estimators)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        <span class="variable language_">self</span>.model.fit(X, y)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span></span><br></pre></td></tr></table></figure><h3 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MultilingualProcessor</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">languages</span> = &#123; <span class="attr">en</span>: <span class="string">&#x27;English&#x27;</span>, <span class="attr">zh</span>: <span class="string">&#x27;中文&#x27;</span>, <span class="attr">de</span>: <span class="string">&#x27;Deutsch&#x27;</span>, <span class="attr">ja</span>: <span class="string">&#x27;日本語&#x27;</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">getText</span>(<span class="params">key, lang = <span class="string">&#x27;en&#x27;</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> translation = <span class="variable language_">this</span>.<span class="property">languages</span>[key];</span><br><span class="line">    <span class="keyword">return</span> translation || key;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> r.name_en <span class="keyword">AS</span> researcher,</span><br><span class="line">       p.title_zh <span class="keyword">AS</span> chinese_title,</span><br><span class="line">       p.year,</span><br><span class="line">       p.citations</span><br><span class="line"><span class="keyword">FROM</span> publications p</span><br><span class="line"><span class="keyword">JOIN</span> researchers r <span class="keyword">ON</span> p.researcher_id <span class="operator">=</span> r.id</span><br><span class="line"><span class="keyword">WHERE</span> p.year <span class="operator">&gt;=</span> <span class="number">2020</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> p.citations <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure><h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">std::vector&lt;<span class="type">double</span>&gt; <span class="title">gradient_descent</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> std::vector&lt;<span class="type">double</span>&gt;&amp; X, <span class="type">const</span> std::vector&lt;<span class="type">double</span>&gt;&amp; y, <span class="type">double</span> lr = <span class="number">0.01</span>)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Standard gradient descent implementation</span></span><br><span class="line">  <span class="keyword">return</span> X;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="Bash-JSON-YAML"><a href="#Bash-JSON-YAML" class="headerlink" title="Bash &#x2F; JSON &#x2F; YAML"></a>Bash &#x2F; JSON &#x2F; YAML</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">set</span> -euo pipefail</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Installing dependencies...&quot;</span></span><br><span class="line">yarn install</span><br></pre></td></tr></table></figure><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;hexo-theme-researcher&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.1.5&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;private&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">hexo-theme-researcher</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">en</span></span><br><span class="line"><span class="attr">highlight:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">line_number:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure><h3 id="Inline-code-example"><a href="#Inline-code-example" class="headerlink" title="Inline code example"></a>Inline code example</h3><p>Use the <code>hits@k</code> benchmark and <code>npx hexo generate</code> to build the site. Variable <code>$FOO</code> and <code>array[0]</code>.</p><h2 id="Tables-表格"><a href="#Tables-表格" class="headerlink" title="Tables - 表格"></a>Tables - 表格</h2><table><thead><tr><th>Method</th><th>Full Name</th><th>Language</th><th>Accuracy</th></tr></thead><tbody><tr><td>CNN</td><td>Convolutional Neural Network</td><td>中文</td><td>94.2%</td></tr><tr><td>LSTM</td><td>Long Short-Term Memory</td><td>English</td><td>92.1%</td></tr><tr><td>Transformer</td><td>Transformer Architecture</td><td>Deutsch</td><td>96.5%</td></tr><tr><td>RNN</td><td>Recurrent Neural Network</td><td>日本語</td><td>89.7%</td></tr></tbody></table><table><thead><tr><th align="left">Alignment</th><th align="center">Left</th><th align="center">Center</th><th align="right">Right</th></tr></thead><tbody><tr><td align="left">Row 1</td><td align="center">a</td><td align="center">b</td><td align="right">c</td></tr><tr><td align="left">Row 2</td><td align="center">d</td><td align="center">e</td><td align="right">f</td></tr></tbody></table><h2 id="Mathematical-Equations-数学公式"><a href="#Mathematical-Equations-数学公式" class="headerlink" title="Mathematical Equations - 数学公式"></a>Mathematical Equations - 数学公式</h2><h3 id="Inline-Math"><a href="#Inline-Math" class="headerlink" title="Inline Math"></a>Inline Math</h3><p>The quadratic formula is $x &#x3D; \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.</p><p>Einstein’s mass–energy equivalence: $E &#x3D; mc^2$.</p><h3 id="Block-Math"><a href="#Block-Math" class="headerlink" title="Block Math"></a>Block Math</h3><p>$$<br>\nabla_\theta J(\theta) &#x3D; \frac{1}{m} \sum_{i&#x3D;1}^{m} \left( h_\theta(x^{(i)}) - y^{(i)} \right) x^{(i)}<br>$$</p><p>$$<br>\int_{-\infty}^{\infty} e^{-x^2} , dx &#x3D; \sqrt{\pi}<br>$$</p><p>$$<br>\mathbf{a}^{(l)} &#x3D; \sigma\left( \mathbf{W}^{(l)} \mathbf{a}^{(l-1)} + \mathbf{b}^{(l)} \right)<br>$$</p><h3 id="Multi-line-Display"><a href="#Multi-line-Display" class="headerlink" title="Multi-line Display"></a>Multi-line Display</h3><p>$$<br>\begin{aligned}<br>z^{(l)} &amp;&#x3D; W^{(l)} a^{(l-1)} + b^{(l)} \<br>a^{(l)} &amp;&#x3D; \sigma(z^{(l)})<br>\end{aligned}<br>$$</p><h2 id="Links-链接"><a href="#Links-链接" class="headerlink" title="Links - 链接"></a>Links - 链接</h2><p><a href="https://hexo.io/docs/">Hexo Documentation</a> · <a href="https://github.com/">GitHub</a> · <a href="https://github.com/jiehua1995/hexo-theme-researcher">Theme Repo</a></p><h2 id="Images-图片"><a href="#Images-图片" class="headerlink" title="Images - 图片"></a>Images - 图片</h2><p><img src="https://via.placeholder.com/800x400" alt="Placeholder" title="Image alt text"></p><h2 id="Footnotes-脚注"><a href="#Footnotes-脚注" class="headerlink" title="Footnotes - 脚注"></a>Footnotes - 脚注</h2><p>Here is a footnote reference.[^1] And another.[^2]</p><p>[^1]: First footnote content.<br>[^2]: Second footnote with a <a href="https://example.com/">link</a>.</p><h2 id="Horizontal-Rules"><a href="#Horizontal-Rules" class="headerlink" title="Horizontal Rules"></a>Horizontal Rules</h2><hr><h2 id="Multilingual-Content-多语言内容"><a href="#Multilingual-Content-多语言内容" class="headerlink" title="Multilingual Content - 多语言内容"></a>Multilingual Content - 多语言内容</h2><h3 id="English"><a href="#English" class="headerlink" title="English"></a>English</h3><p>This study investigates the application of deep learning in multilingual natural language processing.</p><h3 id="中文"><a href="#中文" class="headerlink" title="中文"></a>中文</h3><p>本研究探讨了深度学习技术在多语言自然语言处理中的应用。</p><h3 id="繁體中文"><a href="#繁體中文" class="headerlink" title="繁體中文"></a>繁體中文</h3><p>本研究探討了深度學習技術在多語言自然語言處理中的應用。</p><h3 id="Deutsch"><a href="#Deutsch" class="headerlink" title="Deutsch"></a>Deutsch</h3><p>Diese Studie untersucht die Anwendung von Deep-Learning-Techniken in der mehrsprachigen Verarbeitung natürlicher Sprache.</p><h3 id="日本語"><a href="#日本語" class="headerlink" title="日本語"></a>日本語</h3><p>本研究では、多言語自然言語処理における深層学習技術の応用を調査します。</p><h3 id="한국어"><a href="#한국어" class="headerlink" title="한국어"></a>한국어</h3><p>이 연구는 다국어 자연어 처리에서 딥러닝 기술의 응용을 조사합니다.</p><h3 id="Francais"><a href="#Francais" class="headerlink" title="Français"></a>Français</h3><p>Cette étude examine l’application des techniques d’apprentissage profond dans le traitement du langage naturel multilingue.</p><h3 id="Espanol"><a href="#Espanol" class="headerlink" title="Español"></a>Español</h3><p>Este estudio investiga la aplicación de técnicas de aprendizaje profundo en el procesamiento de lenguaje natural multilingüe.</p><h3 id="Escaping-转义"><a href="#Escaping-转义" class="headerlink" title="Escaping - 转义"></a>Escaping - 转义</h3><p><code>&lt;div&gt;</code> 标签不会被解析。Literal <code>$$</code> 与 <code>$</code> 需要转义。使用 <code>\!</code> 转义感叹号。</p><h2 id="Conclusion-结论"><a href="#Conclusion-结论" class="headerlink" title="Conclusion - 结论"></a>Conclusion - 结论</h2><p>This post verifies that <strong>bold</strong>, <code>code</code>, tables, formulas, code blocks, lists, quotes, footnotes and multilingual content render correctly in the theme.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Documentation </category>
+          
+          <category> Testing </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> markdown </tag>
+            
+            <tag> multilingual </tag>
+            
+            <tag> testing </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Practical Guide to Model Evaluation</title>
+      <link href="/2026/09/07/model-evaluation-guide/"/>
+      <url>/2026/09/07/model-evaluation-guide/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> created solely to exercise the theme (features, layouts, code collapse, TOC). It is synthetic demo content, not real research.</p></blockquote><h2 id="Why-evaluation-matters"><a href="#Why-evaluation-matters" class="headerlink" title="Why evaluation matters"></a>Why evaluation matters</h2><p>A model is only as good as the metric you use to judge it. Accuracy alone hides problems in imbalanced datasets. Here is a quick checklist.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> precision_recall_fscore_support</span><br><span class="line"></span><br><span class="line">y_true = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">y_pred = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">p, r, f, _ = precision_recall_fscore_support(y_true, y_pred, average=<span class="string">&quot;binary&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;precision=<span class="subst">&#123;p:<span class="number">.2</span>f&#125;</span> recall=<span class="subst">&#123;r:<span class="number">.2</span>f&#125;</span> f1=<span class="subst">&#123;f:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure><h2 id="Choosing-metrics"><a href="#Choosing-metrics" class="headerlink" title="Choosing metrics"></a>Choosing metrics</h2><p>For classification, always report precision, recall and F1 alongside accuracy. For regression, use MAE and RMSE rather than a single R².</p><h3 id="A-common-pitfall"><a href="#A-common-pitfall" class="headerlink" title="A common pitfall"></a>A common pitfall</h3><p>Report the <em>distribution</em> of errors, not just an average. Averaging hides bimodal failures.</p><h2 id="Key-takeaway"><a href="#Key-takeaway" class="headerlink" title="Key takeaway"></a>Key takeaway</h2><p>Validation should reflect real-world performance, never the training split.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Testing </tag>
+            
+            <tag> Machine Learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Getting Started with Graph Neural Networks</title>
+      <link href="/2026/09/06/graph-neural-networks/"/>
+      <url>/2026/09/06/graph-neural-networks/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="Message-passing"><a href="#Message-passing" class="headerlink" title="Message passing"></a>Message passing</h2><p>Graph neural networks learn by passing messages between connected nodes. A single layer aggregates neighbour features.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GCNLayer</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_dim, out_dim</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.linear = nn.Linear(in_dim, out_dim)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, adj</span>):</span><br><span class="line">        <span class="comment"># x: [N, in_dim], adj: [N, N] (normalised)</span></span><br><span class="line">        h = torch.mm(adj, x)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.linear(torch.relu(h))</span><br></pre></td></tr></table></figure><h2 id="Why-adjacency-matters"><a href="#Why-adjacency-matters" class="headerlink" title="Why adjacency matters"></a>Why adjacency matters</h2><p>Normalising the adjacency matrix prevents feature magnitudes from exploding as graphs get denser.</p><h3 id="Batch-considerations"><a href="#Batch-considerations" class="headerlink" title="Batch considerations"></a>Batch considerations</h3><p>Graphs have variable sizes; batching typically requires padding or mini-batch sampling.</p><h2 id="Memory-and-scale"><a href="#Memory-and-scale" class="headerlink" title="Memory and scale"></a>Memory and scale</h2><p>For very large graphs, neighbourhood sampling keeps training tractable.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Machine Learning </tag>
+            
+            <tag> Knowledge Graph </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Field Notes — Multimodal AI for Medical Imaging</title>
+      <link href="/2026/09/05/medical-imaging-field-notes/"/>
+      <url>/2026/09/05/medical-imaging-field-notes/</url>
+      
+        <content type="html"><![CDATA[<p>We are developing AI systems that read medical images <em>together with</em> the patient’s clinical data to improve diagnostic accuracy. Some field notes from our latest experiments.</p><h2 id="Why-multimodal-matters"><a href="#Why-multimodal-matters" class="headerlink" title="Why multimodal matters"></a>Why multimodal matters</h2><p>A chest X-ray alone is often ambiguous. Combining it with the patient’s history, lab values and notes gives the model the context a radiologist would have. In a retrospective cohort, our multimodal model improved the AUC on a hard-to-diagnose subset from <strong>0.82 to 0.89</strong>.</p><h2 id="Fusion-strategy-we-chose"><a href="#Fusion-strategy-we-chose" class="headerlink" title="Fusion strategy we chose"></a>Fusion strategy we chose</h2><table><thead><tr><th>Strategy</th><th>AUC</th><th>Note</th></tr></thead><tbody><tr><td>Image only</td><td>0.82</td><td>Strong baseline</td></tr><tr><td>Late fusion</td><td>0.86</td><td>Concatenate pooled features</td></tr><tr><td>Cross-attention</td><td>0.89</td><td>Image attends over EHR text</td></tr></tbody></table><p>Cross-attention wins but costs 2x GPU memory. We are exploring efficient attention to close the gap.</p><h2 id="Open-problems"><a href="#Open-problems" class="headerlink" title="Open problems"></a>Open problems</h2><ul><li>Handling missing modalities at inference time</li><li>Calibrating confidence for high-stakes screening</li><li>Domain shift across hospitals and scanner vendors</li></ul><p>Next step: an external validation study with a partner hospital. Stay tuned.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Research </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Medical Imaging </tag>
+            
+            <tag> Multimodal AI </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>A Gentle Introduction to Bayesian Statistics</title>
+      <link href="/2026/09/05/bayesian-statistics-intro/"/>
+      <url>/2026/09/05/bayesian-statistics-intro/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="The-prior"><a href="#The-prior" class="headerlink" title="The prior"></a>The prior</h2><p>Bayes’ rule lets us update a belief after observing data. The prior encodes our starting belief.</p><p>$$ P(\theta \mid D) &#x3D; \frac{P(D \mid \theta) P(\theta)}{P(D)} $$</p><h2 id="The-posterior"><a href="#The-posterior" class="headerlink" title="The posterior"></a>The posterior</h2><p>As data accumulates, the posterior sharpens around the most plausible parameter values.</p><h2 id="Conjugate-families"><a href="#Conjugate-families" class="headerlink" title="Conjugate families"></a>Conjugate families</h2><p>Choosing a conjugate prior keeps the algebra closed-form, which makes computation simple.</p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># simple conjugate Beta-Binomial update in R</span></span><br><span class="line">library<span class="punctuation">(</span>ggplot2<span class="punctuation">)</span></span><br><span class="line">alpha <span class="operator">&lt;-</span> 2; beta <span class="operator">&lt;-</span> 2</span><br><span class="line">successes <span class="operator">&lt;-</span> 5; failures <span class="operator">&lt;-</span> 3</span><br><span class="line">posterior <span class="operator">&lt;-</span> data.frame<span class="punctuation">(</span></span><br><span class="line">  theta <span class="operator">=</span> seq<span class="punctuation">(</span><span class="number">0</span><span class="punctuation">,</span> <span class="number">1</span><span class="punctuation">,</span> length.out <span class="operator">=</span> <span class="number">200</span><span class="punctuation">)</span><span class="punctuation">,</span></span><br><span class="line">  prior <span class="operator">=</span> dbeta<span class="punctuation">(</span>seq<span class="punctuation">(</span><span class="number">0</span><span class="punctuation">,</span> <span class="number">1</span><span class="punctuation">,</span> length.out <span class="operator">=</span> <span class="number">200</span><span class="punctuation">)</span><span class="punctuation">,</span> alpha<span class="punctuation">,</span> beta<span class="punctuation">)</span></span><br><span class="line"><span class="punctuation">)</span></span><br></pre></td></tr></table></figure><h2 id="When-to-use-it"><a href="#When-to-use-it" class="headerlink" title="When to use it"></a>When to use it</h2><p>Bayesian methods shine when we want interpretable intervals and the ability to inject domain knowledge.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Methods </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Statistics </tag>
+            
+            <tag> Machine Learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Reproducible Research Workflows with Git and Containers</title>
+      <link href="/2026/09/04/reproducible-workflows/"/>
+      <url>/2026/09/04/reproducible-workflows/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="Why-reproducibility-matters"><a href="#Why-reproducibility-matters" class="headerlink" title="Why reproducibility matters"></a>Why reproducibility matters</h2><p>Every analysis should run identically on a colleague’s machine. Two tools make this practical: version control and containers.</p><h2 id="The-workflow"><a href="#The-workflow" class="headerlink" title="The workflow"></a>The workflow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Build a frozen analysis environment</span></span><br><span class="line">docker build -t analysis:2026.09 .</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run the pipeline on a fresh machine</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v $(<span class="built_in">pwd</span>)/data:/data \</span><br><span class="line">  -v $(<span class="built_in">pwd</span>)/results:/results \</span><br><span class="line">  analysis:2026.09 run --config config.yaml</span><br></pre></td></tr></table></figure><p><em>Pin every dependency and tag every container image.</em></p><h2 id="Versioning-data"><a href="#Versioning-data" class="headerlink" title="Versioning data"></a>Versioning data</h2><p>Large datasets can’t live in Git. Track hashes and use dedicated data storage.</p><h3 id="Lockfiles"><a href="#Lockfiles" class="headerlink" title="Lockfiles"></a>Lockfiles</h3><p>Always commit lockfiles so dependency resolution is deterministic.</p><h2 id="Final-check"><a href="#Final-check" class="headerlink" title="Final check"></a>Final check</h2><p>A reproducible analysis runs in one command with zero manual steps.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Pipeline </tag>
+            
+            <tag> Bioinformatics </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Grundlagen der Datenanalyse</title>
+      <link href="/2026/09/03/datenanalyse-grundlagen/"/>
+      <url>/2026/09/03/datenanalyse-grundlagen/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ Dies ist ein <strong>KI-generierter Testartikel</strong> zur Demonstration des Themes. Der gesamte Inhalt ist synthetisch.</p></blockquote><h2 id="Warum-Datenbereinigung-wichtig-ist"><a href="#Warum-Datenbereinigung-wichtig-ist" class="headerlink" title="Warum Datenbereinigung wichtig ist"></a>Warum Datenbereinigung wichtig ist</h2><p>Rohdaten enthalten oft fehlende Werte und Ausreißer. Eine Analyse ohne Bereinigung führt zu falschen Schlussfolgerungen.</p><h2 id="Der-Prozess"><a href="#Der-Prozess" class="headerlink" title="Der Prozess"></a>Der Prozess</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_csv(<span class="string">&quot;rohdaten.csv&quot;</span>)</span><br><span class="line">df = df.dropna(subset=[<span class="string">&quot;alter&quot;</span>, <span class="string">&quot;punkte&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(df.describe())</span><br></pre></td></tr></table></figure><h2 id="Fehlende-Werte"><a href="#Fehlende-Werte" class="headerlink" title="Fehlende Werte"></a>Fehlende Werte</h2><p>Je nach Kontext kann man Werte löschen, imputieren oder als eigene Kategorie markieren.</p><h3 id="Ausreiser-erkennen"><a href="#Ausreiser-erkennen" class="headerlink" title="Ausreißer erkennen"></a>Ausreißer erkennen</h3><p>Boxplots oder Z-Scores helfen, ungewöhnliche Werte zu identifizieren.</p><h2 id="Empfehlung"><a href="#Empfehlung" class="headerlink" title="Empfehlung"></a>Empfehlung</h2><p>Erst erkunden, dann modellieren.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Datenanalyse </tag>
+            
+            <tag> Testing </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Data Analysis Basics in Chinese</title>
+      <link href="/2026/09/03/shu-ju-fen-xi-ji-chu/"/>
+      <url>/2026/09/03/shu-ju-fen-xi-ji-chu/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ 本文为 <strong>AI 生成的测试文章</strong>，仅用于演示与测试主题功能（排版、代码折叠、目录等），内容均为虚构。</p></blockquote><h2 id="为什么需要数据清洗"><a href="#为什么需要数据清洗" class="headerlink" title="为什么需要数据清洗"></a>为什么需要数据清洗</h2><p>原始数据往往包含缺失值和异常值，直接分析会得出错误结论。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_csv(<span class="string">&quot;raw.csv&quot;</span>)</span><br><span class="line">df[<span class="string">&quot;age&quot;</span>] = df[<span class="string">&quot;age&quot;</span>].where(df[<span class="string">&quot;age&quot;</span>] &gt; <span class="number">0</span>)</span><br><span class="line">df = df.dropna(subset=[<span class="string">&quot;age&quot;</span>, <span class="string">&quot;score&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(df.describe())</span><br></pre></td></tr></table></figure><h2 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h2><p>删除、填补或标记缺失，需要根据业务场景谨慎选择。</p><h3 id="异常值的识别"><a href="#异常值的识别" class="headerlink" title="异常值的识别"></a>异常值的识别</h3><p>可以使用箱线图或 Z 分数来辅助判断。</p><h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>分析前先探索，再建模。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Testing </tag>
+            
+            <tag> 数据分析 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>An Ethics Checklist for AI in Healthcare</title>
+      <link href="/2026/09/02/ai-healthcare-ethics/"/>
+      <url>/2026/09/02/ai-healthcare-ethics/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="Fairness-and-bias"><a href="#Fairness-and-bias" class="headerlink" title="Fairness and bias"></a>Fairness and bias</h2><p>Models trained on skewed populations can under-perform for under-represented groups. Audit your data first.</p><h2 id="Transparency"><a href="#Transparency" class="headerlink" title="Transparency"></a>Transparency</h2><p>Clinicians need to understand <em>why</em> a system made a recommendation, not just what it output.</p><h2 id="Who-is-accountable"><a href="#Who-is-accountable" class="headerlink" title="Who is accountable"></a>Who is accountable</h2><p>Define ownership for model decisions, monitoring, and rollback before deployment.</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;checklist&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;audit training distribution&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;document intended use&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;define human oversight&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;plan for model drift&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;set rollback criteria&quot;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure><h2 id="The-bottom-line"><a href="#The-bottom-line" class="headerlink" title="The bottom line"></a>The bottom line</h2><p>Deploy responsibly: measure, monitor, and explain.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> News </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ethics </tag>
+            
+            <tag> Medical Imaging </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Time Series Forecasting for Beginners</title>
+      <link href="/2026/09/01/time-series-forecasting/"/>
+      <url>/2026/09/01/time-series-forecasting/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="Components-of-a-time-series"><a href="#Components-of-a-time-series" class="headerlink" title="Components of a time series"></a>Components of a time series</h2><p>Trend, seasonality, and noise make up most observed series. Decomposing them is the first modelling step.</p><h2 id="A-simple-baseline"><a href="#A-simple-baseline" class="headerlink" title="A simple baseline"></a>A simple baseline</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> statsmodels.tsa.holtwinters <span class="keyword">import</span> ExponentialSmoothing</span><br><span class="line"></span><br><span class="line">series = pd.read_csv(<span class="string">&quot;sales.csv&quot;</span>, index_col=<span class="string">&quot;date&quot;</span>, parse_dates=<span class="literal">True</span>)</span><br><span class="line">model = ExponentialSmoothing(series, trend=<span class="string">&quot;add&quot;</span>, seasonal=<span class="string">&quot;add&quot;</span>, seasonal_periods=<span class="number">12</span>)</span><br><span class="line">fit = model.fit()</span><br><span class="line">forecast = fit.forecast(<span class="number">12</span>)</span><br><span class="line"><span class="built_in">print</span>(forecast)</span><br></pre></td></tr></table></figure><h2 id="Stationarity"><a href="#Stationarity" class="headerlink" title="Stationarity"></a>Stationarity</h2><p>Many models assume a stationary series; differencing is the usual fix.</p><h3 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h3><p>Always forecast on a held-out window, never the whole history.</p><h2 id="Keep-it-simple"><a href="#Keep-it-simple" class="headerlink" title="Keep it simple"></a>Keep it simple</h2><p>A naive baseline often beats a complex model for short horizons.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Methods </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Statistics </tag>
+            
+            <tag> Machine Learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Reproducible Multi-Omics Analysis Pipelines</title>
+      <link href="/2026/09/01/reproducible-pipelines/"/>
+      <url>/2026/09/01/reproducible-pipelines/</url>
+      
+        <content type="html"><![CDATA[<p>Reproducibility is the foundation of trustworthy bioinformatics. In this note I share the pipeline conventions we now enforce in our lab.</p><h2 id="Containerize-everything"><a href="#Containerize-everything" class="headerlink" title="Containerize everything"></a>Containerize everything</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose service snippet</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">pipeline:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">ghcr.io/our-lab/omics-pipeline:2026.09</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./results:/results</span></span><br></pre></td></tr></table></figure><p>Every analysis runs inside a versioned container. Pin versions, not just package names.</p><h2 id="Track-data-provenance"><a href="#Track-data-provenance" class="headerlink" title="Track data provenance"></a>Track data provenance</h2><p>For each result file we record:</p><ol><li>Input data version (checksum or DOI)</li><li>Pipeline commit hash</li><li>Software versions (<code>conda list --export</code>)</li><li>Random seed for every stochastic step</li></ol><h2 id="A-minimal-project-layout"><a href="#A-minimal-project-layout" class="headerlink" title="A minimal project layout"></a>A minimal project layout</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">project/</span><br><span class="line">├── data/raw/       # never modified</span><br><span class="line">├── data/processed/</span><br><span class="line">├── src/            # pipeline code</span><br><span class="line">├── results/</span><br><span class="line">└── report/</span><br></pre></td></tr></table></figure><p>If a collaborator cannot reproduce your figure from this layout in one command, the pipeline is not done yet.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Pipeline </tag>
+            
+            <tag> Bioinformatics </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Cloud Computing for Research at Scale</title>
+      <link href="/2026/08/31/cloud-research-computing/"/>
+      <url>/2026/08/31/cloud-research-computing/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="From-laptop-to-cluster"><a href="#From-laptop-to-cluster" class="headerlink" title="From laptop to cluster"></a>From laptop to cluster</h2><p>Most research workloads outgrow a laptop quickly. Cloud infrastructure offers elastic compute on demand.</p><h2 id="Scaling-up"><a href="#Scaling-up" class="headerlink" title="Scaling up"></a>Scaling up</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># launch a spot compute instance (example)</span></span><br><span class="line">gcloud compute instances create worker-01 \</span><br><span class="line">  --zone=us-central1-a \</span><br><span class="line">  --machine-type=n2-standard-16 \</span><br><span class="line">  --image-family=ubuntu-2204-lts \</span><br><span class="line">  --preemptible</span><br></pre></td></tr></table></figure><p><em>Always clean up resources after a job to avoid runaway costs.</em></p><h2 id="Costs-and-limits"><a href="#Costs-and-limits" class="headerlink" title="Costs and limits"></a>Costs and limits</h2><p>Preemptible&#x2F;spot instances give large discounts but can be reclaimed at any time.</p><h3 id="Spot-safety"><a href="#Spot-safety" class="headerlink" title="Spot safety"></a>Spot safety</h3><p>Design jobs to checkpoint frequently so a reclaim never loses hours of work.</p><h2 id="The-takeaway"><a href="#The-takeaway" class="headerlink" title="The takeaway"></a>The takeaway</h2><p>Cloud makes research reproducible and scalable, as long as you monitor cost.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Cloud </tag>
+            
+            <tag> Pipeline </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Deep Learning Basics You Should Know</title>
+      <link href="/2026/08/30/deep-learning-basics/"/>
+      <url>/2026/08/30/deep-learning-basics/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="From-perceptron-to-network"><a href="#From-perceptron-to-network" class="headerlink" title="From perceptron to network"></a>From perceptron to network</h2><p>Stacking layers of simple units lets a network learn increasingly abstract features.</p><h2 id="Training-loop"><a href="#Training-loop" class="headerlink" title="Training loop"></a>Training loop</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"></span><br><span class="line">model = nn.Sequential(nn.Linear(<span class="number">20</span>, <span class="number">64</span>), nn.ReLU(), nn.Linear(<span class="number">64</span>, <span class="number">1</span>))</span><br><span class="line">optimizer = optim.Adam(model.parameters(), lr=<span class="number">1e-3</span>)</span><br><span class="line">loss_fn = nn.MSELoss()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    pred = model(x_train)</span><br><span class="line">    loss = loss_fn(pred, y_train)</span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    loss.backward()</span><br><span class="line">    optimizer.step()</span><br></pre></td></tr></table></figure><h2 id="Activation-functions"><a href="#Activation-functions" class="headerlink" title="Activation functions"></a>Activation functions</h2><p>ReLU is the default; swish&#x2F;GELU can help in deeper stacks.</p><h3 id="Regularisation"><a href="#Regularisation" class="headerlink" title="Regularisation"></a>Regularisation</h3><p>Dropout and weight decay guard against overfitting on small data.</p><h2 id="The-message"><a href="#The-message" class="headerlink" title="The message"></a>The message</h2><p>Architecture choices matter, but data quality and a solid training loop matter more.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Machine Learning </tag>
+            
+            <tag> Deep Learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Advances in Protein Structure Prediction</title>
+      <link href="/2026/08/29/protein-structure-prediction/"/>
+      <url>/2026/08/29/protein-structure-prediction/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="The-folding-problem"><a href="#The-folding-problem" class="headerlink" title="The folding problem"></a>The folding problem</h2><p>Predicting a 3D structure from an amino-acid sequence is one of biology’s great challenges.</p><h2 id="Alpha-fold-approaches"><a href="#Alpha-fold-approaches" class="headerlink" title="Alpha-fold approaches"></a>Alpha-fold approaches</h2><p>Modern methods treat structure prediction as a graph problem over residues, using attention to model long-range contacts.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pseudo-code sketch of a contact-model head</span></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ContactHead</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, dim</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.proj = nn.Linear(dim, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, pair_rep</span>):</span><br><span class="line">        <span class="comment"># pair_rep: [B, L, L, dim]</span></span><br><span class="line">        logits = <span class="variable language_">self</span>.proj(pair_rep).squeeze(-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> torch.sigmoid(logits)</span><br></pre></td></tr></table></figure><h2 id="Confidence-scores"><a href="#Confidence-scores" class="headerlink" title="Confidence scores"></a>Confidence scores</h2><p>Predicted alignment error helps researchers trust which regions are reliable.</p><h3 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h3><p>Structure predictions are typically benchmarked against experimentally solved structures.</p><h2 id="Why-it-matters"><a href="#Why-it-matters" class="headerlink" title="Why it matters"></a>Why it matters</h2><p>Accurate structures accelerate drug discovery and protein engineering.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Research </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Deep Learning </tag>
+            
+            <tag> Bioinformatics </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Tips for Clear Scientific Writing</title>
+      <link href="/2026/08/28/scientific-writing-tips/"/>
+      <url>/2026/08/28/scientific-writing-tips/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p></blockquote><h2 id="Lead-with-the-result"><a href="#Lead-with-the-result" class="headerlink" title="Lead with the result"></a>Lead with the result</h2><p>Readers skim. State the core finding early, then support it with evidence.</p><h2 id="One-idea-per-paragraph"><a href="#One-idea-per-paragraph" class="headerlink" title="One idea per paragraph"></a>One idea per paragraph</h2><p>Short paragraphs keep the argument legible and reduce cognitive load.</p><h2 id="Avoid-nominalisations"><a href="#Avoid-nominalisations" class="headerlink" title="Avoid nominalisations"></a>Avoid nominalisations</h2><p>Prefer verbs over -tion forms. “We evaluated” beats “An evaluation was performed”.</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> Weak: &quot;The implementation of the method was completed.&quot;</span><br><span class="line"><span class="bullet">-</span> Strong: &quot;We implemented the method.&quot;</span><br></pre></td></tr></table></figure><h2 id="Active-voice"><a href="#Active-voice" class="headerlink" title="Active voice"></a>Active voice</h2><p>Active sentences are clearer and more direct than passive constructions.</p><h3 id="Rule-of-thumb"><a href="#Rule-of-thumb" class="headerlink" title="Rule of thumb"></a>Rule of thumb</h3><p>If you can delete a word without losing meaning, delete it.</p><h2 id="The-takeaway"><a href="#The-takeaway" class="headerlink" title="The takeaway"></a>The takeaway</h2><p>Clear writing is a courtesy to the reader — and it makes your work more cited.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Methods </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Testing </tag>
+            
+            <tag> Writing </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Lessons from Building an AI Research Assistant</title>
+      <link href="/2026/08/25/research-assistant-notes/"/>
+      <url>/2026/08/25/research-assistant-notes/</url>
+      
+        <content type="html"><![CDATA[<p>Over the past year I have been building an <strong>AI-powered research assistant</strong> that helps us conduct literature reviews and synthesize scientific knowledge. Here are a few lessons learned along the way.</p><h2 id="1-Start-with-a-knowledge-graph"><a href="#1-Start-with-a-knowledge-graph" class="headerlink" title="1. Start with a knowledge graph"></a>1. Start with a knowledge graph</h2><p>Raw papers are hard for an LLM to reason about. We first extract structured triples — <em>entity → relation → entity</em> — and store them in a knowledge graph. Query time dropped dramatically once retrieval happened on the graph instead of on raw text.</p><h2 id="2-Evaluation-is-everything"><a href="#2-Evaluation-is-everything" class="headerlink" title="2. Evaluation is everything"></a>2. Evaluation is everything</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate_retrieval</span>(<span class="params">predictions, ground_truth, k=<span class="number">10</span></span>):</span><br><span class="line">    hits = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> pred, truth <span class="keyword">in</span> <span class="built_in">zip</span>(predictions, ground_truth):</span><br><span class="line">        <span class="keyword">if</span> truth <span class="keyword">in</span> pred[:k]:</span><br><span class="line">            hits += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> hits / <span class="built_in">len</span>(predictions)</span><br></pre></td></tr></table></figure><p>A simple <code>hits@k</code> benchmark caught regressions that informal testing completely missed.</p><h2 id="3-Abstracts-lie-methods-don’t"><a href="#3-Abstracts-lie-methods-don’t" class="headerlink" title="3. Abstracts lie, methods don’t"></a>3. Abstracts lie, methods don’t</h2><p>When synthesizing evidence, we force the model to cite the <em>methods section</em> rather than the abstract. This single change improved factuality on our internal test set by over 15%.</p><h2 id="Checklist-for-a-new-tool"><a href="#Checklist-for-a-new-tool" class="headerlink" title="Checklist for a new tool"></a>Checklist for a new tool</h2><ul><li><input checked="" disabled="" type="checkbox"> Extract entities and relations into a graph</li><li><input checked="" disabled="" type="checkbox"> Set up <code>hits@k</code> evaluation from day one</li><li><input checked="" disabled="" type="checkbox"> Ground every generated claim in methods text</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Research </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Knowledge Graph </tag>
+            
+            <tag> Artificial Intelligence </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Welcome to My Academic Site</title>
+      <link href="/2026/08/20/hello-world/"/>
+      <url>/2026/08/20/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome! This site is built with <a href="https://hexo.io/">Hexo</a> and the <a href="https://github.com/jiehua1995/hexo-theme-researcher">Researcher theme</a>, a modern, responsive academic portfolio theme.</p><p>Here you will find my <strong>publications</strong>, <strong>projects</strong>, <strong>talks</strong> and <strong>notes</strong>. Feel free to browse around.</p><h2 id="What’s-on-this-site"><a href="#What’s-on-this-site" class="headerlink" title="What’s on this site"></a>What’s on this site</h2><ul><li><strong>Publications</strong> – a full list of my journal papers and conference proceedings, with DOI and PDF links</li><li><strong>Projects</strong> – ongoing and completed research projects with collaborators and source code</li><li><strong>Notes</strong> – short technical write-ups and lab notes</li><li><strong>CV</strong> – a summary of my education, experience and awards</li></ul><blockquote><p>If you find the theme useful, consider giving it a ⭐ on GitHub!</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> News </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Academic </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>

@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+<!-- Meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>Reproducible Research Workflows with Git and Containers</title>
+<meta name="description" content="Academic portfolio of Dr. Alice Smith, a researcher passionate about artificial intelligence and computational biology.">
+<meta name="keywords" content="research, academic portfolio, AI, machine learning, computational biology">
+<meta name="author" content="Dr. Alice Smith">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+<!-- Open Graph tags -->
+<meta property="og:title" content="Reproducible Research Workflows with Git and Containers">
+<meta property="og:description" content="Academic portfolio of Dr. Alice Smith, a researcher passionate about artificial intelligence and computational biology.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hexo-theme-researcher.jiehua1995.xyz/2026/09/04/reproducible-workflows/">
+
+<!-- Twitter Card tags -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Reproducible Research Workflows with Git and Containers">
+<meta name="twitter:description" content="Academic portfolio of Dr. Alice Smith, a researcher passionate about artificial intelligence and computational biology.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;540;560;600;620;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<!-- Academicons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+<!-- Tailwind CSS + Design System -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/design.css">
+
+<!-- Theme Change Script -->
+<script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+
+<!-- Typed -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Sidebar for Desktop (own full-height column, left) -->
+  <aside class="rc-sidebar hidden lg:flex fixed left-0 top-0 h-screen w-80 z-40 flex-col overflow-y-auto">
+    <div class="relative h-full">
+      <div class="flex flex-col h-full">
+  <!-- Profile -->
+  <div class="p-6 pb-5">
+    <a href="/" class="flex items-center gap-4 no-underline group">
+      <span class="rc-avatar-ring" style="--rc-av-size: 4.25rem;">
+        <img src="/images/avatar.jpg" alt="Profile" class="rc-avatar" />
+      </span>
+      <span class="min-w-0">
+        <span class="block rc-serif text-lg font-bold text-base-content truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_80%,transparent)] transition-colors">Dr. Alice Smith</span>
+        
+          <span class="block text-sm rc-muted truncate">AI &amp; Computational Biology Researcher</span>
+        
+      </span>
+    </a>
+  </div>
+
+  <!-- Menu -->
+  <nav class="px-4 py-3 space-y-0.5 flex-grow overflow-y-auto">
+    
+      
+        <a href="/publications/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-newspaper"></i></span>
+          <span class="rc-sidebar-text">Publications</span>
+        </a>
+      
+        <a href="/projects/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-project-diagram"></i></span>
+          <span class="rc-sidebar-text">Projects</span>
+        </a>
+      
+        <a href="/cv/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-id-card"></i></span>
+          <span class="rc-sidebar-text">CV</span>
+        </a>
+      
+        <a href="/talks/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-microphone"></i></span>
+          <span class="rc-sidebar-text">Talks</span>
+        </a>
+      
+        <a href="/notes/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-sticky-note"></i></span>
+          <span class="rc-sidebar-text">Notes</span>
+        </a>
+      
+    
+  </nav>
+
+  <!-- Social -->
+  <div class="p-5 mt-auto border-t" style="border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);">
+    <div class="flex justify-center items-center gap-2">
+      
+        <a href="https://scholar.google.com/citations?user=YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="Google Scholar">
+          <i class="fa-brands fa-google-scholar text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://orcid.org/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="ORCID">
+          <i class="fa-brands fa-orcid text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://www.researchgate.net/profile/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="ResearchGate">
+          <i class="fa-brands fa-researchgate text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://github.com/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="GitHub">
+          <i class="fa-brands fa-github text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://linkedin.com/in/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+          <i class="fa-brands fa-linkedin text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://twitter.com/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="Twitter">
+          <i class="fa-brands fa-twitter text-xl block"></i>
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    
+
+  </aside>
+
+  <!-- Drawer for Mobile -->
+  <div class="drawer lg:hidden">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col">
+      <!-- Mobile navbar -->
+      <div class="rc-nav w-full navbar fixed top-0 left-0 right-0 z-40">
+        <label for="my-drawer" class="rc-nav-icon" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </label>
+        <div class="flex-1 flex items-center px-3">
+          <div class="rc-nav-widget">
+  <!-- Live clock (computer time) -->
+  <div class="rc-widget-clock" title="Local time">
+    <span class="rc-widget-time rc-time">--:--</span>
+    <span class="rc-widget-date rc-date">---</span>
+  </div>
+
+  <!-- Weather chip (click to set a city) -->
+  <div class="rc-weather-wrap">
+    <button class="rc-weather" type="button" title="Weather — click to set location">
+      <span class="rc-weather-icon rc-w-icon">🌤</span>
+      <span class="rc-weather-temp rc-w-temp">--°C</span>
+      <span class="rc-weather-city rc-w-city">--</span>
+    </button>
+
+    <div class="rc-widget-pop" hidden>
+      <input class="rc-input rc-city-input" placeholder="City (e.g. Berlin)" />
+      <div class="rc-widget-pop-actions">
+        <button class="rc-btn rc-btn-accent rc-btn-sm rc-city-go" type="button">Set</button>
+        <button class="rc-btn rc-btn-ghost rc-btn-sm rc-city-auto" type="button">Auto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="flex-none">
+          
+
+<select class="rc-select rc-select-sm" data-choose-theme>
+  
+    <option 
+      value="light" 
+      selected
+    >
+      🌞 Light
+    </option>
+  
+    <option 
+      value="dark" 
+      
+    >
+      🌙 Dark
+    </option>
+  
+    <option 
+      value="cupcake" 
+      
+    >
+      🧁 Cupcake
+    </option>
+  
+    <option 
+      value="bumblebee" 
+      
+    >
+      🐝 Bumblebee
+    </option>
+  
+    <option 
+      value="emerald" 
+      
+    >
+      💚 Emerald
+    </option>
+  
+    <option 
+      value="corporate" 
+      
+    >
+      🏢 Corporate
+    </option>
+  
+    <option 
+      value="synthwave" 
+      
+    >
+      🕹️ Synthwave
+    </option>
+  
+    <option 
+      value="retro" 
+      
+    >
+      🎞️ Retro
+    </option>
+  
+    <option 
+      value="cyberpunk" 
+      
+    >
+      🤖 Cyberpunk
+    </option>
+  
+    <option 
+      value="valentine" 
+      
+    >
+      ❤️ Valentine
+    </option>
+  
+    <option 
+      value="halloween" 
+      
+    >
+      🎃 Halloween
+    </option>
+  
+    <option 
+      value="garden" 
+      
+    >
+      🌻 Garden
+    </option>
+  
+    <option 
+      value="forest" 
+      
+    >
+      🌲 Forest
+    </option>
+  
+    <option 
+      value="aqua" 
+      
+    >
+      💧 Aqua
+    </option>
+  
+    <option 
+      value="lofi" 
+      
+    >
+      🎧 Lofi
+    </option>
+  
+    <option 
+      value="pastel" 
+      
+    >
+      🎨 Pastel
+    </option>
+  
+    <option 
+      value="fantasy" 
+      
+    >
+      🧚 Fantasy
+    </option>
+  
+    <option 
+      value="wireframe" 
+      
+    >
+      🖼️ Wireframe
+    </option>
+  
+    <option 
+      value="black" 
+      
+    >
+      ⚫ Black
+    </option>
+  
+    <option 
+      value="luxury" 
+      
+    >
+      💎 Luxury
+    </option>
+  
+    <option 
+      value="dracula" 
+      
+    >
+      🧛 Dracula
+    </option>
+  
+    <option 
+      value="cmyk" 
+      
+    >
+      🎨 Cmyk
+    </option>
+  
+    <option 
+      value="autumn" 
+      
+    >
+      🍂 Autumn
+    </option>
+  
+    <option 
+      value="business" 
+      
+    >
+      💼 Business
+    </option>
+  
+    <option 
+      value="acid" 
+      
+    >
+      🧪 Acid
+    </option>
+  
+    <option 
+      value="lemonade" 
+      
+    >
+      🍋 Lemonade
+    </option>
+  
+    <option 
+      value="night" 
+      
+    >
+      🌃 Night
+    </option>
+  
+    <option 
+      value="coffee" 
+      
+    >
+      ☕ Coffee
+    </option>
+  
+    <option 
+      value="winter" 
+      
+    >
+      ❄️ Winter
+    </option>
+  
+    <option 
+      value="dim" 
+      
+    >
+      💡 Dim
+    </option>
+  
+    <option 
+      value="nord" 
+      
+    >
+      ❄️ Nord
+    </option>
+  
+    <option 
+      value="sunset" 
+      
+    >
+      🌅 Sunset
+    </option>
+  
+    <option 
+      value="caramellatte" 
+      
+    >
+      🥛 Caramellatte
+    </option>
+  
+    <option 
+      value="abyss" 
+      
+    >
+      🌌 Abyss
+    </option>
+  
+    <option 
+      value="silk" 
+      
+    >
+      🧵 Silk
+    </option>
+  
+</select>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar drawer panel for mobile -->
+    <div class="drawer-side z-60">
+      <label for="my-drawer" class="drawer-overlay"></label>
+      <aside class="rc-sidebar w-80 min-h-full overflow-y-auto">
+        <div class="relative h-full">
+          <div class="flex flex-col h-full">
+  <!-- Profile -->
+  <div class="p-6 pb-5">
+    <a href="/" class="flex items-center gap-4 no-underline group">
+      <span class="rc-avatar-ring" style="--rc-av-size: 4.25rem;">
+        <img src="/images/avatar.jpg" alt="Profile" class="rc-avatar" />
+      </span>
+      <span class="min-w-0">
+        <span class="block rc-serif text-lg font-bold text-base-content truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_80%,transparent)] transition-colors">Dr. Alice Smith</span>
+        
+          <span class="block text-sm rc-muted truncate">AI &amp; Computational Biology Researcher</span>
+        
+      </span>
+    </a>
+  </div>
+
+  <!-- Menu -->
+  <nav class="px-4 py-3 space-y-0.5 flex-grow overflow-y-auto">
+    
+      
+        <a href="/publications/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-newspaper"></i></span>
+          <span class="rc-sidebar-text">Publications</span>
+        </a>
+      
+        <a href="/projects/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-project-diagram"></i></span>
+          <span class="rc-sidebar-text">Projects</span>
+        </a>
+      
+        <a href="/cv/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-id-card"></i></span>
+          <span class="rc-sidebar-text">CV</span>
+        </a>
+      
+        <a href="/talks/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-microphone"></i></span>
+          <span class="rc-sidebar-text">Talks</span>
+        </a>
+      
+        <a href="/notes/" class="rc-sidebar-link">
+          <span class="rc-sidebar-icon"><i class="fa-solid fa-sticky-note"></i></span>
+          <span class="rc-sidebar-text">Notes</span>
+        </a>
+      
+    
+  </nav>
+
+  <!-- Social -->
+  <div class="p-5 mt-auto border-t" style="border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);">
+    <div class="flex justify-center items-center gap-2">
+      
+        <a href="https://scholar.google.com/citations?user=YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="Google Scholar">
+          <i class="fa-brands fa-google-scholar text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://orcid.org/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="ORCID">
+          <i class="fa-brands fa-orcid text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://www.researchgate.net/profile/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="ResearchGate">
+          <i class="fa-brands fa-researchgate text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://github.com/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="GitHub">
+          <i class="fa-brands fa-github text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://linkedin.com/in/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+          <i class="fa-brands fa-linkedin text-xl block"></i>
+        </a>
+      
+      
+        <a href="https://twitter.com/YOUR_ID" class="rc-social" target="_blank" rel="noopener noreferrer" title="Twitter">
+          <i class="fa-brands fa-twitter text-xl block"></i>
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Content area for Desktop (whole-body partial swapping via Swup) -->
+  <div id="swup" class="lg:ml-80 pt-20 px-4 lg:px-10 pb-8 flex-1 min-h-0">
+    
+<div class="lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-12">
+<article class="mx-auto max-w-3xl rc-reveal w-full">
+
+  <!-- Post Header -->
+  <header class="mb-12">
+    <div class="flex flex-wrap items-center gap-3 text-sm rc-muted mb-5">
+      
+        <span class="rc-kicker">Tutorial</span>
+      
+      <span class="flex items-center gap-2">
+        <i class="fa-regular fa-calendar"></i>
+        <time datetime="2026-09-04T09:45:00.000Z">2026-09-04</time>
+      </span>
+      <span class="flex items-center gap-2">
+        <i class="fa-solid fa-clock"></i>
+        <span>3 min read</span>
+      </span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold rc-serif leading-tight tracking-tight">Reproducible Research Workflows with Git and Containers</h1>
+
+    
+      <div class="flex flex-wrap gap-2 mt-5">
+        
+          
+            <a href="/notes/?category=Tutorial" class="rc-badge">
+              Tutorial
+            </a>
+          
+        
+        
+          
+            <a href="/notes/?tag=Pipeline" class="rc-tag">
+              #Pipeline
+            </a>
+          
+            <a href="/notes/?tag=Bioinformatics" class="rc-tag">
+              #Bioinformatics
+            </a>
+          
+        
+      </div>
+    
+  </header>
+
+  <!-- Post Content -->
+  <div class="post-content" id="processed-content">
+    <link rel="stylesheet" href="/css/post.css">
+    <blockquote>
+<p>⚠️ This is an <strong>AI-generated test article</strong> for theme demonstration&#x2F;testing only. All content is synthetic.</p>
+</blockquote>
+<h2 id="Why-reproducibility-matters"><a href="#Why-reproducibility-matters" class="headerlink" title="Why reproducibility matters"></a>Why reproducibility matters</h2><p>Every analysis should run identically on a colleague’s machine. Two tools make this practical: version control and containers.</p>
+<h2 id="The-workflow"><a href="#The-workflow" class="headerlink" title="The workflow"></a>The workflow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Build a frozen analysis environment</span></span><br><span class="line">docker build -t analysis:2026.09 .</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run the pipeline on a fresh machine</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v $(<span class="built_in">pwd</span>)/data:/data \</span><br><span class="line">  -v $(<span class="built_in">pwd</span>)/results:/results \</span><br><span class="line">  analysis:2026.09 run --config config.yaml</span><br></pre></td></tr></table></figure>
+
+<p><em>Pin every dependency and tag every container image.</em></p>
+<h2 id="Versioning-data"><a href="#Versioning-data" class="headerlink" title="Versioning data"></a>Versioning data</h2><p>Large datasets can’t live in Git. Track hashes and use dedicated data storage.</p>
+<h3 id="Lockfiles"><a href="#Lockfiles" class="headerlink" title="Lockfiles"></a>Lockfiles</h3><p>Always commit lockfiles so dependency resolution is deterministic.</p>
+<h2 id="Final-check"><a href="#Final-check" class="headerlink" title="Final check"></a>Final check</h2><p>A reproducible analysis runs in one command with zero manual steps.</p>
+
+  </div>
+
+  <!-- Tags Footer -->
+  
+    <footer class="mt-12 pt-8 border-t border-base-300">
+      <div class="flex flex-wrap gap-2 items-center">
+        <span class="text-sm font-medium rc-muted">Tags:</span>
+        
+          <a href="/notes/?tag=Pipeline" class="rc-tag">
+            #Pipeline
+          </a>
+        
+          <a href="/notes/?tag=Bioinformatics" class="rc-tag">
+            #Bioinformatics
+          </a>
+        
+      </div>
+    </footer>
+  
+
+  <!-- Share + Navigation -->
+  <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="rc-card rc-card-body">
+      
+<div class="card-body p-6">
+  <h3 class="card-title mb-4">Post Actions</h3>
+  <div class="flex flex-wrap gap-3" id="share-buttons-container">
+    <!-- 分享按钮将由 JS 动态生成 -->
+  </div>
+</div>
+
+<script>
+function copyToClipboard() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    alert('Link copied!');
+  });
+}
+
+// 动态生成分享按钮
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('share-buttons-container');
+  const pageUrl = encodeURIComponent(window.location.href);
+  const pageTitle = encodeURIComponent(document.title);
+
+  const platforms = {"twitter":true,"linkedin":true,"facebook":true,"reddit":false,"weibo":true,"qq":true,"wechat":true};
+
+  // 按钮生成函数
+  const createButton = (href, classes, iconClass, text, isButton = false, clickHandler = null) => {
+    let el;
+    if (isButton) {
+      el = document.createElement('button');
+      el.type = 'button';
+      el.className = classes;
+      if (clickHandler) el.addEventListener('click', clickHandler);
+    } else {
+      el = document.createElement('a');
+      el.href = href;
+      el.target = "_blank";
+      el.rel = "noopener";
+      el.className = classes;
+    }
+    el.innerHTML = `<i class="${iconClass}"></i> ${text}`;
+    container.appendChild(el);
+  };
+
+  // 国际平台
+  if (platforms.twitter) {
+    createButton(
+      `https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-twitter',
+      'X (Twitter)'
+    );
+  }
+
+  if (platforms.linkedin) {
+    createButton(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-linkedin',
+      'LinkedIn'
+    );
+  }
+
+  if (platforms.facebook) {
+    createButton(
+      `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-facebook',
+      'Facebook'
+    );
+  }
+
+  if (platforms.reddit) {
+    createButton(
+      `https://www.reddit.com/submit?url=${pageUrl}&title=${pageTitle}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-reddit',
+      'Reddit'
+    );
+  }
+
+  // 国内平台
+  if (platforms.weibo) {
+    createButton(
+      `https://service.weibo.com/share/share.php?title=${pageTitle}&url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-weibo',
+      'Weibo'
+    );
+  }
+
+  if (platforms.qq) {
+    createButton(
+      `http://connect.qq.com/widget/shareqq/index.html?title=${pageTitle}&url=${pageUrl}`,
+      'btn btn-sm btn-outline',
+      'fa-brands fa-qq',
+      'QQ'
+    );
+  }
+
+  if (platforms.wechat) {
+    createButton(
+      '#',
+      'btn btn-sm btn-outline',
+      'fa-brands fa-weixin',
+      'WeChat',
+      true,
+      () => {
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${pageUrl}`;
+        const qrWindow = window.open('', 'WeChat Share', 'width=200,height=200');
+        qrWindow.document.write(`<img src="${qrUrl}" alt="Scan QR to share on WeChat">`);
+      }
+    );
+  }
+
+  // 复制链接按钮
+  createButton(
+    '#',
+    'btn btn-sm btn-outline',
+    'fa-solid fa-copy',
+    'Copy Link',
+    true,
+    copyToClipboard
+  );
+});
+</script>
+
+
+    </div>
+
+    <div class="rc-card rc-card-body">
+      <h3 class="text-base font-semibold rc-serif mb-4">Navigation</h3>
+      <div class="space-y-3">
+        <a href="/notes/" class="rc-btn rc-btn-outline w-full justify-start">
+          <i class="fa-solid fa-folder-tree"></i>
+          All Notes
+        </a>
+        
+          <a href="/notes/?category=Tutorial" class="rc-btn rc-btn-outline w-full justify-start">
+            <i class="fa-solid fa-layer-group"></i>
+            Tutorial Posts
+          </a>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Previous/Next Navigation -->
+  
+  <div class="mt-12">
+    <h3 class="text-base font-semibold rc-serif mb-4">More Posts</h3>
+    <nav class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+        <a href="/2026/09/05/bayesian-statistics-intro/" class="rc-card rc-focus rc-card-body group">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-left-long rc-muted"></i>
+            <div class="flex-1 min-w-0">
+              <div class="text-xs rc-muted">Previous Post</div>
+              <div class="font-semibold truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_90%,transparent)] transition-colors">A Gentle Introduction to Bayesian Statistics</div>
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="/2026/09/03/datenanalyse-grundlagen/" class="rc-card rc-focus rc-card-body group md:text-right">
+          <div class="flex items-center gap-3 md:justify-end">
+            <div class="flex-1 min-w-0 md:text-right">
+              <div class="text-xs rc-muted">Next Post</div>
+              <div class="font-semibold truncate group-hover:text-[color-mix(in_oklab,var(--rc-accent)_90%,transparent)] transition-colors">Grundlagen der Datenanalyse</div>
+            </div>
+            <i class="fa-solid fa-right-long rc-muted"></i>
+          </div>
+        </a>
+      
+    </nav>
+  </div>
+  
+
+</article>
+
+
+<aside class="hidden lg:block">
+  
+<nav class="rc-toc" aria-label="On this page">
+  <div class="rc-toc-head">
+    <i class="fa-solid fa-list-ul"></i>
+    <span>On this page</span>
+  </div>
+  <ul class="rc-toc-list">
+    
+      
+      <li class="rc-toc-item" data-level="2" style="--rc-lvl: 2">
+        <a href="#Why-reproducibility-matters" class="rc-toc-link" data-toc-target="Why-reproducibility-matters" data-level="2">
+          <span class="rc-toc-dot"></span>
+          <span class="rc-toc-label">Why reproducibility matters</span>
+        </a>
+      </li>
+    
+      
+      <li class="rc-toc-item" data-level="2" style="--rc-lvl: 2">
+        <a href="#The-workflow" class="rc-toc-link" data-toc-target="The-workflow" data-level="2">
+          <span class="rc-toc-dot"></span>
+          <span class="rc-toc-label">The workflow</span>
+        </a>
+      </li>
+    
+      
+      <li class="rc-toc-item" data-level="2" style="--rc-lvl: 2">
+        <a href="#Versioning-data" class="rc-toc-link" data-toc-target="Versioning-data" data-level="2">
+          <span class="rc-toc-dot"></span>
+          <span class="rc-toc-label">Versioning data</span>
+        </a>
+      </li>
+    
+      
+      <li class="rc-toc-item" data-level="2" style="--rc-lvl: 2">
+        <a href="#Final-check" class="rc-toc-link" data-toc-target="Final-check" data-level="2">
+          <span class="rc-toc-dot"></span>
+          <span class="rc-toc-label">Final check</span>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+</aside>
+
+</div>
+
+<!-- 传递主题配置到前端 -->
+<script>
+window.themeConfig = {
+  code_collapse: {
+    enabled: true,
+    lines: 5
+  }
+};
+</script>
+
+
+  </div>
+
+  <!-- Fixed top navbar for desktop (right of the sidebar, above the content only) -->
+  <div class="rc-nav hidden lg:flex fixed top-0 left-80 right-0 z-50 h-16 items-center px-4 lg:px-8">
+    <div class="flex-1 flex items-center px-2">
+      <div class="rc-nav-widget">
+  <!-- Live clock (computer time) -->
+  <div class="rc-widget-clock" title="Local time">
+    <span class="rc-widget-time rc-time">--:--</span>
+    <span class="rc-widget-date rc-date">---</span>
+  </div>
+
+  <!-- Weather chip (click to set a city) -->
+  <div class="rc-weather-wrap">
+    <button class="rc-weather" type="button" title="Weather — click to set location">
+      <span class="rc-weather-icon rc-w-icon">🌤</span>
+      <span class="rc-weather-temp rc-w-temp">--°C</span>
+      <span class="rc-weather-city rc-w-city">--</span>
+    </button>
+
+    <div class="rc-widget-pop" hidden>
+      <input class="rc-input rc-city-input" placeholder="City (e.g. Berlin)" />
+      <div class="rc-widget-pop-actions">
+        <button class="rc-btn rc-btn-accent rc-btn-sm rc-city-go" type="button">Set</button>
+        <button class="rc-btn rc-btn-ghost rc-btn-sm rc-city-auto" type="button">Auto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <div class="flex-none">
+      
+
+<select class="rc-select rc-select-sm" data-choose-theme>
+  
+    <option 
+      value="light" 
+      selected
+    >
+      🌞 Light
+    </option>
+  
+    <option 
+      value="dark" 
+      
+    >
+      🌙 Dark
+    </option>
+  
+    <option 
+      value="cupcake" 
+      
+    >
+      🧁 Cupcake
+    </option>
+  
+    <option 
+      value="bumblebee" 
+      
+    >
+      🐝 Bumblebee
+    </option>
+  
+    <option 
+      value="emerald" 
+      
+    >
+      💚 Emerald
+    </option>
+  
+    <option 
+      value="corporate" 
+      
+    >
+      🏢 Corporate
+    </option>
+  
+    <option 
+      value="synthwave" 
+      
+    >
+      🕹️ Synthwave
+    </option>
+  
+    <option 
+      value="retro" 
+      
+    >
+      🎞️ Retro
+    </option>
+  
+    <option 
+      value="cyberpunk" 
+      
+    >
+      🤖 Cyberpunk
+    </option>
+  
+    <option 
+      value="valentine" 
+      
+    >
+      ❤️ Valentine
+    </option>
+  
+    <option 
+      value="halloween" 
+      
+    >
+      🎃 Halloween
+    </option>
+  
+    <option 
+      value="garden" 
+      
+    >
+      🌻 Garden
+    </option>
+  
+    <option 
+      value="forest" 
+      
+    >
+      🌲 Forest
+    </option>
+  
+    <option 
+      value="aqua" 
+      
+    >
+      💧 Aqua
+    </option>
+  
+    <option 
+      value="lofi" 
+      
+    >
+      🎧 Lofi
+    </option>
+  
+    <option 
+      value="pastel" 
+      
+    >
+      🎨 Pastel
+    </option>
+  
+    <option 
+      value="fantasy" 
+      
+    >
+      🧚 Fantasy
+    </option>
+  
+    <option 
+      value="wireframe" 
+      
+    >
+      🖼️ Wireframe
+    </option>
+  
+    <option 
+      value="black" 
+      
+    >
+      ⚫ Black
+    </option>
+  
+    <option 
+      value="luxury" 
+      
+    >
+      💎 Luxury
+    </option>
+  
+    <option 
+      value="dracula" 
+      
+    >
+      🧛 Dracula
+    </option>
+  
+    <option 
+      value="cmyk" 
+      
+    >
+      🎨 Cmyk
+    </option>
+  
+    <option 
+      value="autumn" 
+      
+    >
+      🍂 Autumn
+    </option>
+  
+    <option 
+      value="business" 
+      
+    >
+      💼 Business
+    </option>
+  
+    <option 
+      value="acid" 
+      
+    >
+      🧪 Acid
+    </option>
+  
+    <option 
+      value="lemonade" 
+      
+    >
+      🍋 Lemonade
+    </option>
+  
+    <option 
+      value="night" 
+      
+    >
+      🌃 Night
+    </option>
+  
+    <option 
+      value="coffee" 
+      
+    >
+      ☕ Coffee
+    </option>
+  
+    <option 
+      value="winter" 
+      
+    >
+      ❄️ Winter
+    </option>
+  
+    <option 
+      value="dim" 
+      
+    >
+      💡 Dim
+    </option>
+  
+    <option 
+      value="nord" 
+      
+    >
+      ❄️ Nord
+    </option>
+  
+    <option 
+      value="sunset" 
+      
+    >
+      🌅 Sunset
+    </option>
+  
+    <option 
+      value="caramellatte" 
+      
+    >
+      🥛 Caramellatte
+    </option>
+  
+    <option 
+      value="abyss" 
+      
+    >
+      🌌 Abyss
+    </option>
+  
+    <option 
+      value="silk" 
+      
+    >
+      🧵 Silk
+    </option>
+  
+</select>
+
+
+    </div>
+  </div>
+
+  <!-- Footer, 页面只出现一次 -->
+  <footer class="mt-auto">
+    <!-- Footer -->
+<footer class="footer footer-center sm:footer-horizontal p-6 text-base-content">
+  <div class="grid grid-flow-col gap-4">
+    <div class="text-center">
+      <span>© 2026 Dr. Alice Smith</span>
+      <span class="rc-muted">·</span>
+      <span class="rc-muted">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer" class="link link-info no-underline hover:opacity-80">Hexo</a></span>
+      <span class="rc-muted">·</span>
+      <span class="rc-muted">
+        Theme:
+        <a href="https://github.com/jiehua1995/hexo-theme-researcher" target="_blank" rel="noopener noreferrer" class="link link-info no-underline hover:opacity-80">
+          Researcher v<span id="current-theme-version"></span>
+          <span id="theme-update-message" class="text-sm" style="display:none;">(<i class="fa-solid fa-cloud-arrow-up"></i> Update Available!)</span>
+        </a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const versionEl = document.getElementById('current-theme-version');
+  const updateMessageEl = document.getElementById('theme-update-message');
+
+  const currentVersion = '0.3.0';
+  versionEl.textContent = currentVersion;
+
+  fetch('https://api.github.com/repos/jiehua1995/hexo-theme-researcher/releases/latest')
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.tag_name) {
+        const latestVersion = data.tag_name.replace(/^v/, '');
+        if (latestVersion !== currentVersion) {
+          updateMessageEl.style.display = 'inline';
+          updateMessageEl.title = `Latest version: ${latestVersion}`;
+        }
+      }
+    })
+    .catch(() => {});
+})();
+</script>
+
+  </footer>
+
+  <!-- back to top -->
+  <!-- 返回顶部按钮 -->
+<button id="back_to_top"
+  class="rc-backtop fixed bottom-8 right-8 opacity-0 pointer-events-none transition-opacity duration-300 z-50 "
+  title="Back to top" aria-label="Back to top" tabindex="0">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<script>
+  (function(){
+    const backToTopBtn = document.getElementById('back_to_top');
+
+    function toggleVisibility() {
+      if(window.scrollY > 100) {
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    backToTopBtn.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        backToTopBtn.click();
+      }
+    });
+
+    window.addEventListener('scroll', toggleVisibility);
+
+    toggleVisibility();
+  })();
+</script>
+
+
+  <!-- cookie consent -->
+  <div class="rc-cookie" id="rcCookie" role="dialog" aria-live="polite" hidden>
+  <div class="rc-cookie-card">
+    <div class="rc-cookie-icon">🍪</div>
+    <div class="rc-cookie-text">
+      <strong>We value your privacy</strong>
+      <span>This website may use cookies to remember your theme, local weather and site preferences. By continuing to browse, you agree to the use of cookies.</span>
+    </div>
+    <div class="rc-cookie-actions">
+      <button class="rc-btn rc-btn-accent rc-btn-sm" id="rcCookieAccept" type="button">Accept</button>
+      <button class="rc-btn rc-btn-ghost rc-btn-sm" id="rcCookieReject" type="button">Reject</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- MathJax for mathematical formulas -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: 'tex2jax_ignore',
+        processHtmlClass: 'tex2jax_process'
+      },
+      startup: {
+        ready: () => {
+          MathJax.startup.defaultReady();
+        },
+        pageReady: () => {
+          MathJax.startup.defaultPageReady().then(() => {
+            // Clean up $$ delimiters after rendering
+            setTimeout(() => {
+              const walker = document.createTreeWalker(
+                document.querySelector('.post-content') || document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+              );
+
+              let textNode;
+              const nodesToUpdate = [];
+
+              while (textNode = walker.nextNode()) {
+                if (textNode.nodeValue.includes('$$') &&
+                    textNode.parentNode.querySelector('mjx-container[display="true"]')) {
+                  nodesToUpdate.push(textNode);
+                }
+              }
+
+              nodesToUpdate.forEach(node => {
+                node.nodeValue = node.nodeValue.replace(/\$\$/g, '');
+              });
+            }, 100);
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Motion + nav active state (exposed so Swup can re-run it after a swap) -->
+  <script>
+    function __rcSetActive() {
+      var path = location.pathname.replace(/\/(index)?$/, '') || '/';
+      document.querySelectorAll('.rc-sidebar-link').forEach(function (link) {
+        var href = (link.getAttribute('href') || '').replace(/\/(index)?$/, '') || '/';
+        link.classList.toggle('is-active', href === path);
+      });
+    }
+
+    function __rcInitToc() {
+      __rcInitToc.links = Array.prototype.slice.call(document.querySelectorAll('.rc-toc-link[data-toc-target]'));
+      __rcInitToc.list = __rcInitToc.links.length ? __rcInitToc.links[0].closest('.rc-toc-list') : null;
+      __rcInitToc.container = __rcInitToc.links.length ? __rcInitToc.links[0].closest('.rc-toc') : null;
+      __rcInitToc.lastActive = -1;
+      __rcInitToc.shift = 0; // reset the centring offset — a stale value from a previous
+                             // (longer) list would corrupt the first frame after a Swup swap
+      if (!__rcInitToc.bound) {
+        __rcInitToc.bound = true;
+
+        function updateToc() {
+          var links = __rcInitToc.links || [];
+          if (!links.length) return;
+          // Track the SECTION currently occupying the MIDDLE of the viewport --
+          // i.e. the deepest entry whose heading has scrolled past the vertical
+          // centre line. This feels more natural than tracking the top.
+          var mid = window.innerHeight * 0.5;
+          var activeIndex = 0;
+          links.forEach(function (link, i) {
+            var t = document.getElementById(link.getAttribute('data-toc-target'));
+            if (t && t.getBoundingClientRect().top <= mid) activeIndex = i;
+          });
+          // emphasis (colour + font-size) is class-driven; only swap it when the
+          // active section actually changes so we don't churn layout every frame
+          if (__rcInitToc.lastActive !== activeIndex) {
+            __rcInitToc.lastActive = activeIndex;
+            links.forEach(function (link, i) {
+              link.classList.toggle('is-active', i === activeIndex);
+            });
+          }
+          // Centre the active entry inside the focus window (screen centre), but
+          // clamp the shift so the list always fills its window (never shows an
+          // empty gap). Otherwise a short list (e.g. CV) drifts oddly and a long
+          // list jumps at the top/bottom ends — which reads as "not smooth".
+          var list = __rcInitToc.list;
+          var container = __rcInitToc.container;
+          var activeEl = links[activeIndex];
+          if (list && container && activeEl) {
+            var item = activeEl.closest('.rc-toc-item') || activeEl;
+            var cRect = container.getBoundingClientRect();
+            var cCenter = cRect.top + cRect.height * 0.5;
+            var prev = __rcInitToc.shift || 0;
+            var lRect = list.getBoundingClientRect();
+            var listTop = lRect.top - prev;         // natural (unshifted) bounds
+            var listBottom = lRect.bottom - prev;
+            var itemRect = item.getBoundingClientRect();
+            var itemCenter = itemRect.top + itemRect.height * 0.5 - prev;
+            var target = cCenter - itemCenter;
+            var minShift = cRect.bottom - listBottom; // largest up-shift (no bottom gap)
+            var maxShift = cRect.top - listTop;       // largest down-shift (no top gap)
+            var shift = Math.max(minShift, Math.min(maxShift, target));
+            list.style.transform = 'translateY(' + shift + 'px)';
+            __rcInitToc.shift = shift;
+          }
+        }
+
+        __rcInitToc.update = updateToc;
+        // throttle to animation frames so the scroll never janks
+        function requestToc() {
+          if (__rcInitToc.raf) return;
+          __rcInitToc.raf = requestAnimationFrame(function () {
+            __rcInitToc.raf = 0;
+            updateToc();
+          });
+        }
+        __rcInitToc.request = requestToc;
+        window.addEventListener('scroll', requestToc, { passive: true });
+        window.addEventListener('resize', requestToc, { passive: true });
+        window.addEventListener('load', updateToc);
+
+        // Clicking a TOC entry (or any in-page #anchor) should land the heading
+        // about mid-screen, not tucked under the fixed top bar (issue: too high).
+        document.addEventListener('click', function (ev) {
+          var a = ev.target && ev.target.closest && ev.target.closest('a[href^="#"]');
+          if (!a) return;
+          var hash = a.getAttribute('href');
+          if (!hash || hash === '#' || hash.length < 2) return;
+          var target = document.getElementById(hash.slice(1));
+          if (!target) return;
+          ev.preventDefault();
+          var y = target.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * 0.42;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        });
+      }
+      if (__rcInitToc.update) __rcInitToc.update();
+    }
+
+    function __rcInitFilters() {
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('[data-filter]'), function (scope) {
+        // Guard so re-init (after a Swup swap) never double-binds live controls.
+        if (scope.getAttribute('data-f-inited')) { /* keep listening on a live scope */ }
+        function bind() {
+          var list = page.querySelector('[data-filter-list]');
+          var items = list ? Array.prototype.slice.call(list.querySelectorAll('[data-filter-item]')) : [];
+          if (!items.length) return;
+          var controls = {
+            status: scope.querySelector('[data-filter-type="status"]'),
+            category: scope.querySelector('[data-filter-type="category"]'),
+            year: scope.querySelector('[data-filter-type="year"]'),
+            search: scope.querySelector('[data-filter-type="search"]')
+          };
+          var countEl = page.querySelector('[data-filter-count]');
+          var emptyEl = page.querySelector('[data-filter-empty]');
+          var catParam = new URLSearchParams(location.search).get('category');
+          if (catParam && controls.category) controls.category.value = catParam;
+
+          function normalizeList(v) {
+            return (v || '').toLowerCase().split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          }
+          // Split a comma-separated attribute WITHOUT lower-casing — used for tag
+          // names, which are case-sensitive (a tag named "Testing" is distinct
+          // from "testing"). Categories are matched case-insensitively via
+          // normalizeList() above.
+          function splitList(v) {
+            return (v || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          }
+          // Tags the user has toggled in the interactive tag cloud. The tag cloud
+          // is the single source of truth for tag filtering, so the exact tag
+          // names (preserving case) are returned here — this is what makes a
+          // `?tag=X` arrival both highlight the pill AND apply the filter in one
+          // consistent place.
+          function selectedTags() {
+            var out = [];
+            Array.prototype.forEach.call(page.querySelectorAll('[data-tagcloud] .rc-tagcloud-item.is-active'), function (b) {
+              var t = b.getAttribute('data-tag');
+              if (t && out.indexOf(t) < 0) out.push(t);
+            });
+            return out;
+          }
+          function apply() {
+            var cat = (controls.category && controls.category.value) || '';
+            var year = (controls.year && controls.year.value) || '';
+            var status = (controls.status && controls.status.value) || '';
+            var q = (controls.search ? controls.search.value : '').toLowerCase().trim();
+            var selTags = selectedTags();
+            var shown = 0;
+            items.forEach(function (item) {
+              var okSt = !status || (item.getAttribute('data-status') || '') === status;
+              var okCat = !cat || normalizeList(item.getAttribute('data-category')).indexOf(cat.toLowerCase()) > -1;
+              var okYear = !year || (item.getAttribute('data-year') || '') === year;
+              var itemTags = splitList(item.getAttribute('data-tags'));
+              var okTag = !selTags.length || itemTags.some(function (t) { return selTags.indexOf(t) > -1; });
+              var text = [
+                item.getAttribute('data-title'), item.getAttribute('data-text'),
+                item.getAttribute('data-tags'), item.getAttribute('data-category'),
+                item.getAttribute('data-year')
+              ].join(' ').toLowerCase();
+              var okSearch = !q || text.indexOf(q) > -1;
+              var show = okSt && okCat && okYear && okTag && okSearch;
+              item.style.display = show ? '' : 'none';
+              if (show) shown++;
+            });
+            if (countEl) countEl.textContent = shown === items.length ? ('Showing all ' + items.length) : ('Found ' + shown);
+            if (emptyEl) emptyEl.classList.toggle('hidden', shown > 0);
+            window.__rcFilterApply = apply; // let the tag cloud re-run the same filter
+          }
+          if (controls.status) controls.status.addEventListener('change', apply);
+          if (controls.category) controls.category.addEventListener('change', apply);
+          if (controls.year) controls.year.addEventListener('change', apply);
+          if (controls.search) controls.search.addEventListener('input', apply);
+          apply();
+        }
+        scope.setAttribute('data-f-inited', '1');
+        bind();
+      });
+    }
+
+    // Set a card's expanded state and sync its chevron. This is the single
+    // source of truth for detail visibility (see .rc-card[data-expanded] CSS).
+    // A collapsed card shows only the title + own badge + key meta + Dimensions
+    // badge; an expanded card reveals the full detail + Altmetric badge too.
+    function __rcSetCardExpanded(card, expanded) {
+      expanded = !!expanded;
+      card.setAttribute('data-expanded', expanded ? 'true' : 'false');
+      var btn = card.querySelector('.rc-expand');
+      if (btn) {
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        var icon = btn.querySelector('i');
+        if (icon) icon.className = expanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
+      }
+    }
+
+    // Detail / Compact view switching on list pages (Publications, Projects,
+    // Talks, Notes). Reads the last choice from localStorage and applies
+    // `.rc-list--compact` to the matching `[data-view]` container, so it survives
+    // a Swup swap too. Switching mode RESETS every card to that mode's default
+    // state (Compact → all collapsed, Detail → all expanded).
+    function __rcInitViews() {
+      var f = (window.themeConfig && window.themeConfig.features) || {};
+      if (f.view_toggle === false) return;
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('[data-view]'), function (list) {
+        var toggle = page.querySelector('[data-view-toggle]');
+        var key = list.getAttribute('data-view-key') || 'rc-view';
+        var cards = Array.prototype.slice.call(list.querySelectorAll('.rc-card'));
+        var saved = null;
+        try { saved = window.localStorage.getItem(key); } catch (e) {}
+        function apply(mode, force) {
+          mode = mode === 'compact' ? 'compact' : 'detail';
+          list.setAttribute('data-view', mode);
+          list.classList.toggle('rc-list--compact', mode === 'compact');
+          // force=true (an explicit toggle click) resets EVERY card to the mode's
+          // default. On a re-init we only set the default for cards that have
+          // never been touched, preserving any per-card expand/collapse the user
+          // made (otherwise the MutationObserver would undo a manual expand).
+          cards.forEach(function (c) {
+            if (force || !c.hasAttribute('data-expanded')) __rcSetCardExpanded(c, mode === 'detail');
+          });
+          if (toggle) {
+            Array.prototype.forEach.call(toggle.querySelectorAll('[data-view-mode]'), function (btn) {
+              var active = btn.getAttribute('data-view-mode') === mode;
+              btn.classList.toggle('is-active', active);
+              btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+          }
+          try { window.localStorage.setItem(key, mode); } catch (e) {}
+        }
+        if (toggle && !toggle.getAttribute('data-v-inited')) {
+          toggle.setAttribute('data-v-inited', '1');
+          Array.prototype.forEach.call(toggle.querySelectorAll('[data-view-mode]'), function (btn) {
+            btn.addEventListener('click', function () { apply(btn.getAttribute('data-view-mode'), true); });
+          });
+        }
+        apply(saved || 'detail', false);
+      });
+    }
+
+    // Re-scan for Altmetric / Dimensions citation badges. Their embed scripts are
+    // loaded globally and self-initialise on first load; after a Swup swap the
+    // container elements are new, so we ask each library to re-scan the DOM.
+    function __rcInitBadges() {
+      var f = (window.themeConfig && window.themeConfig.features) || {};
+      if (f.citation_badges === false) return;
+      if (window.__dimensions_embed && window.__dimensions_embed.addBadges) {
+        try { window.__dimensions_embed.addBadges(); } catch (e) {}
+      }
+      if (typeof window._altmetric_embed_init === 'function') {
+        try { window._altmetric_embed_init(); } catch (e) {}
+      }
+      // Hide any badge that has no data. The Dimensions embed fetches metrics
+      // asynchronously and shows a "?" placeholder when a DOI has no records, so
+      // poll for a short while and drop the empty badges the user asked to hide.
+      var checks = 0;
+      var timer = setInterval(function () {
+        checks++;
+        var anyHidden = false;
+        Array.prototype.forEach.call(document.querySelectorAll('.__dimensions_badge_embed__'), function (el) {
+          if (el.style.display === 'none') return;
+          var link = el.querySelector('a.__dimensions_Link');
+          var label = link ? (link.getAttribute('aria-label') || '') : '';
+          var m = label.match(/(\d+)\s*total citations/i);
+          var hasData = !!m && Number(m[1]) > 0;
+          if (link && !hasData) { el.style.display = 'none'; anyHidden = true; }
+          // no anchor yet means the fetch is still in-flight → wait another tick
+        });
+        // Hide a whole row only when BOTH badges are empty: the Dimensions one is
+        // hidden above AND the Altmetric one rendered nothing (no mentions). Re-show
+        // if content later arrives, so we never hide a badge that was just slow.
+        if (checks >= 2) {
+          Array.prototype.forEach.call(document.querySelectorAll('.rc-cite-badges'), function (row) {
+            var anyVisible = false;
+            Array.prototype.forEach.call(row.children, function (c) {
+              if (c.style.display === 'none') return;
+              if (c.classList.contains('altmetric-embed')) {
+                if (c.childElementCount > 0) anyVisible = true;
+              } else {
+                anyVisible = true;
+              }
+            });
+            if (!anyVisible) { row.style.display = 'none'; anyHidden = true; }
+            else if (row.style.display === 'none') { row.style.display = ''; }
+          });
+        }
+        if (checks >= 12 || !anyHidden) clearInterval(timer);
+      }, 700);
+    }
+
+    // Per-card expand/collapse. Each card carries a chevron (visible in EVERY
+    // mode); clicking toggles the card's `data-expanded` so the full detail
+    // content appears or folds back in place.
+    function __rcInitExpand() {
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('.rc-expand'), function (btn) {
+        if (btn.getAttribute('data-ex-inited')) return;
+        btn.setAttribute('data-ex-inited', '1');
+        var card = btn.closest('.rc-card');
+        if (!card) return;
+        btn.addEventListener('click', function () {
+          __rcSetCardExpanded(card, card.getAttribute('data-expanded') !== 'true');
+        });
+      });
+    }
+
+    // Interactive tag cloud (Notes): buttons toggle selection and re-run the SAME
+    // page filter (no reload), so the notes grid updates live. Selection colour
+    // is class-driven (.is-active); a "Clear selection" button appears when needed.
+    function __rcInitTagCloud() {
+      var f = (window.themeConfig && window.themeConfig.features) || {};
+      if (f.tag_cloud === false) return;
+      var page = document.getElementById('swup') || document;
+      Array.prototype.forEach.call(page.querySelectorAll('[data-tagcloud]'), function (cloud) {
+        var clearBtn = page.querySelector('[data-tag-clear]');
+        function selectedNames() {
+          return Array.prototype.map.call(cloud.querySelectorAll('.rc-tagcloud-item.is-active'), function (b) {
+            return b.getAttribute('data-tag');
+          }).filter(Boolean);
+        }
+        function refreshClear() {
+          var any = cloud.querySelectorAll('.rc-tagcloud-item.is-active').length > 0;
+          if (clearBtn) clearBtn.hidden = !any;
+        }
+        function refresh() {
+          if (window.__rcFilterApply) { try { window.__rcFilterApply(); } catch (e) {} }
+        }
+        // keep the URL in sync so the current tags can be shared / bookmarked
+        function syncUrl() {
+          try {
+            var names = selectedNames();
+            var sp = new URLSearchParams(location.search);
+            if (names.length) sp.set('tag', names.join(','));
+            else sp.delete('tag');
+            var qs = sp.toString();
+            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+          } catch (e) {}
+        }
+        // Rebuild the selection from the current `?tag=…` URL params. Runs on
+        // EVERY init (not just the first), so even if Swup updates the history
+        // a little after the DOM swap, the next re-init re-highlights the pill.
+        // Tags are matched by exact name (case-sensitive) — "Testing" and
+        // "testing" are distinct tags, so only the one the user picked lights up.
+        function syncFromUrl() {
+          var initial = new URLSearchParams(location.search).get('tag');
+          Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (b) {
+            b.classList.remove('is-active');
+          });
+          if (initial) {
+            initial.split(',').forEach(function (t) {
+              t = t.trim();
+              if (!t) return;
+              Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (btn) {
+                if (btn.getAttribute('data-tag') === t) btn.classList.add('is-active');
+              });
+            });
+          }
+          refreshClear();
+        }
+        syncFromUrl();
+        if (!cloud.getAttribute('data-tc-inited')) {
+          cloud.setAttribute('data-tc-inited', '1');
+          Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (btn) {
+            btn.addEventListener('click', function () {
+              btn.classList.toggle('is-active');
+              refreshClear();
+              syncUrl();
+              refresh();
+            });
+          });
+          if (clearBtn && !clearBtn.getAttribute('data-tc-inited')) {
+            clearBtn.setAttribute('data-tc-inited', '1');
+            clearBtn.addEventListener('click', function () {
+              Array.prototype.forEach.call(cloud.querySelectorAll('.rc-tagcloud-item'), function (b) { b.classList.remove('is-active'); });
+              refreshClear();
+              syncUrl();
+              refresh();
+            });
+          }
+        }
+      });
+    }
+
+    function __rcInitMotion() {
+      var mcfg = (window.themeConfig && window.themeConfig.motion) || {};
+      var revealOn = !mcfg.reveal || mcfg.reveal.enabled !== false;
+      var focusOn = !mcfg.scroll_focus || mcfg.scroll_focus.enabled !== false;
+
+      // Reveal: fade every section in. All `.rc-reveal` are marked visible so
+      // content can never be stuck hidden (no blank page), no matter how the
+      // page was reached — direct load, Swup swap or back/forward cache. The
+      // scroll scaling / 3D effect is driven by .rc-focus below, not by this.
+      Array.prototype.forEach.call(document.querySelectorAll('.rc-reveal'), function (el) {
+        if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
+      });
+      // disable the reveal animation entirely when the config switch is off
+      if (!revealOn) document.documentElement.setAttribute('data-no-reveal', '1');
+
+      // Scroll-focus: cards near the viewport centre grow + glow, edges shrink
+      // out. Reads the CURRENT focus elements each run so it survives swaps.
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (focusOn) {
+        __rcInitMotion.focusEls = Array.prototype.slice.call(document.querySelectorAll('.rc-focus'));
+      } else {
+        __rcInitMotion.focusEls = [];
+      }
+      if (focusOn && __rcInitMotion.focusEls.length && 'IntersectionObserver' in window && !reduced) {
+        if (!__rcInitMotion.bound) {
+          __rcInitMotion.bound = true;
+          __rcInitMotion.vh = window.innerHeight || 800;
+          __rcInitMotion.raf = null;
+          function updateFocus() {
+            var mid = __rcInitMotion.vh * 0.5;
+            var range = Math.max(__rcInitMotion.vh * 0.95, 470);
+            (__rcInitMotion.focusEls || []).forEach(function (el) {
+              var rect = el.getBoundingClientRect();
+              var center = rect.top + rect.height * 0.5;
+              var dist = Math.abs(center - mid);
+              var f = Math.max(0, Math.min(1, 1 - dist / range));
+              // smoothstep easing so transitions between scale states feel seamless
+              var e = f * f * (3 - 2 * f);
+              el.style.setProperty('--fs', (0.9 + e * 0.12).toFixed(3));
+              el.style.setProperty('--fo', (0.82 + e * 0.18).toFixed(3));
+              el.style.setProperty('--fc', e.toFixed(3));
+              if (e > 0.58) el.setAttribute('data-focus', 'center');
+              else el.removeAttribute('data-focus');
+            });
+            __rcInitMotion.raf = null;
+          }
+          function requestFocus() {
+            if (__rcInitMotion.raf === null) __rcInitMotion.raf = requestAnimationFrame(updateFocus);
+          }
+          __rcInitMotion.request = requestFocus;
+          window.addEventListener('scroll', requestFocus, { passive: true });
+          window.addEventListener('resize', function () { __rcInitMotion.vh = window.innerHeight; requestFocus(); }, { passive: true });
+          window.addEventListener('load', requestFocus);
+        }
+        __rcInitMotion.request();
+      }
+    }
+
+    var __rcMotionWatcher = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      __rcInitMotion();
+      __rcSetActive();
+      __rcInitToc();
+      __rcInitViews();
+      __rcInitTagCloud(); // before filters, so a ?tag= pre-selection is seen by the filter
+      __rcInitFilters();
+      __rcInitExpand();
+      __rcInitBadges();
+
+      // Re-run motion after ANY swap of the #swup content. Swup's own
+      // content:replace event is not reliably fired across Swup versions, so we
+      // watch the container via a MutationObserver instead — this is bulletproof
+      // and means a page can never stay blank after navigating.
+      if (document.body && 'MutationObserver' in window && !__rcMotionWatcher) {
+        var mTimer = null;
+        __rcMotionWatcher = new MutationObserver(function () {
+          if (mTimer) clearTimeout(mTimer);
+          mTimer = window.setTimeout(function () {
+            __rcInitMotion();
+            __rcSetActive();
+            __rcInitToc();
+            __rcInitViews();
+            __rcInitTagCloud();
+            __rcInitFilters();
+            __rcInitExpand();
+            __rcInitBadges();
+            // Re-run the post content pipeline (math/code/table conversion) so a
+            // Swup-swapped article renders formulas without a manual refresh.
+            if (window.__rcProcessPost) { try { window.__rcProcessPost(); } catch (e) {} }
+            if (window.MathJax && window.MathJax.typesetPromise) {
+              try { window.MathJax.typesetPromise(); } catch (e) {}
+            }
+          }, 60);
+        });
+        __rcMotionWatcher.observe(document.body, { childList: true, subtree: true });
+      }
+    });
+  </script>
+
+  <!-- Navbar info widget: live clock + weather (auto or custom city) -->
+  <script>
+    (function () {
+      if (!document.querySelector('.rc-nav-widget')) return;
+      var icons = document.querySelectorAll('.rc-w-icon');
+      var temps = document.querySelectorAll('.rc-w-temp');
+      var cities = document.querySelectorAll('.rc-w-city');
+      if (!icons.length) return;
+
+      function setWeather(i, t, c) {
+        icons.forEach(function (el) { el.textContent = i; });
+        temps.forEach(function (el) { el.textContent = t; });
+        cities.forEach(function (el) { el.textContent = c || ''; });
+      }
+      function weatherIcon(code) {
+        var m = { 0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',66:'🌧',67:'🌧',71:'🌨',73:'🌨',75:'❄️',77:'❄️',80:'🌦',81:'🌧',82:'⛈',85:'🌨',86:'🌨',95:'⛈',96:'⛈',99:'⛈' };
+        return m[code] || '🌤';
+      }
+
+      // ---- live clock (computer time), all instances ----
+      var timeEls = document.querySelectorAll('.rc-time');
+      var dateEls = document.querySelectorAll('.rc-date');
+      function tick() {
+        var d = new Date();
+        var t = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        var dt = d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        timeEls.forEach(function (el) { el.textContent = t; });
+        dateEls.forEach(function (el) { el.textContent = dt; });
+      }
+      tick();
+      setInterval(tick, 15000);
+
+      // ---- weather by lat/lon ----
+      function fetchWeather(lat, lon, name) {
+        return fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat +
+          '&longitude=' + lon + '&current_weather=true&timezone=auto')
+          .then(function (r) { return r.json(); })
+          .then(function (w) {
+            if (w.current_weather) setWeather(weatherIcon(w.current_weather.weathercode), Math.round(w.current_weather.temperature) + '°C', name);
+          });
+      }
+      // ---- geocode + set a custom city (persisted) ----
+      function setCustomCity(name) {
+        return fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(name) +
+          '&count=1&language=en&format=json')
+          .then(function (r) { return r.json(); })
+          .then(function (g) {
+            var res = g.results && g.results[0];
+            if (!res) throw new Error('not found');
+            var label = res.name + (res.country ? ', ' + res.country : '');
+            return fetchWeather(res.latitude, res.longitude, label).then(function () {
+              try { localStorage.setItem('rcWeather', JSON.stringify({ name: label, lat: res.latitude, lon: res.longitude })); } catch (e) {}
+            });
+          });
+      }
+      // ---- auto-detect via geolocation ----
+      function autoDetect() {
+        if (!('geolocation' in navigator)) { setWeather('🌤', '--°C', ''); return; }
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          var lat = pos.coords.latitude, lon = pos.coords.longitude;
+          fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat +
+            '&longitude=' + lon + '&localityLanguage=en')
+            .then(function (r) { return r.json(); })
+            .then(function (geo) {
+              var cname = geo.city || geo.locality || geo.principalSubdivision || '';
+              return fetchWeather(lat, lon, cname);
+            })
+            .catch(function () { return fetchWeather(lat, lon, ''); });
+        }, function () { setWeather('🌤', '--°C', ''); }, { timeout: 8000, maximumAge: 600000 });
+      }
+
+      // ---- init: restore saved city, else auto-detect ----
+      var saved = null;
+      try { saved = localStorage.getItem('rcWeather'); } catch (e) {}
+      if (saved) {
+        try {
+          var s = JSON.parse(saved);
+          fetchWeather(s.lat, s.lon, s.name);
+        } catch (e) { autoDetect(); }
+      } else {
+        autoDetect();
+      }
+
+      // ---- city picker popover (per instance) ----
+      document.querySelectorAll('.rc-weather-wrap').forEach(function (wrap) {
+        var btn = wrap.querySelector('.rc-weather');
+        var pop = wrap.querySelector('.rc-widget-pop');
+        var input = wrap.querySelector('.rc-city-input');
+        var go = wrap.querySelector('.rc-city-go');
+        var auto = wrap.querySelector('.rc-city-auto');
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          pop.hidden = !pop.hidden;
+          if (!pop.hidden) { input.value = ''; input.placeholder = 'City (e.g. Berlin)'; input.focus(); }
+        });
+        pop.addEventListener('click', function (e) { e.stopPropagation(); });
+        go.addEventListener('click', function () {
+          var v = input.value.trim();
+          if (!v) return;
+          setCustomCity(v)
+            .then(function () { pop.hidden = true; })
+            .catch(function () { input.placeholder = 'City not found'; input.select(); });
+        });
+        auto.addEventListener('click', function () {
+          try { localStorage.removeItem('rcWeather'); } catch (e) {}
+          autoDetect();
+          pop.hidden = true;
+        });
+        input.addEventListener('keydown', function (e) { if (e.key === 'Enter') go.click(); });
+        document.addEventListener('click', function (e) {
+          if (!wrap.contains(e.target)) pop.hidden = true;
+        });
+      });
+    })();
+  </script>
+
+  <!-- Cookie consent -->
+  <script>
+    (function () {
+      var el = document.getElementById('rcCookie');
+      if (!el) return;
+      var KEY = 'rcCookieConsent';
+      var saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      if (saved) return;
+      el.hidden = false;
+      var close = function (v) {
+        try { localStorage.setItem(KEY, v); } catch (e) {}
+        el.hidden = true;
+      };
+      var ok = document.getElementById('rcCookieAccept');
+      var no = document.getElementById('rcCookieReject');
+      if (ok) ok.addEventListener('click', function () { close('accepted'); });
+      if (no) no.addEventListener('click', function () { close('rejected'); });
+    })();
+  </script>
+
+  <!-- Swup: SPA-style partial navigation — swap only #swup so the fixed
+       sidebar / navbar never re-render. Falls back to normal full loads. -->
+  <script src="https://cdn.jsdelivr.net/npm/swup@4/dist/Swup.umd.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof Swup === 'undefined' || !document.getElementById('swup')) return;
+      try {
+        var swup = new Swup({
+          containers: ['#swup'],
+          cache: false,
+          animateHistoryBrowsing: false,
+          linkSelector: 'a[href]:not([data-no-swup]):not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not([download])'
+        });
+        swup.on('content:replace', function () {
+          window.__rcInitMotion && window.__rcInitMotion();
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            try { window.MathJax.typesetPromise(); } catch (e) {}
+          }
+        });
+        swup.on('page:view', function () {
+          // history is updated by now, so location.pathname is correct
+          window.__rcSetActive && window.__rcSetActive();
+        });
+      } catch (e) { /* if Swup fails, normal navigation still works */ }
+    });
+  </script>
+
+  <!-- Global theme config (code collapse, …). Defined OUTSIDE the #swup container
+       so it survives a Swup navigation — the per-page inline <script> inside a
+       Swup container is NOT re-executed, which had silently disabled code folding. -->
+  <script>
+    window.themeConfig = {
+      code_collapse: {
+        enabled: true,
+        lines: 5
+      },
+      motion: {
+        background_animation: {
+          enabled: true,
+          opacity: 0.12,
+          count: 30,
+          speed: 1,
+          size: 20,
+          icons: [&#34;⚛&#34;,&#34;⚗&#34;,&#34;⚙&#34;,&#34;✚&#34;,&#34;✦&#34;,&#34;◆&#34;,&#34;◉&#34;,&#34;◈&#34;,&#34;✳&#34;,&#34;∑&#34;,&#34;π&#34;,&#34;∞&#34;,&#34;∆&#34;,&#34;∴&#34;,&#34;λ&#34;,&#34;Ω&#34;,&#34;⊕&#34;,&#34;⊳&#34;,&#34;▣&#34;,&#34;✽&#34;,&#34;⟐&#34;,&#34;⁂&#34;]
+        },
+        scroll_focus: {
+          enabled: true
+        },
+        reveal: {
+          enabled: true
+        }
+      },
+      features: {
+        citation_badges: true,
+        tag_cloud: true,
+        view_toggle: true,
+        post_toc: true
+      }
+    };
+  </script>
+
+  <!-- Altmetric + Dimensions citation badges. Loaded globally (when enabled) so
+       they are available on any page; __rcInitBadges() re-scans after a Swup
+       swap so newly-arrived publication cards render their badges. -->
+  
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://integration-dimensions-badge.digital-science.com/static/com/badge.js" charset="utf-8"></script>
+  
+
+  <!-- Ambient background animation (falling science glyphs); self-gates on config. -->
+  <script src="/js/background.js"></script>
+
+  <!-- Loaded globally so the post content pipeline (math/code/tables) can be
+       re-run after a Swup navigation; post.js guards itself on non-post pages. -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+  <script src="/js/post.js"></script>
+
+</body>
+</html>

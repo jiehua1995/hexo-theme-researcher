@@ -1,0 +1,1543 @@
+/* ========================================================================== */
+/*  Researcher — Design System Layer                                          */
+/*  Loaded AFTER the compiled style.css. Uses DaisyUI 5 color tokens.         */
+/*  Philosophy: restrained typography, generous whitespace, tactile surfaces, */
+/*  precise micro-interactions. "Apple-grade" polish for an academic site.    */
+/* ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Type */
+  --rc-font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rc-font-serif: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+  --rc-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Radius */
+  --rc-radius-lg: 1.125rem;
+  --rc-radius-md: 0.875rem;
+  --rc-radius-sm: 0.625rem;
+  --rc-radius-pill: 999px;
+
+  /* Shadows (soft, layered) — modern OKLCH alpha form, theme-independent */
+  --rc-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
+  --rc-shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 4px 10px -2px oklch(0 0 0 / 0.05);
+  --rc-shadow-md: 0 2px 4px oklch(0 0 0 / 0.05), 0 14px 30px -10px oklch(0 0 0 / 0.12);
+  --rc-shadow-lg: 0 4px 8px oklch(0 0 0 / 0.05), 0 28px 55px -18px oklch(0 0 0 / 0.18);
+
+  /* Motion */
+  --rc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --rc-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --rc-dur: 0.45s;
+
+  /* Layout */
+  --rc-content-max: 64rem;
+}
+
+/* Semantic aliases to make intent readable inside this file */
+:root {
+  --rc-bg: var(--color-base-100, oklch(1 0 0));
+  --rc-bg-soft: var(--color-base-200, oklch(0.985 0.002 260));
+  --rc-bg-softer: var(--color-base-300, oklch(0.94 0.004 260));
+  --rc-ink: var(--color-base-content, oklch(0.2 0.012 266));
+  --rc-accent: var(--color-primary, oklch(0.55 0.17 252));
+  --rc-accent-ink: var(--color-primary-content, oklch(1 0 0));
+  --rc-line: var(--color-base-300, oklch(0.92 0.006 260));
+}
+
+/* Light theme: the default DaisyUI `light` primary is a violet/purple — swap it
+   for a calm, professional blue so the accent, hero wash and glows feel refined. */
+html[data-theme="light"] {
+  --rc-accent: oklch(0.55 0.17 252);
+  --rc-accent-ink: oklch(1 0 0);
+  --rc-line: oklch(0.92 0.012 252);
+}
+
+/* --------------------------------------------------------------------------
+   2. Base canvas
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--rc-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.011em;
+  font-feature-settings: "cv11", "ss01";
+  /* Soft ambient wash so the page never feels like a flat slab */
+  background-image:
+    radial-gradient(1200px 480px at 12% -8%, color-mix(in oklab, var(--rc-accent) 7%, transparent), transparent 70%),
+    radial-gradient(900px 420px at 92% 4%, color-mix(in oklab, var(--rc-bg-soft) 90%, transparent), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* Headings — a refined serif gives the academic gravitas */
+h1, h2, h3, h4, .rc-serif {
+  font-family: var(--rc-font-serif);
+  font-weight: 620;
+  letter-spacing: -0.018em;
+}
+
+/* Selection & caret */
+::selection {
+  background: color-mix(in oklab, var(--rc-accent) 24%, transparent);
+  color: var(--rc-ink);
+}
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--rc-accent) 70%, transparent);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Custom scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--rc-ink) 22%, transparent) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--rc-ink) 18%, transparent);
+  border-radius: var(--rc-radius-pill);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--rc-ink) 30%, transparent);
+  background-clip: content-box;
+}
+
+/* --------------------------------------------------------------------------
+   3. Typographic helpers
+   -------------------------------------------------------------------------- */
+.rc-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--rc-font-sans);
+  font-size: 0.72rem;
+  font-weight: 640;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--rc-accent) 92%, transparent);
+}
+.rc-kicker::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: color-mix(in oklab, var(--rc-accent) 65%, transparent);
+}
+.rc-muted {
+  color: color-mix(in oklab, var(--rc-ink) 62%, transparent);
+}
+
+/* Section shell */
+.rc-section {
+  max-width: var(--rc-content-max);
+  margin-inline: auto;
+  padding-block: 1.5rem;
+}
+.rc-section-head {
+  margin-bottom: 1.75rem;
+}
+.rc-section-title {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.12;
+  margin-top: 0.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Cards
+   -------------------------------------------------------------------------- */
+.rc-card {
+  position: relative;
+  background: var(--rc-bg);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  border-radius: var(--rc-radius-lg);
+  box-shadow: var(--rc-shadow-sm);
+  text-decoration: none;
+  transition:
+    box-shadow var(--rc-dur) var(--rc-ease),
+    border-color var(--rc-dur) var(--rc-ease);
+  /* overflow: visible so the citation-badge popovers (Altmetric / Dimensions)
+     can extend past the card boundary — the popup content must sit on top, not
+     be clipped by the card's rounded corners. Decorative ::before/::after
+     overlays still clip themselves via their own border-radius. */
+  overflow: visible;
+}
+.rc-card-soft {
+  background: color-mix(in oklab, var(--rc-bg-soft) 55%, var(--rc-bg));
+}
+/* decorative top accent — kept static (no hover reveal) */
+.rc-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, color-mix(in oklab, var(--rc-accent) 8%, transparent), transparent 42%);
+  opacity: 0;
+  pointer-events: none;
+}
+.rc-card-body {
+  padding: 1.5rem;
+}
+
+/* Hover emphasis: a card the cursor is over pops with a stronger accent border,
+   a deeper soft shadow and a brighter lighting sweep on the glass surface. This
+   is a light/shadow change only — it deliberately does NOT touch `transform`, so
+   it never fights the scroll-driven focus scaling. */
+.rc-card:hover {
+  border-color: color-mix(in oklab, var(--rc-accent) 44%, var(--rc-line));
+  box-shadow:
+    var(--rc-shadow-md),
+    0 14px 34px -14px color-mix(in oklab, var(--rc-accent) 26%, transparent);
+}
+/* Brighten the top-down light sweep on hover (overrides the scroll-driven
+   opacity only while the card is hovered). */
+.rc-focus:hover::before {
+  opacity: 1;
+}
+/* Whole-card stretched link (e.g. Notes): the title link's ::after covers the
+   card, so the card is one clickable object. Interactive children sit above. */
+.rc-card a.rc-stretched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   5. Buttons — one accent, quiet everything else
+   -------------------------------------------------------------------------- */
+.rc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--rc-font-sans);
+  font-size: 0.875rem;
+  font-weight: 560;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  padding: 0.66rem 1.05rem;
+  border-radius: var(--rc-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    transform var(--rc-dur) var(--rc-ease),
+    background-color var(--rc-dur) var(--rc-ease),
+    border-color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease),
+    color var(--rc-dur) var(--rc-ease);
+}
+.rc-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+.rc-btn-sm {
+  font-size: 0.8rem;
+  padding: 0.46rem 0.8rem;
+}
+.rc-btn-accent {
+  background: var(--rc-accent);
+  color: var(--rc-accent-ink);
+  box-shadow: 0 8px 18px -8px color-mix(in oklab, var(--rc-accent) 70%, transparent);
+}
+.rc-btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px -8px color-mix(in oklab, var(--rc-accent) 75%, transparent);
+  background: color-mix(in oklab, var(--rc-accent) 94%, black 6%);
+}
+.rc-btn-ghost {
+  background: transparent;
+  color: color-mix(in oklab, var(--rc-ink) 82%, transparent);
+}
+.rc-btn-ghost:hover {
+  background: color-mix(in oklab, var(--rc-ink) 7%, transparent);
+  color: var(--rc-ink);
+}
+.rc-btn-outline {
+  background: transparent;
+  color: var(--rc-ink);
+  border-color: color-mix(in oklab, var(--rc-ink) 22%, transparent);
+}
+.rc-btn-outline:hover {
+  border-color: var(--rc-accent);
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 6%, transparent);
+}
+/* subtle text-link with animated arrow */
+.rc-btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--rc-accent) 94%, transparent);
+  text-decoration: none;
+}
+.rc-btn-link svg {
+  transition: transform var(--rc-dur) var(--rc-ease);
+}
+.rc-btn-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   6. Badges / chips — tinted, quiet pills
+   -------------------------------------------------------------------------- */
+.rc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 640;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 0.32rem 0.62rem;
+  border-radius: var(--rc-radius-pill);
+  background: color-mix(in oklab, var(--rc-accent) 11%, transparent);
+  color: color-mix(in oklab, var(--rc-accent) 92%, black 8%);
+  border: 1px solid color-mix(in oklab, var(--rc-accent) 18%, transparent);
+  white-space: nowrap;
+}
+.rc-badge-neutral {
+  background: color-mix(in oklab, var(--rc-ink) 7%, transparent);
+  color: var(--rc-ink);
+  border-color: color-mix(in oklab, var(--rc-ink) 10%, transparent);
+}
+.rc-badge-soft {
+  background: color-mix(in oklab, var(--rc-bg-softer) 70%, transparent);
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
+  border-color: transparent;
+}
+.rc-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--rc-radius-sm);
+  font-size: 0.72rem;
+  font-weight: 540;
+  color: color-mix(in oklab, var(--rc-ink) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-softer) 62%, transparent);
+  transition: color var(--rc-dur) var(--rc-ease), background var(--rc-dur) var(--rc-ease);
+}
+.rc-tag:hover {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 10%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   6b. Contact / get-in-touch row
+   A simple, readable row of contact details separated by subtle dots. Larger
+   type than the tag chips so the address/email read as real contact info.
+-------------------------------------------------------------------------- */
+.rc-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0;
+  row-gap: 0.9rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.rc-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 1.6rem 0 1.2rem;
+  position: relative;
+  color: color-mix(in oklab, var(--rc-ink) 82%, transparent);
+  transition: color var(--rc-dur) var(--rc-ease);
+}
+.rc-contact-item > i {
+  font-size: 1rem;
+  color: var(--rc-accent);
+}
+.rc-contact-item > span {
+  white-space: nowrap;
+}
+a.rc-contact-item:hover { color: var(--rc-accent); }
+/* separator dot between items (not before the first) */
+.rc-contact-item:not(:first-child)::before {
+  content: "·";
+  position: absolute;
+  right: 0.6rem;
+  color: color-mix(in oklab, var(--rc-ink) 30%, transparent);
+}
+@media (max-width: 640px) {
+  .rc-contact-item { padding: 0 0 0 1.2rem; }
+  .rc-contact-item:not(:first-child)::before { display: none; }
+  .rc-contact-row { gap: 0.5rem 1.4rem; }
+}
+
+/* --------------------------------------------------------------------------
+   7. Avatar
+   -------------------------------------------------------------------------- */
+.rc-avatar {
+  --rc-av-size: 6rem;
+  width: var(--rc-av-size);
+  height: var(--rc-av-size);
+  border-radius: var(--rc-radius-pill);
+  object-fit: cover;
+  box-shadow:
+    0 0 0 3px var(--rc-bg),
+    0 0 0 6px color-mix(in oklab, var(--rc-accent) 22%, transparent),
+    0 18px 34px -14px oklch(0 0 0 / 0.28);
+  transition: transform var(--rc-dur) var(--rc-ease);
+}
+.rc-avatar:hover {
+  transform: scale(1.04) rotate(1.5deg);
+}
+
+/* --------------------------------------------------------------------------
+   8. Sidebar panel
+   -------------------------------------------------------------------------- */
+.rc-sidebar {
+  /* NOTE: do NOT set `position` here — the aside relies on Tailwind's
+     `fixed`/`relative` utility (e.g. `fixed left-0 top-0`), which is in
+     style.css loaded BEFORE design.css. A `position: relative` here would
+     override `fixed` and push the sidebar into the flow, shoving the main
+     content off-screen (it would sit a full h-screen tall above the body). */
+  background: color-mix(in oklab, var(--rc-bg) 62%, var(--rc-bg-soft));
+  border-right: 1px solid color-mix(in oklab, var(--rc-line) 60%, transparent);
+}
+.rc-sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin-block: 0.2rem;
+  border-radius: var(--rc-radius-sm);
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
+  font-weight: 540;
+  font-size: 0.94rem;
+  text-decoration: none;
+  transition:
+    background var(--rc-dur) var(--rc-ease),
+    color var(--rc-dur) var(--rc-ease),
+    transform var(--rc-dur) var(--rc-ease);
+}
+.rc-sidebar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex-shrink: 0;
+  border-radius: var(--rc-radius-sm);
+  color: color-mix(in oklab, var(--rc-ink) 55%, transparent);
+  background: color-mix(in oklab, var(--rc-ink) 5%, transparent);
+  font-size: 1rem;
+  transition:
+    background var(--rc-dur) var(--rc-ease),
+    color var(--rc-dur) var(--rc-ease),
+    transform var(--rc-dur) var(--rc-ease);
+}
+.rc-sidebar-text {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rc-sidebar-link:hover {
+  background: color-mix(in oklab, var(--rc-accent) 9%, transparent);
+  color: var(--rc-ink);
+  transform: translateX(3px);
+}
+.rc-sidebar-link:hover .rc-sidebar-icon {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 13%, transparent);
+  transform: translateY(-1px);
+}
+.rc-sidebar-link.is-active {
+  background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+  color: var(--rc-accent);
+  font-weight: 600;
+}
+.rc-sidebar-link.is-active .rc-sidebar-icon {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 16%, transparent);
+}
+.rc-sidebar-link.is-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.1rem;
+  border-radius: var(--rc-radius-pill);
+  background: var(--rc-accent);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--rc-accent) 60%, transparent);
+}
+.rc-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--rc-radius-sm);
+  color: color-mix(in oklab, var(--rc-ink) 66%, transparent);
+  text-decoration: none;
+  transition:
+    transform var(--rc-dur) var(--rc-ease),
+    color var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease);
+}
+.rc-social:hover {
+  transform: translateY(-3px);
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 9%, transparent);
+}
+.rc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: calc(var(--rc-radius-md) + 0.25rem);
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--rc-accent) 16%, transparent);
+  transition:
+    transform var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease);
+}
+.rc-icon i {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.group:hover .rc-icon {
+  transform: translateY(-2px);
+  background: color-mix(in oklab, var(--rc-accent) 15%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   9. Navbar (sticky, blurred)
+   -------------------------------------------------------------------------- */
+.rc-nav {
+  /* A cheaper backdrop blur (16px→12px) + a more opaque fill dramatically cuts
+     per-frame compositing cost behind the sticky bar — a common scroll-stutter
+     cause on glassy UIs — while keeping the frosted look legible. */
+  background: color-mix(in oklab, var(--rc-bg) 88%, transparent);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border-bottom: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.02), 0 10px 28px -20px oklch(0 0 0 / 0.22);
+}
+.rc-nav-title {
+  font-family: var(--rc-font-serif);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--rc-ink);
+  text-decoration: none;
+  transition: color var(--rc-dur) var(--rc-ease);
+}
+.rc-nav-title:hover {
+  color: var(--rc-accent);
+}
+.rc-nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--rc-radius-md);
+  color: color-mix(in oklab, var(--rc-ink) 72%, transparent);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background var(--rc-dur) var(--rc-ease), color var(--rc-dur) var(--rc-ease);
+}
+.rc-nav-icon:hover {
+  background: color-mix(in oklab, var(--rc-accent) 9%, transparent);
+  color: var(--rc-ink);
+}
+/* navbar info widget: live clock + weather + city picker */
+.rc-nav-widget {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.rc-widget-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.rc-widget-time {
+  font-size: 0.95rem;
+  font-weight: 640;
+  letter-spacing: 0.02em;
+  color: var(--rc-ink);
+}
+.rc-widget-date {
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: color-mix(in oklab, var(--rc-ink) 52%, transparent);
+}
+.rc-weather-wrap {
+  position: relative;
+}
+.rc-weather {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.34rem 0.72rem;
+  border-radius: var(--rc-radius-pill);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 60%, var(--rc-bg));
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 560;
+  color: color-mix(in oklab, var(--rc-ink) 78%, transparent);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color var(--rc-dur) var(--rc-ease), background var(--rc-dur) var(--rc-ease);
+}
+.rc-weather:hover {
+  border-color: color-mix(in oklab, var(--rc-accent) 35%, var(--rc-line));
+  background: var(--rc-bg);
+}
+.rc-weather-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.rc-weather-temp {
+  font-variant-numeric: tabular-nums;
+}
+.rc-weather-city {
+  color: color-mix(in oklab, var(--rc-ink) 52%, transparent);
+}
+.rc-widget-pop {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  z-index: 70;
+  width: 15rem;
+  padding: 0.85rem;
+  border-radius: var(--rc-radius-lg);
+  background: var(--rc-bg);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  box-shadow: var(--rc-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.rc-widget-pop-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+@media (max-width: 640px) {
+  .rc-widget-date,
+  .rc-weather-city {
+    display: none;
+  }
+}
+.rc-nav-link {
+  position: relative;
+  padding: 0.4rem 0.25rem;
+  color: color-mix(in oklab, var(--rc-ink) 72%, transparent);
+  font-size: 0.92rem;
+  font-weight: 540;
+  text-decoration: none;
+  transition: color var(--rc-dur) var(--rc-ease);
+}
+.rc-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1.5px;
+  margin-inline: auto;
+  width: 0;
+  border-radius: var(--rc-radius-pill);
+  background: var(--rc-accent);
+  transition: width var(--rc-dur) var(--rc-ease);
+}
+.rc-nav-link:hover {
+  color: var(--rc-ink);
+}
+.rc-nav-link:hover::after {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   10. Hero (home)
+   -------------------------------------------------------------------------- */
+.rc-hero {
+  position: relative;
+  overflow: hidden;
+  margin-block: clamp(0.5rem, 1.5vw, 1.25rem) clamp(1.5rem, 3vw, 2rem);
+  padding: clamp(1.5rem, 4.5vw, 3rem) clamp(1.25rem, 4vw, 3rem);
+  border-radius: var(--rc-radius-xl);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 60%, transparent);
+}
+.rc-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(46% 58% at 20% 20%, color-mix(in oklab, var(--rc-accent) 16%, transparent), transparent 70%),
+    radial-gradient(38% 46% at 84% 14%, color-mix(in oklab, var(--rc-bg-softer) 70%, transparent), transparent 70%),
+    radial-gradient(80% 60% at 50% 118%, color-mix(in oklab, var(--rc-accent) 10%, transparent), transparent 72%);
+  pointer-events: none;
+}
+/* floating soft light orbs (decorative depth) */
+.rc-orb {
+  position: absolute;
+  border-radius: var(--rc-radius-pill);
+  filter: blur(64px);
+  opacity: 0.55;
+  pointer-events: none;
+  will-change: transform;
+}
+.rc-orb-a {
+  width: 21rem;
+  height: 21rem;
+  top: -4rem;
+  left: -6rem;
+  background: radial-gradient(circle, color-mix(in oklab, var(--rc-accent) 30%, transparent), transparent 66%);
+  animation: rc-orb-drift 18s var(--rc-ease) infinite alternate;
+}
+.rc-orb-b {
+  width: 17rem;
+  height: 17rem;
+  bottom: -3rem;
+  right: -4rem;
+  background: radial-gradient(circle, color-mix(in oklab, var(--rc-bg-softer) 60%, transparent), transparent 62%);
+  animation: rc-orb-drift 22s var(--rc-ease) infinite alternate-reverse;
+}
+@keyframes rc-orb-drift {
+  0%   { transform: translate3d(0, 0, 0); }
+  50%  { transform: translate3d(2rem, 1.4rem, 0); }
+  100% { transform: translate3d(-1.4rem, 2.4rem, 0); }
+}
+/* big gradient headline */
+.rc-hero-title {
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  background: linear-gradient(95deg, var(--rc-ink), color-mix(in oklab, var(--rc-accent) 80%, var(--rc-ink)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rc-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: var(--rc-radius-pill);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 80%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 60%, transparent);
+  backdrop-filter: blur(8px);
+  font-size: 0.8rem;
+  font-weight: 560;
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
+}
+.rc-hero-badge .pulse-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: var(--rc-radius-pill);
+  background: color-mix(in oklab, var(--rc-accent) 80%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 18%, transparent);
+  animation: rc-pulse 2.4s var(--rc-ease) infinite;
+}
+@keyframes rc-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.45); opacity: 0.6; }
+}
+/* avatar wrapped in a glowing conic ring */
+.rc-avatar-ring {
+  position: relative;
+  width: var(--rc-av-size, 6rem);
+  height: var(--rc-av-size, 6rem);
+  flex-shrink: 0;
+  border-radius: var(--rc-radius-pill);
+  padding: 3px;
+  background: conic-gradient(from 140deg, var(--rc-accent), color-mix(in oklab, var(--rc-accent) 42%, white), var(--rc-bg-softer), color-mix(in oklab, var(--rc-accent) 60%, transparent), var(--rc-accent));
+}
+.rc-avatar-ring::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: var(--rc-radius-pill);
+  background: radial-gradient(circle, color-mix(in oklab, var(--rc-accent) 30%, transparent), transparent 70%);
+  filter: blur(20px);
+  opacity: 0.75;
+  z-index: -1;
+}
+.rc-avatar-ring .rc-avatar {
+  width: 100%;
+  height: 100%;
+  --rc-av-size: auto;
+  box-shadow: none;
+  transition: transform var(--rc-dur) var(--rc-ease-spring);
+}
+.rc-avatar-ring:hover .rc-avatar {
+  transform: scale(1.04) rotate(1.5deg);
+}
+
+/* --------------------------------------------------------------------------
+   11. Timeline (projects / talks / cv)
+   -------------------------------------------------------------------------- */
+.rc-timeline {
+  position: relative;
+  --rc-dot: 0.95rem;
+}
+/* the vertical rail runs exactly through the centre of the dots */
+.rc-timeline::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--rc-dot) / 2 - 1px);
+  top: 0.8rem;
+  bottom: 0.8rem;
+  width: 2px;
+  background: linear-gradient(var(--rc-line), color-mix(in oklab, var(--rc-accent) 36%, transparent));
+  border-radius: var(--rc-radius-pill);
+}
+.rc-timeline-item {
+  position: relative;
+  padding-left: calc(var(--rc-dot) + 2.1rem);
+  margin-bottom: 2.5rem;
+}
+.rc-timeline-item:last-child {
+  margin-bottom: 0;
+}
+.rc-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0.62rem;
+  width: var(--rc-dot);
+  height: var(--rc-dot);
+  border-radius: var(--rc-radius-pill);
+  background: linear-gradient(135deg, var(--rc-accent), color-mix(in oklab, var(--rc-accent) 60%, white));
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--rc-accent) 18%, transparent),
+    0 4px 10px -2px color-mix(in oklab, var(--rc-accent) 50%, transparent);
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   12. Filters / controls (list pages)
+   -------------------------------------------------------------------------- */
+.rc-control {
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 84%, transparent);
+  border-radius: var(--rc-radius-md);
+  transition: border-color var(--rc-dur) var(--rc-ease), box-shadow var(--rc-dur) var(--rc-ease);
+}
+.rc-control:focus-within {
+  border-color: color-mix(in oklab, var(--rc-accent) 50%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 14%, transparent);
+}
+
+/* Unified inputs & selects (replaces DaisyUI input/select-bordered) */
+.rc-input,
+.rc-select {
+  height: 2.65rem;
+  width: 100%;
+  padding-inline: 0.9rem;
+  font-family: var(--rc-font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--rc-ink);
+  background: color-mix(in oklab, var(--rc-bg) 88%, var(--rc-bg-soft));
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  border-radius: var(--rc-radius-md);
+  transition:
+    border-color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease);
+}
+.rc-input::placeholder {
+  color: color-mix(in oklab, var(--rc-ink) 40%, transparent);
+}
+.rc-input:focus,
+.rc-select:focus {
+  outline: none;
+  border-color: color-mix(in oklab, var(--rc-accent) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 16%, transparent);
+  background: var(--rc-bg);
+}
+.rc-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.4rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 1rem;
+}
+.rc-select option {
+  background: var(--rc-bg);
+  color: var(--rc-ink);
+}
+
+/* compact select variant used in the theme switcher */
+.rc-select-sm {
+  height: 2.35rem;
+  font-size: 0.84rem;
+  width: auto;
+  min-width: 8rem;
+  padding-inline: 0.7rem;
+  padding-right: 2.1rem;
+  background-position: right 0.65rem center;
+}
+
+/* Filter bar (list pages) */
+.rc-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.9rem;
+  padding: 1.1rem 1.15rem;
+  margin-bottom: 2.75rem;
+  border-radius: var(--rc-radius-lg);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 45%, var(--rc-bg));
+}
+.rc-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  min-width: 8rem;
+}
+.rc-filter-field.grow {
+  flex: 1 1 auto;
+  min-width: 12rem;
+}
+.rc-filter-label {
+  font-size: 0.72rem;
+  font-weight: 640;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--rc-ink) 52%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   13. Misc components
+   -------------------------------------------------------------------------- */
+.rc-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--rc-line) 90%, transparent), transparent);
+  border: 0;
+  margin: 2rem 0;
+}
+.rc-backtop {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--rc-radius-md);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 80%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 82%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--rc-shadow-sm);
+  color: color-mix(in oklab, var(--rc-ink) 70%, transparent);
+  transition: transform var(--rc-dur) var(--rc-ease), opacity var(--rc-dur) var(--rc-ease), color var(--rc-dur) var(--rc-ease);
+}
+.rc-backtop:hover {
+  transform: translateY(-3px);
+  color: var(--rc-accent);
+}
+
+/* Theme select — soften DaisyUI select to look native */
+.rc-themeselect {
+  border-radius: var(--rc-radius-md);
+  border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   14. Motion — reveal on scroll
+   -------------------------------------------------------------------------- */
+@keyframes rc-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rc-reveal {
+  opacity: 1;
+  transform: none;
+}
+html.js .rc-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.75s var(--rc-ease),
+    transform 0.75s var(--rc-ease);
+  will-change: opacity, transform;
+}
+html.js .rc-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Gentle float for decorative elements */
+@keyframes rc-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Spinner/hover shimmer for accent buttons */
+@keyframes rc-shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. Scroll-focus — Apple / Smartisan style depth cards
+   Cards near the viewport centre grow, brighten and gain a soft light
+   (accent-tinted glow) + deep shadow; cards farther from the centre shrink,
+   dim and fall slightly out of focus. JS drives the four custom properties
+   (--fc/-fs/-fo/-fb) every frame so it scrubs smoothly with the scroll.
+   -------------------------------------------------------------------------- */
+.rc-focus {
+  --fc: 0;
+  position: relative;
+  transform: scale(var(--fs, 0.98));
+  opacity: var(--fo, 1);
+  transform-origin: center center;
+  will-change: transform, opacity;
+  /* transform + opacity are driven every frame (compositor-friendly). The border
+     + drop shadow are state-driven so we never repaint per frame (scroll jank). */
+  transition:
+    border-color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease);
+  border-color: color-mix(in oklab, var(--rc-line) 70%, transparent);
+  box-shadow: var(--rc-shadow-sm);
+  /* Frosted-glass surface: a translucent fill + a faint cool gradient lets the
+     ambient page wash glow through — the Apple-style "glass" read. */
+  background:
+    linear-gradient(180deg, color-mix(in oklab, oklch(1 0 0) 10%, transparent), transparent 44%),
+    color-mix(in oklab, var(--rc-bg) 84%, var(--rc-bg-soft));
+}
+/* the light source sits directly ABOVE the card: a crisp specular rim + a soft
+   sheen pooled at the top of the glass surface. Opacity follows --fc, which is
+   compositor-friendly — the light never repaints while you scroll. */
+.rc-focus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  opacity: calc(0.35 + var(--fc, 0) * 0.65);
+  transition: none;
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.55) 0%, oklch(1 0 0 / 0.08) 16%, transparent 38%);
+}
+/* the card that owns the viewport centre lifts off the page: accent border +
+   a soft accent-tinted bloom (3D depth). Layers above its neighbours. */
+.rc-focus[data-focus="center"] {
+  z-index: 5;
+  border-color: color-mix(in oklab, var(--rc-accent) 45%, var(--rc-line));
+  box-shadow:
+    var(--rc-shadow-md),
+    0 22px 48px -18px color-mix(in oklab, var(--rc-accent) 26%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Cookie consent banner (required for EU/US visitors)
+   -------------------------------------------------------------------------- */
+.rc-cookie {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.rc-cookie-card {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 40rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--rc-radius-xl);
+  background: color-mix(in oklab, var(--rc-bg) 96%, transparent);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  box-shadow: var(--rc-shadow-lg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.rc-cookie-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.rc-cookie-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  flex: 1;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: color-mix(in oklab, var(--rc-ink) 80%, transparent);
+}
+.rc-cookie-text strong {
+  font-size: 0.92rem;
+  color: var(--rc-ink);
+}
+.rc-cookie-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .rc-cookie-card {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rc-cookie {
+    animation: rc-cookie-in 0.5s var(--rc-ease) both;
+  }
+}
+@keyframes rc-cookie-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   18. Table-of-contents — a fixed, vertically-centred "focus wheel".
+   The active entry sits at the middle of the screen and is large & clear; the
+   neighbouring entries shrink & blur away, and hierarchy is encoded with a
+   coloured dot + indentation. JS (__rcInitToc) drives the states + centring.
+   -------------------------------------------------------------------------- */
+.rc-toc {
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  max-height: 66vh;
+  overflow: hidden;
+  font-family: var(--rc-font-sans);
+}
+.rc-toc-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--rc-ink) 50%, transparent);
+}
+.rc-toc-head i {
+  color: var(--rc-accent);
+  font-size: 0.78rem;
+}
+.rc-toc-list {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* no transform transition here — JS centres the active entry every frame,
+     so a transition would constantly "chase" the target and look laggy */
+}
+.rc-toc-item {
+  padding-left: calc((var(--rc-lvl, 1) - 1) * 0.7rem);
+}
+.rc-toc-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.62rem;
+  border-radius: 0.55rem;
+  font-size: 0.88rem;
+  line-height: 1.32;
+  font-weight: 520;
+  color: color-mix(in oklab, var(--rc-ink) 62%, transparent);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* no font-size transition — resizing one entry reflows it and caused the
+     flicker while scrolling; emphasise with colour + weight instead */
+  transition:
+    color 0.4s var(--rc-ease),
+    background-color 0.4s var(--rc-ease),
+    font-weight 0.4s var(--rc-ease);
+}
+.rc-toc-link:hover {
+  color: var(--rc-accent);
+  background-color: color-mix(in oklab, var(--rc-accent) 6%, transparent);
+}
+.rc-toc-link.is-active {
+  color: var(--rc-accent);
+  font-weight: 680;
+  background-color: color-mix(in oklab, var(--rc-accent) 9%, transparent);
+}
+.rc-toc-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--rc-accent) 40%, var(--rc-line));
+  transition: background 0.4s var(--rc-ease), box-shadow 0.4s var(--rc-ease), transform 0.4s var(--rc-ease);
+}
+.rc-toc-item[data-level="1"] .rc-toc-dot { background: var(--rc-accent); opacity: 1; }
+.rc-toc-item[data-level="2"] .rc-toc-dot { opacity: 0.7; }
+.rc-toc-item[data-level="3"] .rc-toc-dot { opacity: 0.45; }
+.rc-toc-link.is-active .rc-toc-dot {
+  background: var(--rc-accent);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--rc-accent) 75%, transparent);
+  transform: scale(1.35);
+}
+
+/* --------------------------------------------------------------------------
+   19. Publication/venue badge — colour-coded by type (Journal / Conference /
+   Workshop). Kept accent-aware so they read well in both light & dark themes.
+   -------------------------------------------------------------------------- */
+.rc-badge--journal {
+  background: color-mix(in oklab, oklch(0.58 0.14 150) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.47 0.13 150) 55%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.58 0.14 150) 32%, transparent);
+}
+.rc-badge--conference {
+  background: color-mix(in oklab, oklch(0.55 0.18 295) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.5 0.17 295) 50%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.55 0.18 295) 32%, transparent);
+}
+.rc-badge--workshop {
+  background: color-mix(in oklab, oklch(0.72 0.14 80) 18%, transparent);
+  color: color-mix(in oklab, oklch(0.56 0.13 80) 45%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.72 0.14 80) 36%, transparent);
+}
+/* Project status — colour-coded like publication types, with icons */
+.rc-badge--current {
+  background: color-mix(in oklab, oklch(0.58 0.14 150) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.47 0.13 150) 55%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.58 0.14 150) 32%, transparent);
+}
+.rc-badge--completed {
+  background: color-mix(in oklab, oklch(0.55 0.18 295) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.5 0.17 295) 50%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.55 0.18 295) 32%, transparent);
+}
+/* Talk type */
+.rc-badge--seminar {
+  background: color-mix(in oklab, oklch(0.6 0.14 235) 15%, transparent);
+  color: color-mix(in oklab, oklch(0.48 0.14 235) 52%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.6 0.14 235) 32%, transparent);
+}
+.rc-badge--invited {
+  background: color-mix(in oklab, oklch(0.72 0.13 40) 17%, transparent);
+  color: color-mix(in oklab, oklch(0.58 0.12 40) 45%, var(--rc-ink));
+  border-color: color-mix(in oklab, oklch(0.72 0.13 40) 34%, transparent);
+}
+
+/* Altmetric + Dimensions citation badges (rendered by their embed scripts),
+   tucked into the card's top-right corner in their smallest form */
+.rc-cite-badges {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  margin: 0;
+  min-height: 0;
+}
+.rc-cite-badges .__dimensions_badge_embed__,
+.rc-cite-badges .__dimensions_Badge {
+  display: inline-flex;
+  align-items: center;
+}
+/* Let the Altmetric donut render at its natural size (the embed sets its own
+   width/height). We only neutralise the line-height so the badge isn't padded
+   by the card's text baseline, and we never force a display that would shrink
+   the circular donut. */
+.rc-cite-badges .altmetric-embed {
+  line-height: 0;
+  font-size: 0;
+}
+/* When the user hovers the badges, lift the WHOLE card above its neighbours so
+   the open popover is never covered by the sibling card below it. `:has()` is
+   supported in all modern evergreen browsers. */
+.rc-card:has(.rc-cite-badges:hover) {
+  z-index: 100;
+}
+/* The Dimensions + Altmetric badges are shown/hidden per-card via
+   .rc-card[data-expanded] (see below) so an expanded compact card still reveals
+   the full badge set, while a collapsed one shows only the Dimensions badge. */
+
+/* --------------------------------------------------------------------------
+   20. Detail / Compact view toggle (Publications, Projects, Talks)
+   -------------------------------------------------------------------------- */
+.rc-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--rc-radius-md);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 55%, var(--rc-bg));
+}
+.rc-view-toggle button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.44rem 0.8rem;
+  border: 0;
+  border-radius: calc(var(--rc-radius-sm) - 2px);
+  background: transparent;
+  color: color-mix(in oklab, var(--rc-ink) 62%, transparent);
+  font-family: var(--rc-font-sans);
+  font-size: 0.8rem;
+  font-weight: 560;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--rc-dur) var(--rc-ease), color var(--rc-dur) var(--rc-ease);
+}
+.rc-view-toggle button:hover { color: var(--rc-ink); }
+.rc-view-toggle button.is-active {
+  background: var(--rc-bg);
+  color: var(--rc-accent);
+  box-shadow: var(--rc-shadow-xs);
+}
+.rc-view-toggle i { font-size: 0.78rem; color: inherit; }
+
+/* --------------------------------------------------------------------------
+   21. Compact (dense) list view
+   The list container switches to a dense grid, the timeline rail/dots collapse,
+   and any element marked .rc-detail-only is hidden — leaving just the title,
+   key metadata and a venue/type badge for fast scanning.
+   -------------------------------------------------------------------------- */
+.rc-list--compact {
+  display: grid !important;
+  grid-template-columns: 1fr; /* one card per row — quick-scan list, keeps scale effect */
+  gap: 0.9rem;
+}
+.rc-list--compact.rc-timeline::before { display: none; }
+.rc-list--compact .rc-timeline-dot { display: none; }
+.rc-list--compact .rc-timeline-item {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.rc-list--compact > * { margin-top: 0 !important; }
+.rc-list--compact .rc-card { height: 100%; border-radius: var(--rc-radius-md); }
+.rc-list--compact .rc-card .rc-card-body { padding: 1.1rem 1.25rem; }
+.rc-list--compact .rc-meta-line { margin-bottom: 0; }
+.rc-list--compact .rc-meta-line [data-release] {
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
+}
+/* Per-card expansion is the single source of truth for whether the deep detail
+   rows are shown — a card in ANY mode (detail or compact) can be individually
+   expanded (data-expanded="true") or collapsed (data-expanded="false"):
+   - collapsed → only the title + own badge + key meta + Dimensions badge
+   - expanded   → authors, abstract, tags, links and the Altmetric badge appear
+   Cards without the attribute show their detail (the default). */
+.rc-card[data-expanded="false"] .rc-detail-only { display: none !important; }
+.rc-card[data-expanded="false"] .rc-note-foot { display: none !important; }
+.rc-card[data-expanded="false"] .rc-cite-badges .altmetric-embed { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   22. Tag cloud (Notes) — weighted pills; clicking filters the notes list
+   -------------------------------------------------------------------------- */
+.rc-tagcloud {
+  margin-bottom: 2.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--rc-radius-lg);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 40%, var(--rc-bg));
+}
+.rc-tagcloud-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-family: inherit;
+  font-size: calc(0.8rem * var(--rc-tc, 1));
+  line-height: 1;
+  padding: 0.42rem 0.78rem;
+  border-radius: var(--rc-radius-pill);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 70%, transparent);
+  color: color-mix(in oklab, var(--rc-ink) 70%, transparent);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    color var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease),
+    border-color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease),
+    transform var(--rc-dur) var(--rc-ease);
+}
+.rc-tagcloud-item:hover {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 10%, transparent);
+  border-color: color-mix(in oklab, var(--rc-accent) 35%, transparent);
+  transform: translateY(-2px);
+}
+.rc-tagcloud-count {
+  font-size: 0.7rem;
+  font-weight: 640;
+  color: color-mix(in oklab, var(--rc-ink) 45%, transparent);
+}
+/* selected tag — accent colour so the user can see what is being filtered */
+.rc-tagcloud-item.is-active {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 16%, transparent);
+  border-color: color-mix(in oklab, var(--rc-accent) 45%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 12%, transparent);
+}
+.rc-tagcloud-clear {
+  font-size: 0.72rem;
+  font-weight: 620;
+  color: color-mix(in oklab, var(--rc-accent) 90%, transparent);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.2rem 0.3rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   23. Notes — icon-grid (compact) vs flowing-card (detail) views.
+   Like a file explorer: "网状" = dense tile grid, "详情" = flowing cards.
+   -------------------------------------------------------------------------- */
+.rc-notes.rc-list--compact {
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.9rem;
+}
+.rc-notes.rc-list--compact .rc-card {
+  min-height: 9rem;
+  border-radius: var(--rc-radius-md);
+}
+.rc-notes.rc-list--compact .rc-card .rc-card-body {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.rc-notes.rc-list--compact .rc-note-head {
+  margin-bottom: 0;
+  width: 100%;
+}
+.rc-notes.rc-list--compact .rc-note-head .flex {
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.rc-notes.rc-list--compact .rc-card h2 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+/* An expanded note tile grows to show its excerpt/footer and returns to a
+   left-aligned detail card (rather than the centred compact tile). */
+.rc-notes.rc-list--compact .rc-card[data-expanded="true"] {
+  min-height: 0;
+}
+.rc-notes.rc-list--compact .rc-card[data-expanded="true"] .rc-card-body {
+  justify-content: flex-start;
+  text-align: left;
+  padding: 1.2rem 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   24. Ambient background canvas (falling science glyphs). Behind the content.
+   -------------------------------------------------------------------------- */
+#rc-bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+/* reveal animation disabled via config → sections always fully visible */
+html[data-no-reveal] .rc-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   25. Per-card expand/collapse (compact list view)
+   Each compact card carries a small chevron (bottom-right). Clicking it reveals
+   the full detail content in place; clicking again folds it back to a row.
+   -------------------------------------------------------------------------- */
+.rc-expand {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  z-index: 4;
+  /* visible in EVERY mode — the chevron expands a collapsed card and folds an
+     expanded card back, regardless of the list's Detail/Compact state */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: var(--rc-radius-sm);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 70%, var(--rc-bg));
+  color: color-mix(in oklab, var(--rc-ink) 60%, transparent);
+  cursor: pointer;
+  transition:
+    color var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease),
+    border-color var(--rc-dur) var(--rc-ease);
+}
+.rc-expand:hover {
+  color: var(--rc-accent);
+  background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+  border-color: color-mix(in oklab, var(--rc-accent) 35%, transparent);
+}
+/* an expanded card re-shows the full detail again (in place) */
+.rc-list--compact .rc-card[data-expanded="true"] { min-height: 0; }
+.rc-list--compact .rc-card[data-expanded="true"] .rc-card-body { padding: 1.4rem; }
+.rc-card[data-expanded="true"] .rc-meta-line { margin-bottom: 1rem; }
