@@ -756,7 +756,7 @@
            data-year="2026"
            data-title="practical guide to model evaluation"
            data-text=""
-           data-tags="Testing,Machine Learning">
+           data-tags="Machine Learning,Testing">
         <article class="rc-card rc-focus flex flex-col h-full">
           <div class="rc-card-body flex flex-col h-full">
             <div class="mb-4 rc-note-head">
@@ -781,9 +781,9 @@
               
                 <div class="flex flex-wrap gap-1.5">
                   
-                    <span class="rc-tag">Testing</span>
-                  
                     <span class="rc-tag">Machine Learning</span>
+                  
+                    <span class="rc-tag">Testing</span>
                   
                   
                 </div>
@@ -2473,6 +2473,20 @@
       __rcInitExpand();
       __rcInitBadges();
 
+      // On mobile, the drawer is a DaisyUI checkbox. Swup swaps only #swup and
+      // never reloads the page, so after clicking a menu link the checkbox would
+      // stay checked and the drawer would remain open over the new view. Uncheck
+      // it whenever a menu link (anywhere in the mobile drawer) is activated.
+      (function () {
+        var toggle = document.getElementById('my-drawer');
+        if (!toggle) return;
+        Array.prototype.forEach.call(document.querySelectorAll('.drawer a.rc-sidebar-link'), function (link) {
+          if (link.getAttribute('data-dr-inited')) return;
+          link.setAttribute('data-dr-inited', '1');
+          link.addEventListener('click', function () { toggle.checked = false; });
+        });
+      })();
+
       // Re-run motion after ANY swap of the #swup content. Swup's own
       // content:replace event is not reliably fired across Swup versions, so we
       // watch the container via a MutationObserver instead — this is bulletproof
@@ -2683,7 +2697,7 @@
           count: 30,
           speed: 1,
           size: 20,
-          icons: [&#34;⚛&#34;,&#34;⚗&#34;,&#34;⚙&#34;,&#34;✚&#34;,&#34;✦&#34;,&#34;◆&#34;,&#34;◉&#34;,&#34;◈&#34;,&#34;✳&#34;,&#34;∑&#34;,&#34;π&#34;,&#34;∞&#34;,&#34;∆&#34;,&#34;∴&#34;,&#34;λ&#34;,&#34;Ω&#34;,&#34;⊕&#34;,&#34;⊳&#34;,&#34;▣&#34;,&#34;✽&#34;,&#34;⟐&#34;,&#34;⁂&#34;]
+          icons: ["⚛","⚗","⚙","✚","✦","◆","◉","◈","✳","∑","π","∞","∆","∴","λ","Ω","⊕","⊳","▣","✽","⟐","⁂"]
         },
         scroll_focus: {
           enabled: true
