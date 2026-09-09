@@ -11,12 +11,11 @@ A modern, responsive, and professional academic portfolio theme for researchers.
 [![Demo](https://img.shields.io/badge/Demo-Online-blue?logo=hexo)](https://hexo-theme-researcher.jiehua1995.xyz/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/jiehua1995/hexo-theme-researcher)
 
-
 ### Demo
 
-Responsive preview of the homepage across **desktop · tablet · mobile**:
+Responsive preview of the homepage across **tablet · desktop · mobile**:
 
-![Devices](./demo/devices.png)
+![Devices](./demo/mockup-all-framed.png)
 
 A looping walkthrough of the homepage (scroll-focus card effect + falling background animation):
 
