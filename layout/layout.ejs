@@ -574,6 +574,20 @@
       __rcInitExpand();
       __rcInitBadges();
 
+      // On mobile, the drawer is a DaisyUI checkbox. Swup swaps only #swup and
+      // never reloads the page, so after clicking a menu link the checkbox would
+      // stay checked and the drawer would remain open over the new view. Uncheck
+      // it whenever a menu link (anywhere in the mobile drawer) is activated.
+      (function () {
+        var toggle = document.getElementById('my-drawer');
+        if (!toggle) return;
+        Array.prototype.forEach.call(document.querySelectorAll('.drawer a.rc-sidebar-link'), function (link) {
+          if (link.getAttribute('data-dr-inited')) return;
+          link.setAttribute('data-dr-inited', '1');
+          link.addEventListener('click', function () { toggle.checked = false; });
+        });
+      })();
+
       // Re-run motion after ANY swap of the #swup content. Swup's own
       // content:replace event is not reliably fired across Swup versions, so we
       // watch the container via a MutationObserver instead — this is bulletproof
@@ -784,7 +798,7 @@
           count: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.count === 'number') ? theme.motion.background_animation.count : 18 %>,
           speed: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.speed === 'number') ? theme.motion.background_animation.speed : 1 %>,
           size: <%= (theme.motion && theme.motion.background_animation && typeof theme.motion.background_animation.size === 'number') ? theme.motion.background_animation.size : 22 %>,
-          icons: <%= JSON.stringify((theme.motion && theme.motion.background_animation && theme.motion.background_animation.icons) || ['🧪', '🧬', '🔬', '⚗️', '💡']) %>
+          icons: <%- JSON.stringify((theme.motion && theme.motion.background_animation && theme.motion.background_animation.icons) || ['🧪', '🧬', '🔬', '⚗️', '💡']) %>
         },
         scroll_focus: {
           enabled: <%= (theme.motion && theme.motion.scroll_focus && theme.motion.scroll_focus.enabled !== false) ? 'true' : 'false' %>

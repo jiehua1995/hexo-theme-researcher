@@ -69,6 +69,11 @@ body {
     radial-gradient(1200px 480px at 12% -8%, color-mix(in oklab, var(--rc-accent) 7%, transparent), transparent 70%),
     radial-gradient(900px 420px at 92% 4%, color-mix(in oklab, var(--rc-bg-soft) 90%, transparent), transparent 70%);
   background-repeat: no-repeat;
+  /* Never let a stray overflow (a wide table, an unbroken DOI, a badge
+     popover) create a sideways scrollbar on small screens. `clip` is chosen
+     over `hidden` so it doesn't create a new scroll context that would break
+     the sticky TOC. */
+  overflow-x: clip;
 }
 
 /* Headings — a refined serif gives the academic gravitas */
@@ -76,6 +81,10 @@ h1, h2, h3, h4, .rc-serif {
   font-family: var(--rc-font-serif);
   font-weight: 620;
   letter-spacing: -0.018em;
+  /* Long unbroken tokens (DOIs, paper titles, names) must never break the
+     layout on narrow viewports — allow them to wrap at any point. */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Selection & caret */
@@ -362,6 +371,8 @@ h1, h2, h3, h4, .rc-serif {
 }
 .rc-contact-item > span {
   white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere; /* emails / long addresses break inside the word */
 }
 a.rc-contact-item:hover { color: var(--rc-accent); }
 /* separator dot between items (not before the first) */
@@ -374,6 +385,7 @@ a.rc-contact-item:hover { color: var(--rc-accent); }
 @media (max-width: 640px) {
   .rc-contact-item { padding: 0 0 0 1.2rem; }
   .rc-contact-item:not(:first-child)::before { display: none; }
+  .rc-contact-item > span { white-space: normal; }
   .rc-contact-row { gap: 0.5rem 1.4rem; }
 }
 
@@ -729,6 +741,8 @@ a.rc-contact-item:hover { color: var(--rc-accent); }
   font-size: clamp(2.6rem, 6vw, 4.4rem);
   line-height: 1.04;
   letter-spacing: -0.03em;
+  overflow-wrap: break-word;
+  word-break: break-word;
   background: linear-gradient(95deg, var(--rc-ink), color-mix(in oklab, var(--rc-accent) 80%, var(--rc-ink)));
   -webkit-background-clip: text;
   background-clip: text;
