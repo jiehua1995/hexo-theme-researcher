@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [0.3.1] - 2026-11-02
+
+### Changed
+- **README rewritten**: centered header with a new logo, badge row, Chinese as the default language plus a full English mirror (`README.en.md`). Removed all embedded screenshots and the demo GIF — the README now links straight to the live demo. Installation and configuration sections condensed.
+
+### Fixed
+- **Mobile text wrapping**: long headings, author lists, emails and DOIs now wrap instead of overflowing the viewport, with `overflow-x: clip` as a safety net.
+- **Mobile drawer**: the sidebar closes automatically after tapping a menu link (Swup partial navigation previously left the DaisyUI checkbox checked).
+- **JS `SyntaxError`**: the background-animation icon list was HTML-escaped inside `<script>`, which silently disabled `window.themeConfig` (and every config-driven feature). Now rendered unescaped.
+
 ## [0.3.0] - 2026-09-08
 
 ### Added
