@@ -380,11 +380,22 @@ function __rcProcessPost() {
     // ========== MathJax 初始化 ==========
     console.log('初始化 MathJax...');
     if (window.MathJax) {
-      MathJax.typesetPromise([processedContent]).then(function() {
-        console.log('MathJax 渲染完成');
-      }).catch(function (err) {
-        console.log('MathJax typeset failed: ' + err.message);
-      });
+      // Wait for MathJax's own startup before calling typesetPromise: the inline
+      // config creates window.MathJax early, but the core (and typesetPromise)
+      // is injected asynchronously afterwards.
+      var runTypeset = function () {
+        if (typeof MathJax.typesetPromise !== 'function') return;
+        MathJax.typesetPromise([processedContent]).then(function() {
+          console.log('MathJax 渲染完成');
+        }).catch(function (err) {
+          console.log('MathJax typeset failed: ' + err.message);
+        });
+      };
+      if (MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(runTypeset).catch(function () {});
+      } else {
+        runTypeset();
+      }
     }
   }, 50);
 }

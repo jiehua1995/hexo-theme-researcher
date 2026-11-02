@@ -2,6 +2,15 @@
 <html lang="en" data-theme="light">
 <head>
   <script>document.documentElement.classList.add('js');</script>
+<!-- Restore the saved theme before first paint to avoid a flash of light mode -->
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch (e) {}
+})();
+</script>
 <!-- Meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +57,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col rc-neu-on">
+
+  <!-- Fluid cloud: slow, heavily blurred colour blobs behind the content -->
+  
+    <div class="rc-cloud" aria-hidden="true">
+      <span class="rc-cloud-blob rc-cloud-a"></span>
+      <span class="rc-cloud-blob rc-cloud-b"></span>
+      <span class="rc-cloud-blob rc-cloud-c"></span>
+    </div>
+  
+
+  <!-- Reading progress line (top edge) + cursor spotlight (decorative) -->
+  <div class="rc-progress" aria-hidden="true"><span id="rc-progress-bar"></span></div>
+  <div class="rc-spotlight" aria-hidden="true"></div>
 
   <!-- Sidebar for Desktop (own full-height column, left) -->
   <aside class="rc-sidebar hidden lg:flex fixed left-0 top-0 h-screen w-80 z-40 flex-col overflow-y-auto">
@@ -187,254 +209,333 @@
         <div class="flex-none">
           
 
-<select class="rc-select rc-select-sm" data-choose-theme>
-  
-    <option 
-      value="light" 
-      selected
-    >
-      🌞 Light
-    </option>
-  
-    <option 
-      value="dark" 
-      
-    >
-      🌙 Dark
-    </option>
-  
-    <option 
-      value="cupcake" 
-      
-    >
-      🧁 Cupcake
-    </option>
-  
-    <option 
-      value="bumblebee" 
-      
-    >
-      🐝 Bumblebee
-    </option>
-  
-    <option 
-      value="emerald" 
-      
-    >
-      💚 Emerald
-    </option>
-  
-    <option 
-      value="corporate" 
-      
-    >
-      🏢 Corporate
-    </option>
-  
-    <option 
-      value="synthwave" 
-      
-    >
-      🕹️ Synthwave
-    </option>
-  
-    <option 
-      value="retro" 
-      
-    >
-      🎞️ Retro
-    </option>
-  
-    <option 
-      value="cyberpunk" 
-      
-    >
-      🤖 Cyberpunk
-    </option>
-  
-    <option 
-      value="valentine" 
-      
-    >
-      ❤️ Valentine
-    </option>
-  
-    <option 
-      value="halloween" 
-      
-    >
-      🎃 Halloween
-    </option>
-  
-    <option 
-      value="garden" 
-      
-    >
-      🌻 Garden
-    </option>
-  
-    <option 
-      value="forest" 
-      
-    >
-      🌲 Forest
-    </option>
-  
-    <option 
-      value="aqua" 
-      
-    >
-      💧 Aqua
-    </option>
-  
-    <option 
-      value="lofi" 
-      
-    >
-      🎧 Lofi
-    </option>
-  
-    <option 
-      value="pastel" 
-      
-    >
-      🎨 Pastel
-    </option>
-  
-    <option 
-      value="fantasy" 
-      
-    >
-      🧚 Fantasy
-    </option>
-  
-    <option 
-      value="wireframe" 
-      
-    >
-      🖼️ Wireframe
-    </option>
-  
-    <option 
-      value="black" 
-      
-    >
-      ⚫ Black
-    </option>
-  
-    <option 
-      value="luxury" 
-      
-    >
-      💎 Luxury
-    </option>
-  
-    <option 
-      value="dracula" 
-      
-    >
-      🧛 Dracula
-    </option>
-  
-    <option 
-      value="cmyk" 
-      
-    >
-      🎨 Cmyk
-    </option>
-  
-    <option 
-      value="autumn" 
-      
-    >
-      🍂 Autumn
-    </option>
-  
-    <option 
-      value="business" 
-      
-    >
-      💼 Business
-    </option>
-  
-    <option 
-      value="acid" 
-      
-    >
-      🧪 Acid
-    </option>
-  
-    <option 
-      value="lemonade" 
-      
-    >
-      🍋 Lemonade
-    </option>
-  
-    <option 
-      value="night" 
-      
-    >
-      🌃 Night
-    </option>
-  
-    <option 
-      value="coffee" 
-      
-    >
-      ☕ Coffee
-    </option>
-  
-    <option 
-      value="winter" 
-      
-    >
-      ❄️ Winter
-    </option>
-  
-    <option 
-      value="dim" 
-      
-    >
-      💡 Dim
-    </option>
-  
-    <option 
-      value="nord" 
-      
-    >
-      ❄️ Nord
-    </option>
-  
-    <option 
-      value="sunset" 
-      
-    >
-      🌅 Sunset
-    </option>
-  
-    <option 
-      value="caramellatte" 
-      
-    >
-      🥛 Caramellatte
-    </option>
-  
-    <option 
-      value="abyss" 
-      
-    >
-      🌌 Abyss
-    </option>
-  
-    <option 
-      value="silk" 
-      
-    >
-      🧵 Silk
-    </option>
-  
-</select>
+<div class="rc-themepicker" data-theme-picker>
+  <button type="button" class="rc-themepicker-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change theme">
+    <span class="rc-themepicker-swatch" aria-hidden="true"></span>
+    <span class="rc-themepicker-label" data-theme-label>Theme</span>
+    <i class="fa-solid fa-chevron-down rc-themepicker-caret" aria-hidden="true"></i>
+  </button>
+
+  <div class="rc-themepicker-menu" role="listbox" aria-label="Themes" hidden>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="light"
+              data-theme-name="Light"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌞</span>
+        <span class="rc-themepicker-item-label">Light</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="dark"
+              data-theme-name="Dark"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌙</span>
+        <span class="rc-themepicker-item-label">Dark</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="cupcake"
+              data-theme-name="Cupcake"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧁</span>
+        <span class="rc-themepicker-item-label">Cupcake</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="bumblebee"
+              data-theme-name="Bumblebee"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🐝</span>
+        <span class="rc-themepicker-item-label">Bumblebee</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="emerald"
+              data-theme-name="Emerald"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💚</span>
+        <span class="rc-themepicker-item-label">Emerald</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="corporate"
+              data-theme-name="Corporate"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🏢</span>
+        <span class="rc-themepicker-item-label">Corporate</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="synthwave"
+              data-theme-name="Synthwave"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🕹️</span>
+        <span class="rc-themepicker-item-label">Synthwave</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="retro"
+              data-theme-name="Retro"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎞️</span>
+        <span class="rc-themepicker-item-label">Retro</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="cyberpunk"
+              data-theme-name="Cyberpunk"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🤖</span>
+        <span class="rc-themepicker-item-label">Cyberpunk</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="valentine"
+              data-theme-name="Valentine"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">❤️</span>
+        <span class="rc-themepicker-item-label">Valentine</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="halloween"
+              data-theme-name="Halloween"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎃</span>
+        <span class="rc-themepicker-item-label">Halloween</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="garden"
+              data-theme-name="Garden"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌻</span>
+        <span class="rc-themepicker-item-label">Garden</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="forest"
+              data-theme-name="Forest"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌲</span>
+        <span class="rc-themepicker-item-label">Forest</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="aqua"
+              data-theme-name="Aqua"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💧</span>
+        <span class="rc-themepicker-item-label">Aqua</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="lofi"
+              data-theme-name="Lofi"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎧</span>
+        <span class="rc-themepicker-item-label">Lofi</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="pastel"
+              data-theme-name="Pastel"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎨</span>
+        <span class="rc-themepicker-item-label">Pastel</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="fantasy"
+              data-theme-name="Fantasy"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧚</span>
+        <span class="rc-themepicker-item-label">Fantasy</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="wireframe"
+              data-theme-name="Wireframe"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🖼️</span>
+        <span class="rc-themepicker-item-label">Wireframe</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="black"
+              data-theme-name="Black"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">⚫</span>
+        <span class="rc-themepicker-item-label">Black</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="luxury"
+              data-theme-name="Luxury"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💎</span>
+        <span class="rc-themepicker-item-label">Luxury</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="dracula"
+              data-theme-name="Dracula"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧛</span>
+        <span class="rc-themepicker-item-label">Dracula</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="cmyk"
+              data-theme-name="Cmyk"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎨</span>
+        <span class="rc-themepicker-item-label">Cmyk</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="autumn"
+              data-theme-name="Autumn"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🍂</span>
+        <span class="rc-themepicker-item-label">Autumn</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="business"
+              data-theme-name="Business"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💼</span>
+        <span class="rc-themepicker-item-label">Business</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="acid"
+              data-theme-name="Acid"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧪</span>
+        <span class="rc-themepicker-item-label">Acid</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="lemonade"
+              data-theme-name="Lemonade"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🍋</span>
+        <span class="rc-themepicker-item-label">Lemonade</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="night"
+              data-theme-name="Night"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌃</span>
+        <span class="rc-themepicker-item-label">Night</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="coffee"
+              data-theme-name="Coffee"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">☕</span>
+        <span class="rc-themepicker-item-label">Coffee</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="winter"
+              data-theme-name="Winter"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">❄️</span>
+        <span class="rc-themepicker-item-label">Winter</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="dim"
+              data-theme-name="Dim"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💡</span>
+        <span class="rc-themepicker-item-label">Dim</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="nord"
+              data-theme-name="Nord"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">❄️</span>
+        <span class="rc-themepicker-item-label">Nord</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="sunset"
+              data-theme-name="Sunset"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌅</span>
+        <span class="rc-themepicker-item-label">Sunset</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="caramellatte"
+              data-theme-name="Caramellatte"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🥛</span>
+        <span class="rc-themepicker-item-label">Caramellatte</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="abyss"
+              data-theme-name="Abyss"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌌</span>
+        <span class="rc-themepicker-item-label">Abyss</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="silk"
+              data-theme-name="Silk"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧵</span>
+        <span class="rc-themepicker-item-label">Silk</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+  </div>
+</div>
+
 
 
         </div>
@@ -894,254 +995,333 @@ window.themeConfig = {
     <div class="flex-none">
       
 
-<select class="rc-select rc-select-sm" data-choose-theme>
-  
-    <option 
-      value="light" 
-      selected
-    >
-      🌞 Light
-    </option>
-  
-    <option 
-      value="dark" 
-      
-    >
-      🌙 Dark
-    </option>
-  
-    <option 
-      value="cupcake" 
-      
-    >
-      🧁 Cupcake
-    </option>
-  
-    <option 
-      value="bumblebee" 
-      
-    >
-      🐝 Bumblebee
-    </option>
-  
-    <option 
-      value="emerald" 
-      
-    >
-      💚 Emerald
-    </option>
-  
-    <option 
-      value="corporate" 
-      
-    >
-      🏢 Corporate
-    </option>
-  
-    <option 
-      value="synthwave" 
-      
-    >
-      🕹️ Synthwave
-    </option>
-  
-    <option 
-      value="retro" 
-      
-    >
-      🎞️ Retro
-    </option>
-  
-    <option 
-      value="cyberpunk" 
-      
-    >
-      🤖 Cyberpunk
-    </option>
-  
-    <option 
-      value="valentine" 
-      
-    >
-      ❤️ Valentine
-    </option>
-  
-    <option 
-      value="halloween" 
-      
-    >
-      🎃 Halloween
-    </option>
-  
-    <option 
-      value="garden" 
-      
-    >
-      🌻 Garden
-    </option>
-  
-    <option 
-      value="forest" 
-      
-    >
-      🌲 Forest
-    </option>
-  
-    <option 
-      value="aqua" 
-      
-    >
-      💧 Aqua
-    </option>
-  
-    <option 
-      value="lofi" 
-      
-    >
-      🎧 Lofi
-    </option>
-  
-    <option 
-      value="pastel" 
-      
-    >
-      🎨 Pastel
-    </option>
-  
-    <option 
-      value="fantasy" 
-      
-    >
-      🧚 Fantasy
-    </option>
-  
-    <option 
-      value="wireframe" 
-      
-    >
-      🖼️ Wireframe
-    </option>
-  
-    <option 
-      value="black" 
-      
-    >
-      ⚫ Black
-    </option>
-  
-    <option 
-      value="luxury" 
-      
-    >
-      💎 Luxury
-    </option>
-  
-    <option 
-      value="dracula" 
-      
-    >
-      🧛 Dracula
-    </option>
-  
-    <option 
-      value="cmyk" 
-      
-    >
-      🎨 Cmyk
-    </option>
-  
-    <option 
-      value="autumn" 
-      
-    >
-      🍂 Autumn
-    </option>
-  
-    <option 
-      value="business" 
-      
-    >
-      💼 Business
-    </option>
-  
-    <option 
-      value="acid" 
-      
-    >
-      🧪 Acid
-    </option>
-  
-    <option 
-      value="lemonade" 
-      
-    >
-      🍋 Lemonade
-    </option>
-  
-    <option 
-      value="night" 
-      
-    >
-      🌃 Night
-    </option>
-  
-    <option 
-      value="coffee" 
-      
-    >
-      ☕ Coffee
-    </option>
-  
-    <option 
-      value="winter" 
-      
-    >
-      ❄️ Winter
-    </option>
-  
-    <option 
-      value="dim" 
-      
-    >
-      💡 Dim
-    </option>
-  
-    <option 
-      value="nord" 
-      
-    >
-      ❄️ Nord
-    </option>
-  
-    <option 
-      value="sunset" 
-      
-    >
-      🌅 Sunset
-    </option>
-  
-    <option 
-      value="caramellatte" 
-      
-    >
-      🥛 Caramellatte
-    </option>
-  
-    <option 
-      value="abyss" 
-      
-    >
-      🌌 Abyss
-    </option>
-  
-    <option 
-      value="silk" 
-      
-    >
-      🧵 Silk
-    </option>
-  
-</select>
+<div class="rc-themepicker" data-theme-picker>
+  <button type="button" class="rc-themepicker-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change theme">
+    <span class="rc-themepicker-swatch" aria-hidden="true"></span>
+    <span class="rc-themepicker-label" data-theme-label>Theme</span>
+    <i class="fa-solid fa-chevron-down rc-themepicker-caret" aria-hidden="true"></i>
+  </button>
+
+  <div class="rc-themepicker-menu" role="listbox" aria-label="Themes" hidden>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="light"
+              data-theme-name="Light"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌞</span>
+        <span class="rc-themepicker-item-label">Light</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="dark"
+              data-theme-name="Dark"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌙</span>
+        <span class="rc-themepicker-item-label">Dark</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="cupcake"
+              data-theme-name="Cupcake"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧁</span>
+        <span class="rc-themepicker-item-label">Cupcake</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="bumblebee"
+              data-theme-name="Bumblebee"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🐝</span>
+        <span class="rc-themepicker-item-label">Bumblebee</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="emerald"
+              data-theme-name="Emerald"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💚</span>
+        <span class="rc-themepicker-item-label">Emerald</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="corporate"
+              data-theme-name="Corporate"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🏢</span>
+        <span class="rc-themepicker-item-label">Corporate</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="synthwave"
+              data-theme-name="Synthwave"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🕹️</span>
+        <span class="rc-themepicker-item-label">Synthwave</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="retro"
+              data-theme-name="Retro"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎞️</span>
+        <span class="rc-themepicker-item-label">Retro</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="cyberpunk"
+              data-theme-name="Cyberpunk"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🤖</span>
+        <span class="rc-themepicker-item-label">Cyberpunk</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="valentine"
+              data-theme-name="Valentine"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">❤️</span>
+        <span class="rc-themepicker-item-label">Valentine</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="halloween"
+              data-theme-name="Halloween"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎃</span>
+        <span class="rc-themepicker-item-label">Halloween</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="garden"
+              data-theme-name="Garden"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌻</span>
+        <span class="rc-themepicker-item-label">Garden</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="forest"
+              data-theme-name="Forest"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌲</span>
+        <span class="rc-themepicker-item-label">Forest</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="aqua"
+              data-theme-name="Aqua"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💧</span>
+        <span class="rc-themepicker-item-label">Aqua</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="lofi"
+              data-theme-name="Lofi"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎧</span>
+        <span class="rc-themepicker-item-label">Lofi</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="pastel"
+              data-theme-name="Pastel"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎨</span>
+        <span class="rc-themepicker-item-label">Pastel</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="fantasy"
+              data-theme-name="Fantasy"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧚</span>
+        <span class="rc-themepicker-item-label">Fantasy</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="wireframe"
+              data-theme-name="Wireframe"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🖼️</span>
+        <span class="rc-themepicker-item-label">Wireframe</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="black"
+              data-theme-name="Black"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">⚫</span>
+        <span class="rc-themepicker-item-label">Black</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="luxury"
+              data-theme-name="Luxury"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💎</span>
+        <span class="rc-themepicker-item-label">Luxury</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="dracula"
+              data-theme-name="Dracula"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧛</span>
+        <span class="rc-themepicker-item-label">Dracula</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="cmyk"
+              data-theme-name="Cmyk"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🎨</span>
+        <span class="rc-themepicker-item-label">Cmyk</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="autumn"
+              data-theme-name="Autumn"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🍂</span>
+        <span class="rc-themepicker-item-label">Autumn</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="business"
+              data-theme-name="Business"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💼</span>
+        <span class="rc-themepicker-item-label">Business</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="acid"
+              data-theme-name="Acid"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧪</span>
+        <span class="rc-themepicker-item-label">Acid</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="lemonade"
+              data-theme-name="Lemonade"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🍋</span>
+        <span class="rc-themepicker-item-label">Lemonade</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="night"
+              data-theme-name="Night"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌃</span>
+        <span class="rc-themepicker-item-label">Night</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="coffee"
+              data-theme-name="Coffee"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">☕</span>
+        <span class="rc-themepicker-item-label">Coffee</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="winter"
+              data-theme-name="Winter"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">❄️</span>
+        <span class="rc-themepicker-item-label">Winter</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="dim"
+              data-theme-name="Dim"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">💡</span>
+        <span class="rc-themepicker-item-label">Dim</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="nord"
+              data-theme-name="Nord"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">❄️</span>
+        <span class="rc-themepicker-item-label">Nord</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="sunset"
+              data-theme-name="Sunset"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌅</span>
+        <span class="rc-themepicker-item-label">Sunset</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="caramellatte"
+              data-theme-name="Caramellatte"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🥛</span>
+        <span class="rc-themepicker-item-label">Caramellatte</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="abyss"
+              data-theme-name="Abyss"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🌌</span>
+        <span class="rc-themepicker-item-label">Abyss</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="silk"
+              data-theme-name="Silk"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true">🧵</span>
+        <span class="rc-themepicker-item-label">Silk</span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    
+  </div>
+</div>
+
 
 
     </div>
@@ -1173,7 +1353,7 @@ window.themeConfig = {
   const versionEl = document.getElementById('current-theme-version');
   const updateMessageEl = document.getElementById('theme-update-message');
 
-  const currentVersion = '0.3.1';
+  const currentVersion = '0.4.0';
   versionEl.textContent = currentVersion;
 
   fetch('https://api.github.com/repos/jiehua1995/hexo-theme-researcher/releases/latest')
@@ -1740,15 +1920,148 @@ window.themeConfig = {
 
     var __rcMotionWatcher = null;
 
-    document.addEventListener('DOMContentLoaded', function () {
+    // Hero metric counters: animate 0 → target once per tile. Re-runs after a
+    // Swup swap (the homepage markup is replaced) but never re-animates a tile
+    // that already finished.
+    function __rcInitMetrics() {
+      var nodes = document.querySelectorAll('[data-rc-count]:not([data-rc-done])');
+      if (!nodes.length) return;
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      Array.prototype.forEach.call(nodes, function (el) {
+        var target = parseFloat(el.getAttribute('data-rc-count'));
+        if (isNaN(target)) { el.removeAttribute('data-rc-count'); return; }
+        el.setAttribute('data-rc-done', '1');
+        var fmt = function (v) { return Math.round(v).toLocaleString(); };
+        if (reduced) { el.textContent = fmt(target); return; }
+        var start = null;
+        var dur = 900;
+        var step = function (ts) {
+          if (start === null) start = ts;
+          var p = Math.min(1, (ts - start) / dur);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = fmt(target);
+        };
+        requestAnimationFrame(step);
+      });
+    }
+
+    // Custom theme picker (replaces the native <select>). Persists the choice
+    // under the same localStorage key that the early <head> script restores.
+    function __rcInitThemePickers() {
+      var pickers = document.querySelectorAll('[data-theme-picker]');
+      if (!pickers.length) return;
+      Array.prototype.forEach.call(pickers, function (picker) {
+        if (picker.getAttribute('data-inited')) return;
+        picker.setAttribute('data-inited', '1');
+        var btn = picker.querySelector('.rc-themepicker-btn');
+        var menu = picker.querySelector('.rc-themepicker-menu');
+        var label = picker.querySelector('[data-theme-label]');
+        var items = picker.querySelectorAll('[data-theme-value]');
+        if (!btn || !menu) return;
+
+        function sync() {
+          var cur = document.documentElement.getAttribute('data-theme') || 'light';
+          Array.prototype.forEach.call(items, function (it) {
+            var on = it.getAttribute('data-theme-value') === cur;
+            it.classList.toggle('is-active', on);
+            it.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on && label) label.textContent = it.getAttribute('data-theme-name');
+          });
+        }
+        function close() {
+          menu.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          picker.classList.remove('is-open');
+        }
+        function open() {
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          picker.classList.add('is-open');
+          sync();
+          var active = menu.querySelector('.is-active');
+          if (active && active.scrollIntoView) active.scrollIntoView({ block: 'nearest' });
+        }
+
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (menu.hidden) open(); else close();
+        });
+        Array.prototype.forEach.call(items, function (it) {
+          it.addEventListener('click', function () {
+            var value = it.getAttribute('data-theme-value');
+            document.documentElement.setAttribute('data-theme', value);
+            try { localStorage.setItem('theme', value); } catch (e) {}
+            sync();
+            close();
+          });
+        });
+        document.addEventListener('click', function (e) {
+          if (!picker.contains(e.target)) close();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') close();
+        });
+        sync();
+      });
+    }
+
+    // Single re-init entry point: first load, Swup swaps, and Swup's own hooks
+    // all call this. Exposed on window because the Swup bootstrap script is
+    // defined later in the document.
+    function __rcInitAll() {
       __rcInitMotion();
       __rcSetActive();
       __rcInitToc();
       __rcInitViews();
-      __rcInitTagCloud(); // before filters, so a ?tag= pre-selection is seen by the filter
+      __rcInitTagCloud();
       __rcInitFilters();
       __rcInitExpand();
       __rcInitBadges();
+      __rcInitMetrics();
+    }
+    window.__rcInitAll = __rcInitAll;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      __rcInitAll();
+      __rcInitThemePickers();
+
+      // Reading-progress line + cursor spotlight (decorative, one-time wiring).
+      (function () {
+        var bar = document.getElementById('rc-progress-bar');
+        if (bar) {
+          var pending = false;
+          var update = function () {
+            pending = false;
+            var doc = document.documentElement;
+            var max = (doc.scrollHeight - window.innerHeight) || 1;
+            var p = Math.min(1, Math.max(0, window.scrollY / max));
+            bar.style.transform = 'scaleX(' + p + ')';
+          };
+          window.addEventListener('scroll', function () {
+            if (pending) return;
+            pending = true;
+            requestAnimationFrame(update);
+          }, { passive: true });
+          window.addEventListener('resize', update);
+          update();
+        }
+        var spot = document.querySelector('.rc-spotlight');
+        if (spot && window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+          var queued = false, mx = 0, my = 0;
+          window.addEventListener('pointermove', function (e) {
+            mx = e.clientX; my = e.clientY;
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(function () {
+              queued = false;
+              spot.style.setProperty('--rc-mx', mx + 'px');
+              spot.style.setProperty('--rc-my', my + 'px');
+            });
+          }, { passive: true });
+        }
+      })();
 
       // On mobile, the drawer is a DaisyUI checkbox. Swup swaps only #swup and
       // never reloads the page, so after clicking a menu link the checkbox would
@@ -1764,29 +2077,47 @@ window.themeConfig = {
         });
       })();
 
-      // Re-run motion after ANY swap of the #swup content. Swup's own
-      // content:replace event is not reliably fired across Swup versions, so we
-      // watch the container via a MutationObserver instead — this is bulletproof
-      // and means a page can never stay blank after navigating.
+      // Re-run the per-page init after ANY content swap. Swup replaces the
+      // container node itself, so watching #swup alone is not reliable — watch
+      // the body but ignore the chrome that mutates every second (clock /
+      // weather) and any MathJax output. Swup's own hooks are a second,
+      // independent trigger, so a page can never stay invisible.
       if (document.body && 'MutationObserver' in window && !__rcMotionWatcher) {
         var mTimer = null;
-        __rcMotionWatcher = new MutationObserver(function () {
+        var mathCooldown = 0;
+        __rcMotionWatcher = new MutationObserver(function (records) {
+          if (Date.now() < mathCooldown) return;
+          var relevant = false;
+          for (var i = 0; i < records.length; i++) {
+            var rec = records[i];
+            var t = rec.target;
+            // per-second clock/weather, decorative layers, MathJax output
+            if (t && t.nodeType === 1 && t.closest &&
+                t.closest('.rc-nav, .rc-progress, .rc-cloud, .rc-spotlight, mjx-container, mjx-assistive-mml, .MathJax')) {
+              continue;
+            }
+            var touched = [].concat(
+              Array.prototype.slice.call(rec.addedNodes || []),
+              Array.prototype.slice.call(rec.removedNodes || [])
+            );
+            var mathOnly = touched.length > 0;
+            for (var j = 0; j < touched.length; j++) {
+              var n = touched[j];
+              if (!(n.nodeType === 1 && n.matches && n.matches('mjx-container, mjx-assistive-mml, .MathJax'))) {
+                mathOnly = false;
+              }
+            }
+            if (mathOnly) continue;
+            relevant = true;
+          }
+          if (!relevant) return;
           if (mTimer) clearTimeout(mTimer);
           mTimer = window.setTimeout(function () {
-            __rcInitMotion();
-            __rcSetActive();
-            __rcInitToc();
-            __rcInitViews();
-            __rcInitTagCloud();
-            __rcInitFilters();
-            __rcInitExpand();
-            __rcInitBadges();
-            // Re-run the post content pipeline (math/code/table conversion) so a
-            // Swup-swapped article renders formulas without a manual refresh.
+            __rcInitAll();
+            // Swallow the mutations typesetting itself produces (never call
+            // MathJax.typesetPromise() here — the clock would retrigger it).
+            mathCooldown = Date.now() + 900;
             if (window.__rcProcessPost) { try { window.__rcProcessPost(); } catch (e) {} }
-            if (window.MathJax && window.MathJax.typesetPromise) {
-              try { window.MathJax.typesetPromise(); } catch (e) {}
-            }
           }, 60);
         });
         __rcMotionWatcher.observe(document.body, { childList: true, subtree: true });
@@ -1944,16 +2275,31 @@ window.themeConfig = {
           animateHistoryBrowsing: false,
           linkSelector: 'a[href]:not([data-no-swup]):not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not([download])'
         });
-        swup.on('content:replace', function () {
-          window.__rcInitMotion && window.__rcInitMotion();
-          if (window.MathJax && window.MathJax.typesetPromise) {
-            try { window.MathJax.typesetPromise(); } catch (e) {}
-          }
-        });
-        swup.on('page:view', function () {
-          // history is updated by now, so location.pathname is correct
-          window.__rcSetActive && window.__rcSetActive();
-        });
+        // Re-init the swapped page. Swup 4 exposes hook callbacks; `on()` is the
+        // legacy API. Both are wired so a navigation can never leave the new
+        // content invisible (reveal animations start from opacity 0).
+        var rcSwapTimer = null;
+        function rcAfterSwap() {
+          if (rcSwapTimer) clearTimeout(rcSwapTimer);
+          rcSwapTimer = window.setTimeout(function () {
+            if (window.__rcInitAll) window.__rcInitAll();
+            if (window.__rcProcessPost) { try { window.__rcProcessPost(); } catch (e) {} }
+            if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+              try { window.MathJax.typesetPromise(); } catch (e) {}
+            }
+          }, 50);
+        }
+        if (swup.hooks && typeof swup.hooks.on === 'function') {
+          swup.hooks.on('content:replace', rcAfterSwap);
+          swup.hooks.on('page:view', rcAfterSwap);
+        }
+        if (typeof swup.on === 'function') {
+          swup.on('content:replace', rcAfterSwap);
+          swup.on('page:view', function () {
+            rcAfterSwap();
+            window.__rcSetActive && window.__rcSetActive();
+          });
+        }
       } catch (e) { /* if Swup fails, normal navigation still works */ }
     });
   </script>
