@@ -1,25 +1,76 @@
 <%
-const aboutText = (theme.about || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-const featuredPubs = site.data.publications ? site.data.publications.filter(p => p.featured === 'enable').slice(0, 3) : [];
-const featuredProjects = site.data.projects ? site.data.projects.filter(p => p.featured === 'enable').slice(0, 3) : [];
+const stripTags = function (html) {
+  return (html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+};
+const aboutText = stripTags(theme.about);
+const pubs = site.data.publications || [];
+const projects = site.data.projects || [];
+const talks = site.data.talks || [];
+const featuredPubs = pubs.filter(p => p.featured === 'enable').slice(0, 3);
+const featuredProjects = projects.filter(p => p.featured === 'enable').slice(0, 3);
 const recentPosts = site.posts.sort('date', -1).slice(0, 3);
+const notesCount = site.posts.length;
+
+const metrics = theme.metrics || {};
+const showMetrics = metrics.enabled !== false;
+
+// Minutes of reading: latin words at ~220 wpm, CJK characters at ~400 cpm.
+const readingTime = function (post) {
+  const text = stripTags(post.content || '');
+  const cjk = (text.match(/[\u3040-\u30ff\u4e00-\u9fff]/g) || []).length;
+  const words = text.replace(/[\u3040-\u30ff\u4e00-\u9fff]/g, ' ').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220 + cjk / 400));
+};
+const excerptOf = function (post, len) {
+  const source = post.excerpt ? stripTags(post.excerpt) : stripTags(post.content);
+  return source.length > len ? source.substring(0, len) + '…' : source;
+};
+
+const interests = (site.data.cv && site.data.cv.research_interests) || [];
+const nowLine = interests.length && interests[0].current_projects && interests[0].current_projects[0]
+  ? interests[0].current_projects[0]
+  : '';
+
+const metricItems = [];
+metricItems.push({ label: 'Publications', value: pubs.length, href: url_for('/publications') });
+if (metrics.citations !== '' && metrics.citations !== undefined && metrics.citations !== null) {
+  metricItems.push({ label: 'Citations', value: metrics.citations, href: metrics.citations_url || '' });
+}
+if (metrics.h_index !== '' && metrics.h_index !== undefined && metrics.h_index !== null) {
+  metricItems.push({ label: 'h-index', value: metrics.h_index, href: '' });
+}
+metricItems.push({ label: 'Projects', value: projects.length, href: url_for('/projects') });
 %>
 
-<!-- ============ Hero ============ -->
+<!-- ============ Hero · bento dashboard ============ -->
 <section class="rc-hero rc-section">
   <div class="rc-orb rc-orb-a"></div>
   <div class="rc-orb rc-orb-b"></div>
-  <div class="relative grid lg:grid-cols-[1.15fr_auto] gap-12 items-center">
-    <div class="relative">
-      <span class="rc-hero-badge mb-6"><span class="pulse-dot"></span>Researcher · Academic Portfolio</span>
+
+  <div class="relative rc-hero-grid">
+    <!-- Identity -->
+    <div class="rc-hero-main">
+      <div class="rc-hero-idline">
+        <span class="rc-avatar-ring block" style="--rc-av-size: 4.25rem;">
+          <img src="<%= url_for(theme.avatar) %>" alt="<%= config.author %>" class="rc-avatar" />
+        </span>
+        <div class="min-w-0">
+          <span class="rc-hero-badge"><span class="pulse-dot"></span>Researcher · Academic Portfolio</span>
+          <% if (nowLine) { %>
+            <p class="rc-hero-now rc-mono"><span class="rc-live-dot"></span><span class="rc-now-key">NOW</span><span class="rc-now-text"><%= nowLine %></span></p>
+          <% } %>
+        </div>
+      </div>
+
       <h1 class="rc-hero-title rc-serif font-bold"><%= config.author %></h1>
       <% if (config.subtitle) { %>
-        <p class="rc-serif mt-4 text-xl sm:text-2xl text-base-content/80"><%= config.subtitle %></p>
+        <p class="rc-serif mt-2 text-lg sm:text-xl text-base-content/80"><%= config.subtitle %></p>
       <% } %>
       <% if (aboutText) { %>
-        <p class="mt-6 max-w-xl text-base-content/70 leading-relaxed text-[1.05rem]"><%= aboutText %></p>
+        <p class="mt-4 max-w-xl text-base-content/70 leading-relaxed text-[1rem]"><%= aboutText %></p>
       <% } %>
-      <div class="mt-8 flex flex-wrap items-center gap-3">
+
+      <div class="mt-6 flex flex-wrap items-center gap-3">
         <a href="<%= url_for('/publications') %>" class="rc-btn rc-btn-accent">
           <i class="fas fa-book-open"></i>Publications
         </a>
@@ -29,37 +80,73 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
       </div>
     </div>
 
-    <div class="hidden lg:block">
-      <div style="animation: rc-float 7s ease-in-out infinite;">
-        <span class="rc-avatar-ring block" style="--rc-av-size: 14rem;">
-          <img src="<%= url_for(theme.avatar) %>" alt="<%= config.author %>" class="rc-avatar" />
-        </span>
-      </div>
-    </div>
+    <!-- Metrics -->
+    <% if (showMetrics) { %>
+      <aside class="rc-metrics" aria-label="Research metrics">
+        <div class="rc-metrics-head">
+          <span class="rc-kicker">At a glance</span>
+          <span class="rc-mono rc-metrics-hint">research --stats</span>
+        </div>
+
+        <div class="rc-metrics-grid">
+          <% metricItems.forEach(function (item) { %>
+            <% if (item.href) { %>
+              <a class="rc-metric" href="<%= item.href %>">
+            <% } else { %>
+              <div class="rc-metric">
+            <% } %>
+                <span class="rc-metric-value rc-mono" data-rc-count="<%= item.value %>">0</span>
+                <span class="rc-metric-label"><%= item.label %></span>
+            <% if (item.href) { %>
+              </a>
+            <% } else { %>
+              </div>
+            <% } %>
+          <% }); %>
+        </div>
+
+        <div class="rc-metrics-foot rc-mono">
+          <span><b><%= notesCount %></b> notes</span>
+          <span><b><%= talks.length %></b> talks</span>
+          <% if (metrics.since) { %><span>since <b><%= metrics.since %></b></span><% } %>
+        </div>
+      </aside>
+    <% } %>
   </div>
 </section>
 
-<div class="rc-section"><hr class="rc-divider" /></div>
-
 <!-- ============ Research Interests ============ -->
-<% if (site.data.cv && site.data.cv.research_interests) { %>
+<% if (interests.length > 0) { %>
 <section class="rc-section rc-reveal">
-  <div class="rc-section-head">
-    <span class="rc-kicker">Focus Areas</span>
-    <h2 class="rc-section-title text-base-content">Research Interests</h2>
+  <div class="rc-section-head rc-section-head--row">
+    <div>
+      <span class="rc-kicker">Focus Areas</span>
+      <h2 class="rc-section-title text-base-content">Research Interests</h2>
+    </div>
+    <span class="rc-section-index rc-mono">01</span>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% site.data.cv.research_interests.forEach(function(area) { %>
-      <div class="rc-card rc-focus">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <% interests.forEach(function (area, i) { %>
+      <div class="rc-card rc-card--tight rc-focus">
         <div class="rc-card-body">
-          <h3 class="rc-serif text-lg font-bold"><%= area.area %></h3>
+          <div class="flex items-start justify-between gap-3">
+            <h3 class="rc-serif text-lg font-bold"><%= area.area %></h3>
+            <span class="rc-mono rc-muted text-xs"><%= String(i + 1).padStart(2, '0') %></span>
+          </div>
           <% if (area.description) { %>
             <p class="rc-muted text-sm mt-2"><%= area.description %></p>
           <% } %>
+          <% if (area.current_projects && area.current_projects.length > 0) { %>
+            <ul class="rc-mini-list">
+              <% area.current_projects.slice(0, 2).forEach(function (project) { %>
+                <li><span class="rc-mini-dot"></span><span><%= project %></span></li>
+              <% }); %>
+            </ul>
+          <% } %>
           <% if (area.keywords && area.keywords.length > 0) { %>
             <div class="flex flex-wrap gap-1.5 mt-4">
-              <% area.keywords.forEach(function(keyword) { %>
+              <% area.keywords.forEach(function (keyword) { %>
                 <span class="rc-tag"><%= keyword %></span>
               <% }); %>
             </div>
@@ -73,40 +160,40 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
 
 <!-- ============ Recent Notes ============ -->
 <section class="rc-section rc-reveal">
-  <div class="rc-section-head">
-    <span class="rc-kicker">Journal</span>
-    <h2 class="rc-section-title text-base-content">Recent Notes</h2>
+  <div class="rc-section-head rc-section-head--row">
+    <div>
+      <span class="rc-kicker">Journal</span>
+      <h2 class="rc-section-title text-base-content">Recent Notes</h2>
+    </div>
+    <span class="rc-section-index rc-mono">02</span>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% recentPosts.forEach(function(post) { %>
-      <article class="rc-card rc-focus flex flex-col">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <% recentPosts.forEach(function (post) { %>
+      <article class="rc-card rc-card--tight rc-focus flex flex-col">
         <div class="rc-card-body flex flex-col h-full">
-          <div class="mb-4">
-            <div class="flex items-center justify-between gap-2">
-              <time class="text-xs rc-muted"><%= post.date.format('MMM DD, YYYY') %></time>
-              <% if (post.categories.length > 0) { %>
-                <span class="rc-badge rc-badge-neutral"><%= post.categories.toArray()[0].name %></span>
-              <% } %>
-            </div>
-            <h3 class="rc-serif text-lg font-bold leading-snug mt-2.5 mb-0">
-              <a href="<%= url_for(post.path) %>" class="hover:text-primary no-underline transition-colors duration-200">
-                <%= post.title %>
-              </a>
-            </h3>
+          <div class="rc-note-meta">
+            <time class="rc-mono" datetime="<%= post.date.toISOString() %>"><%= post.date.format('YYYY-MM-DD') %></time>
+            <span class="rc-mono rc-muted"><%= readingTime(post) %> min</span>
+            <% if (post.categories.length > 0) { %>
+              <span class="rc-badge rc-badge-neutral"><%= post.categories.toArray()[0].name %></span>
+            <% } %>
           </div>
-
-          <% if (post.excerpt) { %>
-            <p class="rc-muted text-sm flex-1 line-clamp-4">
-              <%= post.excerpt.replace(/<[^>]*>/g, '').substring(0, 190) %>…
-            </p>
+          <h3 class="rc-serif text-lg font-bold leading-snug mt-2.5 mb-0">
+            <a href="<%= url_for(post.path) %>" class="rc-stretched hover:text-primary no-underline transition-colors duration-200">
+              <%= post.title %>
+            </a>
+          </h3>
+          <% const excerpt = excerptOf(post, 150); %>
+          <% if (excerpt) { %>
+            <p class="rc-muted text-sm flex-1 line-clamp-4 mt-2"><%= excerpt %></p>
           <% } else { %>
             <div class="flex-1"></div>
           <% } %>
 
           <% if (post.tags.length > 0) { %>
             <div class="flex flex-wrap gap-1.5 mt-4">
-              <% post.tags.slice(0, 2).forEach(function(tag) { %>
+              <% post.tags.slice(0, 2).forEach(function (tag) { %>
                 <span class="rc-tag"><%= tag.name %></span>
               <% }); %>
               <% if (post.tags.length > 2) { %>
@@ -115,104 +202,109 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
             </div>
           <% } %>
 
-          <div class="pt-4 mt-auto">
-            <a href="<%= url_for(post.path) %>" class="rc-btn-link">
+          <div class="pt-3 mt-auto">
+            <span class="rc-btn-link">
               Read more
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </span>
           </div>
         </div>
       </article>
     <% }); %>
   </div>
 
-  <div class="mt-8">
+  <div class="mt-6">
     <a href="<%= url_for('/notes') %>" class="rc-btn rc-btn-ghost">View all notes<i class="fas fa-arrow-right text-sm"></i></a>
   </div>
 </section>
 
 <!-- ============ Featured Publications ============ -->
+<% if (featuredPubs.length > 0) { %>
 <section class="rc-section rc-reveal">
-  <div class="rc-section-head">
-    <span class="rc-kicker">Output</span>
-    <h2 class="rc-section-title text-base-content">Featured Publications</h2>
+  <div class="rc-section-head rc-section-head--row">
+    <div>
+      <span class="rc-kicker">Output</span>
+      <h2 class="rc-section-title text-base-content">Featured Publications</h2>
+    </div>
+    <span class="rc-section-index rc-mono">03</span>
   </div>
 
-  <div class="space-y-4">
-    <% featuredPubs.forEach(function(pub) { %>
-      <div class="rc-card rc-focus">
-        <div class="rc-card-body">
-          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div class="min-w-0">
-              <div class="flex flex-wrap items-center gap-2">
-                <h3 class="rc-serif text-lg font-bold leading-snug"><%= pub.title %></h3>
-                <% if (pub.type) { %><span class="rc-badge"><%= pub.type %></span><% } %>
-              </div>
-              <% if (pub.authors) { %><p class="text-sm mt-1.5"><%= pub.authors %></p><% } %>
-              <% if (pub.venue) { %><p class="italic text-sm rc-muted mt-0.5"><%= pub.venue %></p><% } %>
-            </div>
-            <div class="flex items-center gap-2 flex-shrink-0">
-              <% if (pub.year) { %><span class="rc-badge rc-badge-neutral"><%= pub.year %></span><% } %>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-2.5 mt-4">
+  <div class="rc-panel">
+    <% featuredPubs.forEach(function (pub, i) { %>
+      <article class="rc-pub-row">
+        <span class="rc-pub-idx rc-mono"><%= String(i + 1).padStart(2, '0') %></span>
+        <div class="rc-pub-main">
+          <h3 class="rc-serif text-base font-bold leading-snug">
             <% if (pub.doi) { %>
-              <a href="https://doi.org/<%= pub.doi %>" class="rc-btn rc-btn-accent rc-btn-sm" target="_blank" rel="noopener noreferrer">
-                <i class="ai ai-doi"></i>DOI
-              </a>
+              <a href="https://doi.org/<%= pub.doi %>" target="_blank" rel="noopener noreferrer" class="no-underline hover:text-primary transition-colors"><%= pub.title %></a>
+            <% } else { %>
+              <%= pub.title %>
             <% } %>
-            <% if (pub.pdf) { %>
-              <a href="<%= pub.pdf %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-file-pdf"></i>PDF
-              </a>
-            <% } %>
-          </div>
+          </h3>
+          <p class="rc-pub-meta rc-mono">
+            <% if (pub.authors) { %><span><%= pub.authors %></span><% } %>
+            <% if (pub.venue) { %><span class="rc-dot"></span><em><%= pub.venue %></em><% } %>
+          </p>
         </div>
-      </div>
+        <div class="rc-pub-side">
+          <% if (pub.type) { %><span class="rc-badge"><%= pub.type %></span><% } %>
+          <% if (pub.year) { %><span class="rc-mono rc-muted"><%= pub.year %></span><% } %>
+          <% if (pub.doi) { %><a class="rc-mini-link rc-mono" href="https://doi.org/<%= pub.doi %>" target="_blank" rel="noopener noreferrer">DOI</a><% } %>
+          <% if (pub.pdf) { %><a class="rc-mini-link rc-mono" href="<%= pub.pdf %>" target="_blank" rel="noopener noreferrer">PDF</a><% } %>
+        </div>
+      </article>
     <% }); %>
   </div>
 
-  <div class="mt-8">
+  <div class="mt-6">
     <a href="<%= url_for('/publications') %>" class="rc-btn rc-btn-ghost">View all publications<i class="fas fa-arrow-right text-sm"></i></a>
   </div>
 </section>
+<% } %>
 
 <!-- ============ Featured Projects ============ -->
 <% if (featuredProjects.length > 0) { %>
 <section class="rc-section rc-reveal">
-  <div class="rc-section-head">
-    <span class="rc-kicker">Work</span>
-    <h2 class="rc-section-title text-base-content">Featured Projects</h2>
+  <div class="rc-section-head rc-section-head--row">
+    <div>
+      <span class="rc-kicker">Work</span>
+      <h2 class="rc-section-title text-base-content">Featured Projects</h2>
+    </div>
+    <span class="rc-section-index rc-mono">04</span>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <% featuredProjects.forEach(function(project) { %>
-      <div class="rc-card rc-focus">
-        <div class="rc-card-body">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <% featuredProjects.forEach(function (project) { %>
+      <div class="rc-card rc-card--tight rc-focus flex flex-col">
+        <div class="rc-card-body flex flex-col h-full">
           <div class="flex flex-wrap items-center gap-2">
-            <h3 class="rc-serif text-lg font-bold leading-snug"><%= project.title %></h3>
+            <h3 class="rc-serif text-base font-bold leading-snug"><%= project.title %></h3>
             <% if (project.status) { %><span class="rc-badge rc-badge-neutral"><%= project.status %></span><% } %>
           </div>
           <% if (project.period) { %>
-            <p class="flex items-center gap-2 text-sm rc-muted mt-2">
-              <i class="far fa-calendar-alt"></i><%= project.period %>
-            </p>
+            <p class="rc-mono rc-muted text-xs mt-1.5"><%= project.period %></p>
           <% } %>
           <% if (project.description) { %>
-            <p class="mt-3 text-sm text-base-content/80"><%= project.description %></p>
+            <p class="mt-2.5 text-sm text-base-content/80 flex-1"><%= project.description %></p>
           <% } %>
-          <div class="flex flex-wrap gap-2.5 mt-5">
+          <% if (project.tags && project.tags.length > 0) { %>
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              <% project.tags.slice(0, 3).forEach(function (tag) { %>
+                <span class="rc-tag"><%= tag %></span>
+              <% }); %>
+              <% if (project.tags.length > 3) { %>
+                <span class="rc-tag rc-muted">+<%= project.tags.length - 3 %></span>
+              <% } %>
+            </div>
+          <% } %>
+          <div class="flex flex-wrap items-center gap-2 mt-4">
             <% if (project.website) { %>
-              <a href="<%= project.website %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-external-link-alt"></i>Website
-              </a>
+              <a href="<%= project.website %>" class="rc-mini-link rc-mono" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i>Website</a>
             <% } %>
             <% if (project.github) { %>
-              <a href="<%= project.github %>" class="rc-btn rc-btn-outline rc-btn-sm" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-github"></i>Code
-              </a>
+              <a href="<%= project.github %>" class="rc-mini-link rc-mono" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i>Code</a>
             <% } %>
           </div>
         </div>
@@ -220,7 +312,7 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
     <% }); %>
   </div>
 
-  <div class="mt-8">
+  <div class="mt-6">
     <a href="<%= url_for('/projects') %>" class="rc-btn rc-btn-ghost">View all projects<i class="fas fa-arrow-right text-sm"></i></a>
   </div>
 </section>
@@ -228,13 +320,16 @@ const recentPosts = site.posts.sort('date', -1).slice(0, 3);
 
 <!-- ============ Contact / Get in touch ============ -->
 <section class="rc-section rc-reveal">
-  <div class="rc-section-head">
-    <span class="rc-kicker">Reach out</span>
-    <h2 class="rc-section-title text-base-content">Get in touch</h2>
-    <p class="rc-muted mt-3 max-w-2xl">For collaborations, paper reviews or research inquiries — I'm always happy to talk science.</p>
+  <div class="rc-section-head rc-section-head--row">
+    <div>
+      <span class="rc-kicker">Reach out</span>
+      <h2 class="rc-section-title text-base-content">Get in touch</h2>
+      <p class="rc-muted mt-2 max-w-2xl">For collaborations, paper reviews or research inquiries — I'm always happy to talk science.</p>
+    </div>
+    <span class="rc-section-index rc-mono">05</span>
   </div>
 
-  <div class="rc-card rc-card-soft">
+  <div class="rc-card rc-card-soft rc-card--tight">
     <div class="rc-card-body">
       <div class="rc-contact-row">
         <% if (theme.contact.email) { %>
