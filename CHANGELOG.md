@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Previes the website on different devices: https://techsini.com/multi-mockup/index.php
 
+## [0.4.0] - 2026-11-02
+
+### Added
+- **Bento hero dashboard**: the homepage hero is now a bento grid — identity on the left, a "research console" panel on the right with animated counters (publications, citations, h-index, projects) and a notes / talks / since footer. Configure it with the new `metrics:` block in `_config.yml`; content counts are derived automatically, citations and h-index are manual (use `""` to hide a tile).
+- **"NOW" status line**: the hero shows the first `current_projects` entry from `cv.yml` as a live, monospace status line.
+- **Global tech layer**: monospace metadata (dates, numbers, badges, kickers), a fine dot-matrix page background, a top reading-progress line, and a cursor spotlight (fine pointers only, respects `prefers-reduced-motion`).
+- **Compact publication list**: homepage Featured Publications is now one panel with a single row per paper — index, title, authors · venue, type, year, DOI/PDF.
+- **Custom theme picker**: replaced the native theme `<select>` with a glass/neumorphic popover (two-column theme grid, current-theme label, keyboard/Escape support, persisted in `localStorage` and restored before first paint).
+- **Neumorphism + fluid cloud**: `appearance.neumorphism` gives every card, button, filter control and field a soft extruded/inset treatment; `appearance.fluid_cloud` adds three slow, blurred colour blobs behind the content.
+
+### Changed
+- **Denser homepage**: smaller hero display type, tighter card padding, numbered section heads (01–05), and research-interest cards now surface their `current_projects`.
+- **Notes cards** show `YYYY-MM-DD` plus estimated reading time, and fall back to a content excerpt when no `<!-- more -->` marker exists.
+- **Project cards** are 3-up on large screens with tag chips and a footer action row.
+- **Site-wide metadata**: `time` and badges now use the monospace face on every page (list pages, CV, posts).
+- **Hero breakpoint**: the two-column hero starts at 1280px, so the identity column is never squeezed beside the 320px sidebar.
+- **Contact row**: long emails and addresses wrap at intermediate widths instead of overflowing.
+
+### Fixed
+- **Blank page after Swup navigation**: Swup replaces the `#swup` node itself, so the old MutationObserver bound to it died and the new content stayed at opacity 0 until a refresh. Init is now driven by Swup hooks plus a body-level observer that ignores the per-second clock/weather widgets and MathJax output.
+- **Compact badge / chevron collision**: in Compact the Dimensions badge is scaled to 0.6, cards get a 5.5rem minimum height and a reserved right rail, so citation badges can never overlap the expand chevron.
+- Horizontal overflow (~31px) between 1024px and 1055px caused by the non-wrapping contact row.
+
+## [0.3.1] - 2026-11-02
+
+### Changed
+- **README rewritten**: centered header with a new logo, badge row, Chinese as the default language plus a full English mirror (`README.en.md`). Removed all embedded screenshots and the demo GIF — the README now links straight to the live demo. Installation and configuration sections condensed.
+
+### Fixed
+- **Mobile text wrapping**: long headings, author lists, emails and DOIs now wrap instead of overflowing the viewport, with `overflow-x: clip` as a safety net.
+- **Mobile drawer**: the sidebar closes automatically after tapping a menu link (Swup partial navigation previously left the DaisyUI checkbox checked).
+- **JS `SyntaxError`**: the background-animation icon list was HTML-escaped inside `<script>`, which silently disabled `window.themeConfig` (and every config-driven feature). Now rendered unescaped.
+
 ## [0.3.0] - 2026-09-08
 
 ### Added

@@ -1,4 +1,13 @@
 <script>document.documentElement.classList.add('js');</script>
+<!-- Restore the saved theme before first paint to avoid a flash of light mode -->
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch (e) {}
+})();
+</script>
 <!-- Meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

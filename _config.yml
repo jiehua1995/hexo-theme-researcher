@@ -72,6 +72,29 @@ contact:
   office_hours: "Mon–Fri 10:00–16:00"
 
 
+#--------------Homepage Metrics (hero dashboard)--------------#
+# Numbers shown in the hero dashboard on the homepage.
+# Content counts (publications / projects / talks / notes) are derived
+# automatically. Citations and h-index have no public source we can read, so
+# set them by hand — use "" to hide a tile you don't want to show.
+metrics:
+  enabled: true
+  citations: 1280                                  # total citations (e.g. Google Scholar)
+  citations_url: "https://scholar.google.com/citations?user=YOUR_ID"
+  h_index: 21                                      # h-index
+  since: 2015                                      # first publication year → "since 2015"
+
+
+#--------------Appearance (finish & atmosphere)--------------#
+appearance:
+  # Soft "neumorphism": surfaces get a light top-left highlight and a soft
+  # bottom-right shadow instead of hard borders. Adapts to light/dark themes.
+  neumorphism: true
+  # "Fluid cloud": a few slow, heavily blurred colour blobs drifting behind the
+  # content. Very low contrast on purpose — depth without hurting readability.
+  fluid_cloud: true
+
+
 #--------------Share Post Configuration--------------#
 share_post:
   enable: true  # Set to false to disable share post feature

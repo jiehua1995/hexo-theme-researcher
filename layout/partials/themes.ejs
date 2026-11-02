@@ -43,14 +43,25 @@
   const themesToShow = allThemes.filter(t => enabledThemes.includes(t.name));
 %>
 
-<select class="rc-select rc-select-sm" data-choose-theme>
-  <% themesToShow.forEach(themeItem => { %>
-    <option 
-      value="<%= themeItem.name %>" 
-      <%= themeItem.name === theme.daisyui.default ? "selected" : "" %>
-    >
-      <%= themeItem.icon %> <%= themeItem.name.charAt(0).toUpperCase() + themeItem.name.slice(1) %>
-    </option>
-  <% }) %>
-</select>
+<div class="rc-themepicker" data-theme-picker>
+  <button type="button" class="rc-themepicker-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change theme">
+    <span class="rc-themepicker-swatch" aria-hidden="true"></span>
+    <span class="rc-themepicker-label" data-theme-label>Theme</span>
+    <i class="fa-solid fa-chevron-down rc-themepicker-caret" aria-hidden="true"></i>
+  </button>
+
+  <div class="rc-themepicker-menu" role="listbox" aria-label="Themes" hidden>
+    <% themesToShow.forEach(themeItem => { %>
+      <button type="button" role="option" class="rc-themepicker-item"
+              data-theme-value="<%= themeItem.name %>"
+              data-theme-name="<%= themeItem.name.charAt(0).toUpperCase() + themeItem.name.slice(1) %>"
+              aria-selected="false">
+        <span class="rc-themepicker-item-icon" aria-hidden="true"><%= themeItem.icon %></span>
+        <span class="rc-themepicker-item-label"><%= themeItem.name.charAt(0).toUpperCase() + themeItem.name.slice(1) %></span>
+        <i class="fa-solid fa-check rc-themepicker-check" aria-hidden="true"></i>
+      </button>
+    <% }); %>
+  </div>
+</div>
+
 

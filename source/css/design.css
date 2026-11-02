@@ -370,9 +370,11 @@ h1, h2, h3, h4, .rc-serif {
   color: var(--rc-accent);
 }
 .rc-contact-item > span {
-  white-space: nowrap;
+  /* Let long emails / addresses wrap instead of forcing the row wider than its
+     container (this used to overflow by ~31px around the 1024px breakpoint). */
+  white-space: normal;
   min-width: 0;
-  overflow-wrap: anywhere; /* emails / long addresses break inside the word */
+  overflow-wrap: anywhere;
 }
 a.rc-contact-item:hover { color: var(--rc-accent); }
 /* separator dot between items (not before the first) */
@@ -1555,3 +1557,686 @@ html[data-no-reveal] .rc-reveal {
 .rc-list--compact .rc-card[data-expanded="true"] { min-height: 0; }
 .rc-list--compact .rc-card[data-expanded="true"] .rc-card-body { padding: 1.4rem; }
 .rc-card[data-expanded="true"] .rc-meta-line { margin-bottom: 1rem; }
+
+/* ==========================================================================
+   15. v0.4.0 — "research console": bento hero, mono metadata, data density
+   ========================================================================== */
+
+/* --- 15.1 Mono metadata language -----------------------------------------
+   Dates, numbers, badges and kickers switch to the monospace face. This is the
+   single strongest "technical" cue on the page and costs no layout space. */
+.rc-mono,
+time,
+.rc-badge,
+.rc-badge-soft,
+.rc-kicker,
+.rc-metric-value,
+.rc-metrics-foot,
+.rc-metrics-hint,
+.rc-pub-idx {
+  font-family: var(--rc-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* --- 15.2 Fine dot matrix behind the page ------------------------------- */
+body {
+  background-image:
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--rc-ink) 10%, transparent) 1px, transparent 1.4px),
+    radial-gradient(1200px 480px at 12% -8%, color-mix(in oklab, var(--rc-accent) 7%, transparent), transparent 70%),
+    radial-gradient(900px 420px at 92% 4%, color-mix(in oklab, var(--rc-bg-soft) 90%, transparent), transparent 70%);
+  background-size: 24px 24px, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat;
+}
+
+/* --- 15.3 Reading progress + cursor spotlight --------------------------- */
+.rc-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 70;
+  pointer-events: none;
+}
+.rc-progress span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg,
+    color-mix(in oklab, var(--rc-accent) 65%, transparent),
+    var(--rc-accent));
+  box-shadow: 0 0 12px color-mix(in oklab, var(--rc-accent) 55%, transparent);
+}
+.rc-spotlight {
+  --rc-mx: 50%;
+  --rc-my: 30%;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--rc-mx) var(--rc-my),
+    color-mix(in oklab, var(--rc-accent) 12%, transparent),
+    transparent 68%);
+  transition: opacity 0.6s var(--rc-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .rc-spotlight { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-spotlight { display: none; }
+}
+/* lift the real content above the decorative spotlight */
+#swup { position: relative; z-index: 1; }
+
+/* --- 15.4 Hero: bento grid ---------------------------------------------- */
+.rc-hero-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+/* Two columns only once the sidebar (20rem) leaves the main column enough
+   room — at the 1024px `lg` breakpoint the identity column collapsed to ~180px. */
+@media (min-width: 1280px) {
+  .rc-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(17rem, 20rem);
+    gap: 2rem;
+    align-items: stretch;
+  }
+}
+.rc-hero-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.rc-hero-idline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+.rc-hero-idline .rc-hero-badge { margin-bottom: 0; }
+
+/* Tighter display type: more information per viewport than the old 4.4rem */
+.rc-hero-title {
+  font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+  line-height: 1.06;
+}
+
+.rc-hero-now {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: color-mix(in oklab, var(--rc-ink) 62%, transparent);
+  min-width: 0;
+}
+.rc-now-key {
+  flex: none;
+  padding: 0 0.35rem;
+  border: 1px solid color-mix(in oklab, var(--rc-accent) 40%, transparent);
+  border-radius: 4px;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: color-mix(in oklab, var(--rc-accent) 92%, transparent);
+}
+.rc-now-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rc-live-dot {
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: var(--rc-radius-pill);
+  background: color-mix(in oklab, var(--rc-accent) 85%, transparent);
+  animation: rc-ping 2s var(--rc-ease) infinite;
+}
+@keyframes rc-ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--rc-accent) 45%, transparent); }
+  70% { box-shadow: 0 0 0 6px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* --- 15.5 Metrics panel -------------------------------------------------- */
+.rc-metrics {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem;
+  border-radius: var(--rc-radius-lg);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 75%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 74%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--rc-shadow-sm);
+}
+.rc-metrics-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.rc-metrics-hint {
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in oklab, var(--rc-ink) 45%, transparent);
+}
+.rc-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  flex: 1;
+}
+.rc-metric {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--rc-radius-md);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 65%, transparent);
+  background: color-mix(in oklab, var(--rc-bg-soft) 50%, transparent);
+  text-decoration: none;
+  transition:
+    border-color var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease),
+    transform var(--rc-dur) var(--rc-ease);
+}
+a.rc-metric:hover {
+  border-color: color-mix(in oklab, var(--rc-accent) 45%, var(--rc-line));
+  background: color-mix(in oklab, var(--rc-accent) 7%, transparent);
+}
+.rc-metric-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--rc-ink);
+}
+.rc-metric-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--rc-ink) 56%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rc-metrics-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.9rem;
+  font-size: 0.64rem;
+  color: color-mix(in oklab, var(--rc-ink) 55%, transparent);
+}
+.rc-metrics-foot b {
+  font-weight: 600;
+  color: color-mix(in oklab, var(--rc-ink) 88%, transparent);
+}
+
+/* --- 15.6 Section head with mono index ---------------------------------- */
+.rc-section-head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.rc-section-index {
+  flex: none;
+  padding-bottom: 0.3rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: color-mix(in oklab, var(--rc-ink) 38%, transparent);
+}
+
+/* --- 15.7 Denser surfaces ------------------------------------------------ */
+.rc-card--tight > .rc-card-body { padding: 1.15rem; }
+
+.rc-note-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.68rem;
+  color: color-mix(in oklab, var(--rc-ink) 56%, transparent);
+}
+.rc-note-meta .rc-badge { margin-left: auto; }
+
+/* small bullet list used inside research-interest cards */
+.rc-mini-list {
+  list-style: none;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.rc-mini-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: color-mix(in oklab, var(--rc-ink) 76%, transparent);
+}
+.rc-mini-dot {
+  flex: none;
+  width: 4px;
+  height: 4px;
+  margin-top: 0.48rem;
+  border-radius: var(--rc-radius-pill);
+  background: color-mix(in oklab, var(--rc-accent) 75%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 14%, transparent);
+}
+
+/* --- 15.8 Compact publication list -------------------------------------- */
+.rc-panel {
+  border: 1px solid color-mix(in oklab, var(--rc-line) 75%, transparent);
+  border-radius: var(--rc-radius-lg);
+  background: color-mix(in oklab, var(--rc-bg) 86%, var(--rc-bg-soft));
+  box-shadow: var(--rc-shadow-sm);
+  overflow: hidden;
+}
+.rc-pub-row {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid color-mix(in oklab, var(--rc-line) 55%, transparent);
+  transition: background var(--rc-dur) var(--rc-ease);
+}
+.rc-pub-row:first-child { border-top: 0; }
+.rc-pub-row:hover { background: color-mix(in oklab, var(--rc-accent) 5%, transparent); }
+.rc-pub-idx {
+  font-size: 0.66rem;
+  color: color-mix(in oklab, var(--rc-ink) 38%, transparent);
+}
+.rc-pub-main { min-width: 0; }
+.rc-pub-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+  color: color-mix(in oklab, var(--rc-ink) 55%, transparent);
+}
+.rc-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: var(--rc-radius-pill);
+  background: currentColor;
+  opacity: 0.55;
+}
+.rc-pub-side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+@media (max-width: 640px) {
+  .rc-pub-row {
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    padding: 0.75rem 0.85rem;
+  }
+  .rc-pub-side {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    padding-left: 2.15rem;
+  }
+}
+
+/* small monospace action link (DOI / PDF / Website / Code) */
+.rc-mini-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in oklab, var(--rc-line) 80%, transparent);
+  font-size: 0.66rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
+  transition:
+    color var(--rc-dur) var(--rc-ease),
+    border-color var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease);
+}
+.rc-mini-link:hover {
+  color: var(--rc-accent);
+  border-color: color-mix(in oklab, var(--rc-accent) 45%, transparent);
+  background: color-mix(in oklab, var(--rc-accent) 8%, transparent);
+}
+
+/* --- 15.9 Mobile refinements -------------------------------------------- */
+@media (max-width: 1023px) {
+  .rc-hero-idline { gap: 0.8rem; }
+  .rc-metrics { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* ==========================================================================
+   16. Neumorphism + fluid cloud (opt-out via `appearance:` in _config.yml)
+   ========================================================================== */
+
+/* --- 16.1 Soft-UI shadow tokens -----------------------------------------
+   Instead of hard 1px borders every surface gets a light highlight from the
+   top-left and a soft shadow to the bottom-right — the classic "extruded"
+   read. `light-dark()` keeps it correct for both light and dark DaisyUI
+   themes (it follows the theme's `color-scheme`). */
+body.rc-neu-on {
+  --rc-neu-hi: color-mix(in oklab, var(--rc-bg) 88%, white);
+  --rc-neu-lo: color-mix(in oklab, var(--rc-bg) 80%, black);
+  --rc-shadow-xs: -2px -2px 5px var(--rc-neu-hi), 2px 3px 7px var(--rc-neu-lo);
+  --rc-shadow-sm: -6px -6px 14px var(--rc-neu-hi), 7px 9px 20px var(--rc-neu-lo);
+  --rc-shadow-md: -9px -9px 20px var(--rc-neu-hi), 12px 15px 30px var(--rc-neu-lo);
+  --rc-shadow-lg: -12px -12px 26px var(--rc-neu-hi), 18px 24px 46px var(--rc-neu-lo);
+}
+@supports (color: light-dark(#fff, #000)) {
+  body.rc-neu-on {
+    --rc-neu-hi: light-dark(#ffffff, color-mix(in oklab, var(--rc-bg) 88%, white));
+    --rc-neu-lo: light-dark(
+      color-mix(in oklab, var(--rc-bg) 80%, black),
+      color-mix(in oklab, var(--rc-bg) 62%, black)
+    );
+  }
+}
+/* soften the hairline borders so the shadow does the separating */
+body.rc-neu-on .rc-card,
+body.rc-neu-on .rc-panel,
+body.rc-neu-on .rc-metrics {
+  border-color: color-mix(in oklab, var(--rc-line) 28%, transparent);
+}
+/* controls are EXTRUDED from the surface (never inset): a light highlight on
+   the top-left and a soft shadow to the bottom-right, plus a liquid-glass sheen
+   on top. Only the pressed state sinks in. */
+body.rc-neu-on .rc-btn,
+body.rc-neu-on .rc-mini-link,
+body.rc-neu-on .rc-tag,
+body.rc-neu-on .rc-metric {
+  border-color: color-mix(in oklab, var(--rc-line) 18%, transparent);
+  box-shadow: -3px -3px 8px var(--rc-neu-hi), 4px 6px 14px var(--rc-neu-lo);
+}
+body.rc-neu-on .rc-tag {
+  box-shadow: -1px -1px 3px var(--rc-neu-hi), 2px 3px 5px var(--rc-neu-lo);
+}
+/* liquid-glass highlight along the top edge of buttons */
+body.rc-neu-on .rc-btn {
+  background-image: linear-gradient(180deg,
+    color-mix(in oklab, white 42%, transparent),
+    color-mix(in oklab, white 8%, transparent) 48%,
+    transparent 72%);
+}
+body.rc-neu-on .rc-btn:active,
+body.rc-neu-on .rc-mini-link:active {
+  transform: translateY(1px);
+  box-shadow: inset 1px 1px 3px var(--rc-neu-lo), inset -1px -1px 3px var(--rc-neu-hi);
+}
+
+/* --- 16.2 Fluid cloud ----------------------------------------------------
+   Three oversized, heavily blurred colour blobs drifting very slowly behind
+   the content. Fixed + pointer-events:none, so it never affects layout or
+   interaction; #swup sits above it, so text is never tinted. */
+.rc-cloud {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.rc-cloud-blob {
+  position: absolute;
+  display: block;
+  width: 46vmax;
+  height: 46vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.rc-cloud-a {
+  top: -16vmax;
+  left: -12vmax;
+  background: radial-gradient(circle at 38% 38%,
+    color-mix(in oklab, var(--rc-accent) 30%, transparent),
+    transparent 68%);
+  animation: rc-cloud-a 34s ease-in-out infinite alternate;
+}
+.rc-cloud-b {
+  top: 10vmax;
+  right: -18vmax;
+  width: 40vmax;
+  height: 40vmax;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in oklab, var(--rc-accent) 15%, var(--rc-bg-softer)),
+    transparent 70%);
+  animation: rc-cloud-b 46s ease-in-out infinite alternate;
+}
+.rc-cloud-c {
+  bottom: -20vmax;
+  left: 24vw;
+  width: 38vmax;
+  height: 38vmax;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in oklab, var(--rc-accent) 20%, transparent),
+    transparent 70%);
+  animation: rc-cloud-c 40s ease-in-out infinite alternate;
+}
+@keyframes rc-cloud-a {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(10vmax, 7vmax, 0) scale(1.18); }
+  100% { transform: translate3d(-3vmax, 12vmax, 0) scale(0.92); }
+}
+@keyframes rc-cloud-b {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-9vmax, 9vmax, 0) scale(1.12); }
+  100% { transform: translate3d(4vmax, -6vmax, 0) scale(0.94); }
+}
+@keyframes rc-cloud-c {
+  0% { transform: translate3d(0, 0, 0) scale(0.96); }
+  50% { transform: translate3d(8vmax, -8vmax, 0) scale(1.15); }
+  100% { transform: translate3d(-6vmax, -2vmax, 0) scale(1); }
+}
+/* keep the footer above the decorative layer */
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  .rc-cloud-blob {
+    filter: blur(60px);
+    opacity: 0.42;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-cloud-blob { animation: none; }
+}
+
+/* ==========================================================================
+   17. Theme picker, compact-card spacing, and neumorphism on every page
+   ========================================================================== */
+
+/* --- 17.1 Custom theme picker (replaces the native select) --------------- */
+.rc-themepicker {
+  position: relative;
+  display: inline-flex;
+}
+.rc-themepicker-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.35rem;
+  max-width: 12rem;
+  padding: 0 0.7rem;
+  border-radius: var(--rc-radius-md);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 70%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 92%, var(--rc-bg-soft));
+  font-family: var(--rc-font-sans);
+  font-size: 0.82rem;
+  font-weight: 550;
+  color: var(--rc-ink);
+  cursor: pointer;
+  transition:
+    border-color var(--rc-dur) var(--rc-ease),
+    color var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease),
+    background var(--rc-dur) var(--rc-ease);
+}
+.rc-themepicker-btn:hover {
+  border-color: color-mix(in oklab, var(--rc-accent) 42%, var(--rc-line));
+}
+.rc-themepicker-swatch {
+  flex: none;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: var(--rc-radius-pill);
+  background: var(--rc-accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 16%, transparent);
+}
+.rc-themepicker-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rc-themepicker-caret {
+  flex: none;
+  font-size: 0.6rem;
+  opacity: 0.55;
+  transition: transform 0.25s var(--rc-ease);
+}
+.rc-themepicker.is-open .rc-themepicker-caret { transform: rotate(180deg); }
+
+.rc-themepicker-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.15rem;
+  width: 17rem;
+  max-height: 19rem;
+  overflow-y: auto;
+  padding: 0.45rem;
+  border-radius: var(--rc-radius-lg);
+  border: 1px solid color-mix(in oklab, var(--rc-line) 75%, transparent);
+  background: color-mix(in oklab, var(--rc-bg) 94%, transparent);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: var(--rc-shadow-lg);
+  transform-origin: top right;
+  animation: rc-picker-in 0.16s var(--rc-ease);
+}
+.rc-themepicker-menu[hidden] { display: none; }
+@keyframes rc-picker-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.rc-themepicker-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0.42rem 0.5rem;
+  border: 0;
+  border-radius: var(--rc-radius-sm);
+  background: transparent;
+  font-family: var(--rc-font-sans);
+  font-size: 0.76rem;
+  color: color-mix(in oklab, var(--rc-ink) 74%, transparent);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--rc-dur) var(--rc-ease), color var(--rc-dur) var(--rc-ease);
+}
+.rc-themepicker-item:hover {
+  background: color-mix(in oklab, var(--rc-accent) 9%, transparent);
+  color: var(--rc-ink);
+}
+.rc-themepicker-item.is-active {
+  background: color-mix(in oklab, var(--rc-accent) 13%, transparent);
+  color: color-mix(in oklab, var(--rc-accent) 92%, var(--rc-ink));
+  font-weight: 600;
+}
+.rc-themepicker-item-icon { flex: none; font-size: 0.9rem; line-height: 1; }
+.rc-themepicker-item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rc-themepicker-check {
+  flex: none;
+  margin-left: auto;
+  font-size: 0.58rem;
+  opacity: 0;
+}
+.rc-themepicker-item.is-active .rc-themepicker-check { opacity: 1; }
+@media (max-width: 480px) {
+  .rc-themepicker-menu { width: min(17rem, calc(100vw - 2rem)); max-height: 60vh; }
+}
+
+/* --- 17.2 Compact cards: badges must never collide with the chevron ------
+   Publications/Projects compact cards are short, so the top-right citation
+   badge and the bottom-right expand chevron could overlap. Reserve a right
+   rail, guarantee a minimum row height, and in Compact show only the small
+   Dimensions badge (the Altmetric donut lives in Detail, where cards are tall). */
+.rc-list--compact .rc-card { min-height: 5.5rem; }
+.rc-list--compact .rc-card:has(.rc-expand) .rc-card-body { padding-right: 3.1rem; }
+.rc-list--compact .rc-cite-badges {
+  top: 0.45rem;
+  right: 0.5rem;
+  /* The Dimensions circle renders at ~64px; shrink it in Compact so it cannot
+     reach the bottom-right chevron even on the shortest row. */
+  transform: scale(0.6);
+  transform-origin: top right;
+}
+.rc-list--compact .rc-cite-badges .altmetric-embed { display: none !important; }
+.rc-list--compact .rc-expand {
+  bottom: 0.45rem;
+  right: 0.5rem;
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+/* --- 17.3 Neumorphism everywhere (list pages, CV, posts) ----------------- */
+body.rc-neu-on .rc-themepicker-btn,
+body.rc-neu-on .rc-view-toggle,
+body.rc-neu-on .rc-tagcloud-item,
+body.rc-neu-on .rc-select,
+body.rc-neu-on .btn:not(.btn-ghost):not(.btn-link) {
+  border-color: color-mix(in oklab, var(--rc-line) 18%, transparent);
+  box-shadow: -3px -3px 8px var(--rc-neu-hi), 4px 6px 14px var(--rc-neu-lo);
+}
+body.rc-neu-on .rc-expand {
+  border-color: color-mix(in oklab, var(--rc-line) 18%, transparent);
+  box-shadow: -1px -1px 4px var(--rc-neu-hi), 2px 3px 6px var(--rc-neu-lo);
+}
+body.rc-neu-on .rc-expand:active {
+  box-shadow: inset 1px 1px 3px var(--rc-neu-lo), inset -1px -1px 3px var(--rc-neu-hi);
+}
+/* the selected segment of the Detail/Compact switch is pressed in */
+body.rc-neu-on .rc-view-toggle button.is-active {
+  box-shadow: inset 1px 1px 3px var(--rc-neu-lo), inset -1px -1px 3px var(--rc-neu-hi);
+}
+/* text inputs read as carved wells rather than raised keys */
+body.rc-neu-on .rc-input {
+  border-color: color-mix(in oklab, var(--rc-line) 16%, transparent);
+  box-shadow: inset 2px 2px 6px var(--rc-neu-lo), inset -1px -1px 3px var(--rc-neu-hi);
+}
+body.rc-neu-on .rc-input:focus {
+  box-shadow:
+    inset 2px 2px 6px var(--rc-neu-lo),
+    inset -1px -1px 3px var(--rc-neu-hi),
+    0 0 0 3px color-mix(in oklab, var(--rc-accent) 16%, transparent);
+}
+
+
+
